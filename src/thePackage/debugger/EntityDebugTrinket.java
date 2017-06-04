@@ -25,15 +25,15 @@ class EntityDebugTrinket extends TrinketBase implements IsDebugger, EntityDebugT
         discoveredEntities = new ArrayList<>();
         Text entityType = new Text();
         entityType.setColor(STANDARD_COLOR);
-        entityType.setFont(new Font(Font.SANS_SERIF,Font.BOLD,ENTITY_TYPE_FONT_SIZE));
+        entityType.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_TYPE_FONT_SIZE));
         entityType.setMessage(entityName);
-        entityType.setCenterX(() -> {return rect.getCenterX() + ENTITY_TYPE_OFFSET_X;});
+        entityType.setCornerX(() -> {return rect.getCornerX() + ENTITY_TYPE_OFFSET_X;});
         entityType.setCenterY(() -> {return rect.getCenterY() + ENTITY_TYPE_OFFSET_Y;});
         addStat(entityType);
         
         Text entityNumber = new Text();
         entityNumber.setColor(STANDARD_COLOR);
-        entityNumber.setFont(new Font(Font.SANS_SERIF,Font.BOLD,24));
+        entityNumber.setFont(new Font(DEBUGGER_FONT,Font.BOLD,24));
         entityNumber.setMessage(() -> {
             int temp = countInstances();
             if (temp == 0){
@@ -44,7 +44,7 @@ class EntityDebugTrinket extends TrinketBase implements IsDebugger, EntityDebugT
             }
             return Integer.toString(countInstances());
         });
-        entityNumber.setCenterX(() -> {return rect.getCenterX() + ENTITY_COUNT_OFFSET_X;});
+        entityNumber.setCornerX(() -> {return rect.getCornerX() + rect.getWidth() + ENTITY_COUNT_OFFSET_X;});
         entityNumber.setCenterY(() -> {return rect.getCenterY() + ENTITY_COUNT_OFFSET_Y;});
         addStat(entityNumber);
         

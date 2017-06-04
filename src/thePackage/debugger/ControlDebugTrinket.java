@@ -21,7 +21,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
         exampleEntity = input;
         Text availableKeys = new Text();
         availableKeys.setColor(STANDARD_COLOR);
-        availableKeys.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,FONT_SIZE));
+        availableKeys.setFont(new Font(DEBUGGER_FONT,Font.ITALIC,FONT_SIZE));
         availableKeys.setMessage(getActions());
         availableKeys.setCenterX(() -> {return rect.getCenterX() + ACTIONS_OFFSET_X;});
         availableKeys.setCenterY(() -> {return rect.getCenterY() + ACTIONS_OFFSET_Y;});

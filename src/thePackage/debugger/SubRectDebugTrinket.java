@@ -19,8 +19,8 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
         rectInfo = input;
         info = new Text();
         info.setColor(STANDARD_COLOR);
-        info.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,FONT_SIZE));
-        info.setCenterX(() -> {return rect.getCenterX();});
+        info.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));
+        info.setCornerX(() -> {return rect.getCornerX();});
         info.setCenterY(() -> {return rect.getCenterY();});
         info.setMessage(() -> {return stats();});
         addStat(info);
@@ -45,16 +45,20 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
     
     private String stats() {
         String stack = "";
-        stack += Double.toString(rectInfo.getCenterX());
+        stack += roundDouble(rectInfo.getCenterX());
         stack += "\t";
-        stack += Double.toString(rectInfo.getCenterY());
+        stack += roundDouble(rectInfo.getCenterY());
         stack += "\t";
-        stack += Double.toString(rectInfo.getAngle());
+        stack += roundDouble(rectInfo.getAngle());
         stack += "\t";
-        stack += Double.toString(rectInfo.getWidth());
+        stack += roundDouble(rectInfo.getWidth());
         stack += "\t";
-        stack += Double.toString(rectInfo.getHeight());
+        stack += roundDouble(rectInfo.getHeight());
         
         return stack;
+    }
+    
+    private String roundDouble(double input) {
+        return Double.toString((int)(1000.0 * input)/1000.0);
     }
 }

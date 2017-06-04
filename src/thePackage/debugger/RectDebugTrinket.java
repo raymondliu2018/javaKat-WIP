@@ -18,8 +18,8 @@ class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, 
         subRectDebugTrinkets = new HashMap<>();
         Text labels = new Text();
         labels.setColor(STANDARD_COLOR);
-        labels.setFont(new Font(Font.SANS_SERIF,Font.BOLD,FONT_SIZE));
-        labels.setCenterX(() -> {return rect.getCenterX() + LABELS_OFFSET_X;});
+        labels.setFont(new Font(DEBUGGER_FONT,Font.BOLD,FONT_SIZE));
+        labels.setCornerX(() -> {return rect.getCornerX() + LABELS_OFFSET_X;});
         labels.setCenterY(() -> {return rect.getCenterY() + LABELS_OFFSET_Y;});
         labels.setMessage(LABELS_STRING);
         addStat(labels);
@@ -33,6 +33,7 @@ class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, 
         SubRectDebugTrinket temp = new SubRectDebugTrinket(input.getRect(),
                 rect.getCornerX(),
                 (rect.getCornerY() + rect.getHeight()) + subRectDebugTrinkets.size() * SUB_RECT_DEBUG_TRINKET_OFFSET_Y);
+        subRectDebugTrinkets.put(input,temp);
         Manager.queueNewEntity(temp);
     }
     

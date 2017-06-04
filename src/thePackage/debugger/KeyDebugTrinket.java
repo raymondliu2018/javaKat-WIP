@@ -29,7 +29,7 @@ class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, Is
             bindKeyToAction(key.getInput(), key.toString());
             Text temp = new Text();
             temp.setColor(STANDARD_COLOR);
-            temp.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,FONT_SIZE));
+            temp.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));
             temp.setMessage(Character.toString((char)(key.getInput())));
             temp.setCenterX(() -> {return rect.getCenterX() + OFFSET_X * referenceValues.get(key.getClass().getName());});
             temp.setCenterY(() -> {return rect.getCenterY();});
