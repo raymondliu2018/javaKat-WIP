@@ -159,7 +159,7 @@ public final class Sprite{
             int centerX = image.getWidth()/2;
             int centerY = image.getHeight()/2;
             BufferedImage temp = new BufferedImage(centerX * 2, centerY * 2,BufferedImage.TYPE_INT_ARGB);
-            Graphics2D graphics = (Graphics2D) temp.createGraphics();
+            Graphics2D graphics = temp.createGraphics();
             graphics.setColor(new Color(255,255,255,0));
             graphics.fillRect(0,0,centerX * 2, centerY * 2);
             graphics.rotate(radians, centerX, centerY);
