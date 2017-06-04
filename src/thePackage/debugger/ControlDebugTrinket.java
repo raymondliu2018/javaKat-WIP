@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Set;
 import thePackage.Entity;
 import thePackage.GameData;
+import thePackage.KeyCommand;
 import thePackage.Manager;
 import thePackage.Text;
 
@@ -32,7 +33,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
     
     private String getActions() {
         String stack = "";
-        HashMap keyMapPressed = exampleEntity.getKeyMapPressed(this);
+        HashMap <String, KeyCommand>keyMapPressed = exampleEntity.getKeyMapPressed(this);
         Set <String> actionSet = keyMapPressed.keySet();
         for (String action: actionSet){
             stack += actionSet + "\t";
