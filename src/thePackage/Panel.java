@@ -33,7 +33,7 @@ final class Panel extends JPanel {
             g.setFont(t.getFont());
             g.drawString(t.getMessage(),
                          (int) (t.getCenterX() - Camera.getShiftX() - (g.getFontMetrics().stringWidth(t.getMessage())/2)),
-                         (int) (t.getCenterY() - Camera.getShiftY() - (g.getFontMetrics().getHeight()/2)));
+                         (int) (t.getCenterY() - Camera.getShiftY() + (g.getFontMetrics().getHeight()/2)));
         }
         repaint();
     }

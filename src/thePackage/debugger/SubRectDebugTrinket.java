@@ -12,17 +12,19 @@ import thePackage.Text;
 class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSettings, IsDebugger{
     private Rect rectInfo;
     private Text info;
-    protected SubRectDebugTrinket(Rect input) {
+    protected SubRectDebugTrinket(Rect input, double xPosition, double yPosition) {
+        super(xPosition,yPosition);
+        sprite.addImage(IMAGE, "main", true);
+        resizeByCorner();
         rectInfo = input;
         info = new Text();
         info.setColor(STANDARD_COLOR);
         info.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,FONT_SIZE));
-        info.setCenterX(rect.getCenterX());
-        info.setCenterY(rect.getCenterY());
+        info.setCenterX(() -> {return rect.getCenterX();});
+        info.setCenterY(() -> {return rect.getCenterY();});
         info.setMessage(() -> {return stats();});
         addStat(info);
-        sprite.addImage(IMAGE, "main", true);
-        resize();
+
     }
     
     public void subUpdate() {

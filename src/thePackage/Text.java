@@ -44,6 +44,7 @@ public final class Text
         if (y$ != null) {
             y = y$.value();
         }
+        System.out.println(x + "\t" + y);
     }
     
     /**

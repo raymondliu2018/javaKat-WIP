@@ -60,6 +60,13 @@ public abstract class Entity
         }
     }
     
+    public final void resizeByCorner() {
+        double xPosition = rect.getCornerX();
+        double yPosition = rect.getCornerY();
+        resize();
+        rect.setCornerPosition(xPosition, yPosition);
+    }
+    
     //Rect
     /**
      * @param input set the Rect element of this Entity
@@ -193,9 +200,9 @@ public abstract class Entity
         return null;
     }
     
-    public final boolean matchesClassOf(Entity input, Entity requestor) {
+    public final boolean matchesClassOf(String input, Entity requestor) {
         if (requestor instanceof IsDebugger){
-            return input.getClass().isInstance(this);
+            return input.equals(this.getClass().getName());
         }
         System.out.println(IsDebugger.DEBUGGER_MESSAGE);
         throw new RuntimeException();

@@ -10,26 +10,29 @@ import thePackage.Text;
 
 class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, IsDebugger{
     private HashMap <Entity,SubRectDebugTrinket> subRectDebugTrinkets;
-    protected RectDebugTrinket(){
+    protected RectDebugTrinket(double xPosition, double yPosition){
+        super(xPosition, yPosition);
+        sprite.addImage(IMAGE, "main", true);
+        resizeByCorner();
+        
         subRectDebugTrinkets = new HashMap<>();
         Text labels = new Text();
         labels.setColor(STANDARD_COLOR);
         labels.setFont(new Font(Font.SANS_SERIF,Font.BOLD,FONT_SIZE));
-        labels.setCenterX(rect.getCenterX() + LABELS_OFFSET_X);
-        labels.setCenterY(rect.getCenterY() + LABELS_OFFSET_Y);
+        labels.setCenterX(() -> {return rect.getCenterX() + LABELS_OFFSET_X;});
+        labels.setCenterY(() -> {return rect.getCenterY() + LABELS_OFFSET_Y;});
         labels.setMessage(LABELS_STRING);
         addStat(labels);
-        sprite.addImage(IMAGE, "main", true);
-        resize();
+
     }
     
     public void subUpdate() {
     }
     
     protected void entityAdded(Entity input){
-        SubRectDebugTrinket temp = new SubRectDebugTrinket(input.getRect());
-        temp.getRect().setCornerX(rect.getCornerX());
-        temp.getRect().setCornerY((rect.getCornerY() + rect.getHeight()) + subRectDebugTrinkets.size() * SUB_RECT_DEBUG_TRINKET_OFFSET_Y);
+        SubRectDebugTrinket temp = new SubRectDebugTrinket(input.getRect(),
+                rect.getCornerX(),
+                (rect.getCornerY() + rect.getHeight()) + subRectDebugTrinkets.size() * SUB_RECT_DEBUG_TRINKET_OFFSET_Y);
         Manager.queueNewEntity(temp);
     }
     

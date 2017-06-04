@@ -10,31 +10,35 @@ import thePackage.Text;
 
 class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, IsDebugger{
     private HashMap<String,Text> individualKeys;
-    protected KeyDebugTrinket(ArrayList<Key> keys) {
-        super();
+    private HashMap<String,Integer> referenceValues;
+    protected KeyDebugTrinket(ArrayList<Key> keys, double xPosition, double yPosition) {
+        super(xPosition, yPosition);
+        sprite.addImage(IMAGE, "main", true);
+        resizeByCorner();
+        
         int counter = 0;
         individualKeys = new HashMap<>();
+        referenceValues = new HashMap<>();
         for (Key key: keys){
             counter += 1;
             bindCodeToAction(key.toString(),(a) -> {
-                Text temp = individualKeys.get(key.toString());
-                temp.setColor(WARNING_COLOR);
+                individualKeys.get(a.getClass().getName()).setColor(WARNING_COLOR);
             }, (a) -> {
-                Text temp = individualKeys.get(key.toString());
-                temp.setColor(STANDARD_COLOR);
+                individualKeys.get(a.getClass().getName()).setColor(STANDARD_COLOR);
             });
             bindKeyToAction(key.getInput(), key.toString());
             Text temp = new Text();
             temp.setColor(STANDARD_COLOR);
             temp.setFont(new Font(Font.SANS_SERIF,Font.PLAIN,FONT_SIZE));
             temp.setMessage(Character.toString((char)(key.getInput())));
-            temp.setCenterX(rect.getCenterX() + OFFSET_X * counter);
-            temp.setCenterY(rect.getCenterY());
+            temp.setCenterX(() -> {return rect.getCenterX() + OFFSET_X * referenceValues.get(key.getClass().getName());});
+            temp.setCenterY(() -> {return rect.getCenterY();});
+            individualKeys.put(key.getClass().getName(),temp);
+            referenceValues.put(key.getClass().getName(), counter);
             addStat(temp);
             
         }
-        sprite.addImage(IMAGE, "main", true);
-        resize();
+
     }
     
     public void subUpdate() {

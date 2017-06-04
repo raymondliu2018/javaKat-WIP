@@ -11,7 +11,7 @@ import thePackage.Utility;
 class IndicatorDebugTrinket extends TrinketBase implements IsDebugger, IndicatorDebugTrinketSettings{
     private HashMap<Entity,Sprite> indicators;
     public IndicatorDebugTrinket() {
-        super();
+        super(0, 0);
         indicators = new HashMap<>();
     }
     

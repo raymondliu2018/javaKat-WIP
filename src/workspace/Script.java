@@ -3,11 +3,13 @@ import thePackage.*;
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import thePackage.debugger.Debugger;
 
 public class Script implements SuperScript ,PlayerData {
     static Player red,blue;
     static String winner = null;
     public static void init() {
+        Debugger.enabled();
         Camera.setBackground(Utility.scaleImage("images/Background.png",SCREEN_WIDTH,SCREEN_HEIGHT));
         
         red = new Player("red");

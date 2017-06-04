@@ -13,19 +13,21 @@ import thePackage.Text;
 class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSettings, IsDebugger, GameData{
     Entity exampleEntity;
     private HashMap<Entity, KeyDebugTrinket> keyDebugTrinkets;
-    protected ControlDebugTrinket(Entity input) {
-        super();
+    protected ControlDebugTrinket(Entity input, double xPosition, double yPosition) {
+        super(xPosition, yPosition);
+        sprite.addImage(IMAGE, "main", true);
+        resizeByCorner();
+        
         exampleEntity = input;
         Text availableKeys = new Text();
         availableKeys.setColor(STANDARD_COLOR);
         availableKeys.setFont(new Font(Font.SANS_SERIF,Font.ITALIC,FONT_SIZE));
         availableKeys.setMessage(getActions());
-        availableKeys.setCenterX(rect.getCenterX() + ACTIONS_OFFSET_X);
-        availableKeys.setCenterY(rect.getCenterY() + ACTIONS_OFFSET_Y);
+        availableKeys.setCenterX(() -> {return rect.getCenterX() + ACTIONS_OFFSET_X;});
+        availableKeys.setCenterY(() -> {return rect.getCenterY() + ACTIONS_OFFSET_Y;});
         addStat(availableKeys);
         keyDebugTrinkets = new HashMap<>();
-        sprite.addImage(IMAGE, "main", true);
-        resize();
+
     }
     
     public void subUpdate(){
@@ -42,9 +44,9 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
     }
     
     protected void entityAdded(Entity input) {
-        KeyDebugTrinket temp = new KeyDebugTrinket(input.getKeys());
-        temp.getRect().setCornerX(rect.getCornerX());
-        temp.getRect().setCornerY((rect.getCornerY() + rect.getHeight()) + KEY_DEBUG_TRINKET_OFFSET_Y * keyDebugTrinkets.size());
+        KeyDebugTrinket temp = new KeyDebugTrinket(input.getKeys(),
+                rect.getCornerX(),
+                (rect.getCornerY() + rect.getHeight()) + KEY_DEBUG_TRINKET_OFFSET_Y * keyDebugTrinkets.size());
         Manager.queueNewEntity(temp);
         keyDebugTrinkets.put(input, temp);
     }
