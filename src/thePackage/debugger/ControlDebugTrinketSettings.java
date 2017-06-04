@@ -6,5 +6,5 @@ public interface ControlDebugTrinketSettings {
     public static int KEY_DEBUG_TRINKET_OFFSET_Y = 5;
     public static int ACTIONS_OFFSET_X = 0;
     public static int ACTIONS_OFFSET_Y = 0;
-    
+    public static String IMAGE = "thePackage/debugger/images/ControlDebugTrinket.png";
 }

@@ -58,7 +58,7 @@ class EntityDebugTrinket extends TrinketBase implements IsDebugger, EntityDebugT
         
         indicatorDebugTrinket = new IndicatorDebugTrinket();
         //DOESN'T NEED TO BE ADDED
-        sprite.addImage("thePackage/debugger/EntityDebugTrinket.png","main",true);
+        sprite.addImage(IMAGE,"main",true);
         resize();
     }
     public void subUpdate() {

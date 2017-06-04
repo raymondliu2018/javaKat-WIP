@@ -21,7 +21,7 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
         info.setCenterY(rect.getCenterY());
         info.setMessage(() -> {return stats();});
         addStat(info);
-        sprite.addImage("thePackages/debugger/SubRectDebugTrinket.png", "main", true);
+        sprite.addImage(IMAGE, "main", true);
         resize();
     }
     

@@ -24,7 +24,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
         availableKeys.setCenterY(rect.getCenterY() + ACTIONS_OFFSET_Y);
         addStat(availableKeys);
         keyDebugTrinkets = new HashMap<>();
-        sprite.addImage("thePackage/debugger/ControlDebugTrinket.java", "main", true);
+        sprite.addImage(IMAGE, "main", true);
         resize();
     }
     

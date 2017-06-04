@@ -33,7 +33,7 @@ class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, Is
             addStat(temp);
             
         }
-        sprite.addImage("thePackage/debugger/KeyDebugTrinket.png", "main", true);
+        sprite.addImage(IMAGE, "main", true);
         resize();
     }
     

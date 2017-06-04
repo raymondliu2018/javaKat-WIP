@@ -8,7 +8,7 @@ import thePackage.Manager;
 import thePackage.Sprite;
 import thePackage.Utility;
 
-class IndicatorDebugTrinket extends TrinketBase implements IsDebugger{
+class IndicatorDebugTrinket extends TrinketBase implements IsDebugger, IndicatorDebugTrinketSettings{
     private HashMap<Entity,Sprite> indicators;
     public IndicatorDebugTrinket() {
         super();
@@ -23,7 +23,7 @@ class IndicatorDebugTrinket extends TrinketBase implements IsDebugger{
         temp.setY(() -> {
             return input.getRect().getCornerY();
         });
-        BufferedImage image = Utility.scaleImage("thePackage/debugger/indicator.png", (int) input.getRect().getWidth(), (int) input.getRect().getHeight());
+        BufferedImage image = Utility.scaleImage(IMAGE, (int) input.getRect().getWidth(), (int) input.getRect().getHeight());
         temp.addImage(image,"main",true);
         indicators.put(input, temp);
         Manager.addLonelySprite(temp, DEBUGGER_LAYER);

@@ -12,6 +12,7 @@ public class DebugTool extends Entity implements DebugToolSettings, IsDebugger{
         rect.setCenterX(CENTER_X);
         rect.setCenterY(CENTER_Y);
         entityTypes = new ArrayList<>();
+        sprite.addImage(IMAGE, "main", true);
     }
     public void subUpdate() {
         for (Entity input : entityTypes){

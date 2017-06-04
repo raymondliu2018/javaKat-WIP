@@ -19,7 +19,7 @@ class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, 
         labels.setCenterY(rect.getCenterY() + LABELS_OFFSET_Y);
         labels.setMessage(LABELS_STRING);
         addStat(labels);
-        sprite.addImage("thePackage/debugger/RectDebugTrinket.png", "main", true);
+        sprite.addImage(IMAGE, "main", true);
         resize();
     }
     
