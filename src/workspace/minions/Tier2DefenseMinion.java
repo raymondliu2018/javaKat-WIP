@@ -9,7 +9,7 @@ public class Tier2DefenseMinion extends DefenseMinion implements MinionData{
         if (this.getColor().equals("blue")){
             sprite.addImage("images/Blue/Minions/Defense/Tier2.png","main",true);
         }
-        resize();
+        resizeByCenter();
         speed = TIER2_DEFENSE_MINION_SPEED;
         attackFrequency = TIER2_DEFENSE_MINION_ATTACK_FREQUENCY;
         attack = TIER2_DEFENSE_MINION_ATTACK;

@@ -52,7 +52,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
         bindCodeToAction("secondary",
             (a) -> {},
             (a) -> {secondary();});
-        resize();
+        resizeByCenter();
         rect.setMaxSpeed(CURSORSPEED);
     }
     

@@ -9,7 +9,7 @@ public class BouncyBullet extends Bullet implements BulletData{
     public BouncyBullet(String color){
         super(color, 0, 100);
         sprite.addImage(Utility.scaleImage(sprite.getImage(), 2.0), "bigger", true);
-        resize();
+        resizeByCenter();
     }
     
     public boolean collidedWith(Entity input){

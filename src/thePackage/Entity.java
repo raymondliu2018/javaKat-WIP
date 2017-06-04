@@ -54,7 +54,7 @@ public abstract class Entity
     /**
      * Sets this entity's hitbox to the size of its current image
      */
-    public final void resize() {
+    public final void resizeByCenter() {
         if (sprite.getImage() != null){
             rect.setSize(sprite.getImage().getWidth(null),sprite.getImage().getHeight(null));
         }
@@ -63,7 +63,7 @@ public abstract class Entity
     public final void resizeByCorner() {
         double xPosition = rect.getCornerX();
         double yPosition = rect.getCornerY();
-        resize();
+        resizeByCenter();
         rect.setCornerPosition(xPosition, yPosition);
     }
     
