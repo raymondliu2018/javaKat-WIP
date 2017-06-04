@@ -19,9 +19,9 @@ final class Panel extends JPanel {
                 BufferedImage image = sprite.getImage();
                 if (image != null ) {
                     g.drawImage(sprite.getImage(),
-                                (int) (sprite.getX() - Camera.getShiftX()),
-                                (int) (sprite.getY() - Camera.getShiftY()),
-                                null);
+                            (int) (sprite.getX() - Camera.getShiftX()),
+                            (int) (sprite.getY() - Camera.getShiftY()),
+                            null);
                 }
                 else{
                     //System.out.println(sprite.toString() + " was null");
@@ -32,8 +32,8 @@ final class Panel extends JPanel {
             g.setColor(t.getColor());
             g.setFont(t.getFont());
             g.drawString(t.getMessage(),
-                         (int) (t.getCenterX() - Camera.getShiftX() - (g.getFontMetrics().stringWidth(t.getMessage())/2)),
-                         (int) (t.getCenterY() - Camera.getShiftY() + (g.getFontMetrics().getHeight()/2)));
+                    (int) (t.getCenterX() - Camera.getShiftX() - (t.getRoughWidth()/2)),
+                    (int) (t.getCenterY() - Camera.getShiftY() + (t.getRoughHeight()/2)));
         }
         repaint();
     }

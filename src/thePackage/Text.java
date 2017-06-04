@@ -2,6 +2,7 @@ package thePackage;
 
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.FontMetrics;
 
 public final class Text
 {
@@ -13,25 +14,26 @@ public final class Text
     private DoubleCommand y$ = null;
     private Font font;
     private Color color;
+    private FontMetrics fontMetrics = null;
     
     public Text() {
-        font = new Font("Textbox",0,12);
-        color = new Color(0,0,0);
+        setFont(new Font("Textbox",0,12));
+        setColor(new Color(0,0,0));
     }
     
     public Text(Font font) {
-        this.font = font;
-        color = new Color(0,0,0);
+        setFont(font);
+        setColor(new Color(0,0,0));
     }
     
     public Text(Color color) {
-        this.color = color;
-        font = new Font("Textbox",0,12);
+        setColor(color);
+        setFont(new Font("Textbox",0,12));
     }
     
     public Text(Font font, Color color) {
-        this.font = font;
-        this.color = color;
+        setFont(font);
+        setColor(color);
     }
     
     protected void update() {
@@ -44,7 +46,6 @@ public final class Text
         if (y$ != null) {
             y = y$.value();
         }
-        System.out.println(x + "\t" + y);
     }
     
     /**
@@ -76,6 +77,26 @@ public final class Text
      */
     public void setCenterY(DoubleCommand input) {y$ = input;}
     
+    public void setCornerX(double input) {
+        x = input + getRoughWidth()/2;
+    }
+    
+    public void setCornerY(double input) {
+        y = input + getRoughHeight()/2;
+    }
+    
+    public void setCornerX(DoubleCommand input) {
+        x$ = () -> {
+            return input.value() + getRoughWidth()/2;
+        };
+    }
+    
+    public void setCornerY(DoubleCommand input) {
+        y$ = () -> {
+            return input.value() + getRoughHeight()/2;
+        };
+    }
+    
     /**
      * @return get the x position of this Text
      */
@@ -89,7 +110,10 @@ public final class Text
     /**
      * @param input set the Font for this Text
      */
-    public void setFont( Font input ) {font = input;}
+    public void setFont( Font input ) {
+        font = input;
+        fontMetrics = GameMaster.getFrame().getFontMetrics(font);
+    }
     
     /**
      * @param input set the Color for this Text
@@ -130,5 +154,14 @@ public final class Text
         text.setCenterX(this.x);
         text.setCenterY(this.y);
         return text;
+    }
+    
+    public int getRoughWidth() {
+        return fontMetrics.stringWidth(this.getMessage());
+    }
+    
+    public int getRoughHeight() {
+        return fontMetrics.getHeight();
+        
     }
 }
