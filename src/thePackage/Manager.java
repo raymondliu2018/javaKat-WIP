@@ -33,7 +33,7 @@ public final class Manager extends Manipulator implements GameData{
          GameData.keys.clear();
          GameData.buttons.clear();
          GameData.layers.clear();
-         GameData.files.clear();
+         GameData.imageFiles.clear();
          GameData.images.clear();
          GameData.stats.clear();
          GameData.enders.clear();

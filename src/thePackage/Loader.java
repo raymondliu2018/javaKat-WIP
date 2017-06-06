@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 public final class Loader implements GameData {
     public static BufferedImage loadImage(String input){
-        for (int index = 0; index < GameData.files.size(); index++){
-            if (input.equals(GameData.files.get(index))) {
+        for (int index = 0; index < GameData.imageFiles.size(); index++){
+            if (input.equals(GameData.imageFiles.get(index))) {
                 return GameData.images.get(index);
             }
         }
@@ -14,7 +14,7 @@ public final class Loader implements GameData {
         try {
             temp = ImageIO.read(new Utility().getClass().getResource("/" + input));
             
-            GameData.files.add(input);
+            GameData.imageFiles.add(input);
             GameData.images.add(temp);
             return temp;
         }
