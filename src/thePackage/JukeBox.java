@@ -8,6 +8,7 @@ public final class JukeBox {
     private Entity owner;
     private String currentSound;
     private Clip currentClip;
+    
     public JukeBox(Entity input) {
         owner = input;
     }
@@ -17,16 +18,22 @@ public final class JukeBox {
     }
     
     public void addSound(String input, String name, boolean set){
+        addSound(Loader.loadClip(input),name);
+    }
+    
+    public void addSound(String input, String name) {
+        addSound(Loader.loadClip(input),name);
+    }
+    
+    public void addSound(Clip input, String name) {
+        sounds.put(name,input);
+    }
+    public void addSound(Clip input, String name, boolean set) {
         addSound(input,name);
         if (set) {
             setSound(name);
         }
     }
-    
-    public void addSound(String input, String name) {
-        //sounds.put(name, );
-    }
-    
     public String getCurrentSound() {
         return currentSound;
     }
@@ -47,5 +54,9 @@ public final class JukeBox {
             currentClip.stop();
         }
         System.out.println("No clip to interrupt");
+    }
+    
+    public Entity getOwner() {
+        return owner;
     }
 }

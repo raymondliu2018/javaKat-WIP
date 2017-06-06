@@ -1,6 +1,7 @@
 package thePackage;
 
 import java.awt.image.BufferedImage;
+import javax.sound.sampled.Clip;
 import thePackage.debugger.DebuggerTag;
 public final class Background extends Entity implements DebuggerTag {
     protected Background(BufferedImage picture) {
@@ -17,8 +18,15 @@ public final class Background extends Entity implements DebuggerTag {
             System.out.println("Frame did not resize: Invalid image");
         }
         sprite.clearImages();
-        sprite.addImage(input,"main");
-        sprite.setImage("main");
+        sprite.addImage(input,"main",true);
+    }
+    
+    protected void set(Clip input) {
+        if (input != null) {
+            
+        }
+        jukeBox.addSound(input,"main",true);
+        jukeBox.playSound();
     }
     
     public void subUpdate(){

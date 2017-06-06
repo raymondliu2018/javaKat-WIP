@@ -6,6 +6,7 @@ import java.io.*;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 public final class Loader implements GameData {
     public static BufferedImage loadImage(String input){
@@ -22,17 +23,22 @@ public final class Loader implements GameData {
             GameData.images.add(temp);
             return temp;
         }
-        catch(IllegalArgumentException error){
+        catch(IllegalArgumentException e){
             try {
-                temp = (ImageIO.read(new File(input)));
+                temp = (ImageIO.read(new Utility().getClass().getResource(input)));
+                GameData.imageFiles.add(input);
+                GameData.images.add(temp);
                 return temp;
             }
-            catch (IOException error$){
+            catch (IllegalArgumentException e$){
                 System.out.println("Could not find file " + input);
             }
+            catch (IOException e$){
+                System.out.println("File corrupted: " + input);
+            }
         }
-        catch(IOException error) {
-            System.out.println("Could not find file " + input);
+        catch(IOException e) {
+            System.out.println("File corrupted: " + input);
         }
         return null;
     }
@@ -43,15 +49,50 @@ public final class Loader implements GameData {
                 return GameData.sounds.get(index);
             }
         }
-        Clip temp;
+        Clip clip;
         AudioInputStream audioIn;
         try {
+            clip = AudioSystem.getClip();
+        }
+        catch (LineUnavailableException e) {
+            System.out.println("Computer Audio System bugged");
+            return null;
+        }
+        try {
             audioIn = AudioSystem.getAudioInputStream(new Utility().getClass().getResource("/" + input));
+            clip.open(audioIn);
+            GameData.soundFiles.add(input);
+            GameData.sounds.add(clip);
+            return clip;
         }
         catch (UnsupportedAudioFileException e){
             System.out.println("Unsupported audio file");
+            return null;
         }
         catch (IOException e){
+            try {
+                audioIn = AudioSystem.getAudioInputStream(new Utility().getClass().getResource(input));
+                clip.open(audioIn);
+                GameData.soundFiles.add(input);
+                GameData.sounds.add(clip);
+                return clip;
+            }
+            catch(UnsupportedAudioFileException e$){
+                System.out.println("Unsupported audio file");
+                return null;
+            }
+            catch(IOException e$) {
+                System.out.println("Corrupted File: " + input);
+                return null;
+            }
+            catch (LineUnavailableException e$) {
+                System.out.println("Computer Audio System Bugged");
+                return null;
+            }
+        } 
+        catch (LineUnavailableException e) {
+            System.out.println("Computer Audio System Bugged");
+            return null;
         }
     }
 }

@@ -19,6 +19,7 @@ public abstract class Entity
     private ArrayList<Key> keys;
     private ArrayList<Button> buttons;
     protected Sprite sprite;
+    protected JukeBox jukeBox;
     protected boolean focused = false;
     protected Rect rect;
     protected int timer;
@@ -32,6 +33,8 @@ public abstract class Entity
         sprite = new Sprite(this);
         sprite.setX(() -> rect.getCornerX());
         sprite.setY(() -> rect.getCornerY());
+        
+        jukeBox = new JukeBox(this);
         
         stats = new ArrayList<>();
         keys = new ArrayList<>();
