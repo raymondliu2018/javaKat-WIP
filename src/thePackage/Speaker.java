@@ -1,11 +1,12 @@
 package thePackage;
 
+import javax.sound.sampled.Clip;
+
 public final class Speaker {
-    private static Background background;
     private static boolean loop;
     
     public static void setTrack(Clip input) {
-        background.
+        Background.getInstance().set(input);
     }
     
     public static void setTrack(String input) {

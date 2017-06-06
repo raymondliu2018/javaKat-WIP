@@ -4,10 +4,18 @@ import java.awt.image.BufferedImage;
 import javax.sound.sampled.Clip;
 import thePackage.debugger.DebuggerTag;
 public final class Background extends Entity implements DebuggerTag {
-    protected Background(BufferedImage picture) {
+    protected static Background instance;
+    private Background() {
         super();
-        set(picture);
         rect.setLayer(0);
+    }
+    
+    public static Background getInstance() {
+        if (instance == null) {
+            instance = new Background();
+            Manager.queueNewEntity(instance);
+        }
+        return instance;
     }
     
     protected void set(BufferedImage input) {
@@ -22,9 +30,6 @@ public final class Background extends Entity implements DebuggerTag {
     }
     
     protected void set(Clip input) {
-        if (input != null) {
-            
-        }
         jukeBox.addSound(input,"main",true);
         jukeBox.playSound();
     }
