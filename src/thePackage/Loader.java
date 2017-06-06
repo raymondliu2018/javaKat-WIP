@@ -3,6 +3,10 @@ package thePackage;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.UnsupportedAudioFileException;
 public final class Loader implements GameData {
     public static BufferedImage loadImage(String input){
         for (int index = 0; index < GameData.imageFiles.size(); index++){
@@ -31,5 +35,23 @@ public final class Loader implements GameData {
             System.out.println("Could not find file " + input);
         }
         return null;
+    }
+    
+    public static Clip loadClip(String input) {
+        for (int index = 0; index < GameData.soundFiles.size(); index++){
+            if (input.equals(GameData.soundFiles.get(index))){
+                return GameData.sounds.get(index);
+            }
+        }
+        Clip temp;
+        AudioInputStream audioIn;
+        try {
+            audioIn = AudioSystem.getAudioInputStream(new Utility().getClass().getResource("/" + input));
+        }
+        catch (UnsupportedAudioFileException e){
+            System.out.println("Unsupported audio file");
+        }
+        catch (IOException e){
+        }
     }
 }
