@@ -1,5 +1,7 @@
 package thePackage;
 
+import thePackage.debugger.DebuggerTag;
+
 public final class Key {
     private Entity owner;
     private int input;
@@ -52,5 +54,21 @@ public final class Key {
             commandReleased.execute(this);
         }
         toggled = false;
+    }
+    
+    public KeyCommand getCommandPressed(Object requestor) {
+        if (requestor instanceof DebuggerTag) {
+            return commandPressed;
+        }
+        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
+        return null;
+    }
+    
+    public KeyCommand getCommandReleased(Object requestor) {
+        if (requestor instanceof DebuggerTag) {
+            return commandReleased;
+        }
+        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
+        return null;
     }
 }

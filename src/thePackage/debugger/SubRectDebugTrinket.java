@@ -1,64 +1,92 @@
 
 package thePackage.debugger;
 
-import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import thePackage.Camera;
-import thePackage.Entity;
-import thePackage.GameMaster;
 import thePackage.Rect;
 import thePackage.Text;
 
-class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSettings, IsDebugger{
+class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSettings, DebuggerTag{
     private Rect rectInfo;
-    private Text info;
+    private ArrayList<Text> info;
     protected SubRectDebugTrinket(Rect input, double xPosition, double yPosition) {
         super(xPosition,yPosition);
         sprite.addImage(IMAGE, "main", true);
         resizeByCorner();
         rectInfo = input;
-        info = new Text();
-        info.setColor(STANDARD_COLOR);
-        info.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));
-        info.setCornerX(() -> {return rect.getCornerX();});
-        info.setCenterY(() -> {return rect.getCenterY();});
-        info.setMessage(() -> {return stats();});
-        addStat(info);
-
+        info = new ArrayList<>();
+        
+        Text xCoordinate = new Text();
+        formatText(xCoordinate);
+        xCoordinate.setMessage(() -> {return roundDouble(rectInfo.getCenterX());});
+        addStat(xCoordinate);
+        
+        Text yCoordinate = new Text();
+        formatText(yCoordinate);
+        yCoordinate.setMessage(() -> {return roundDouble(rectInfo.getCenterY());});
+        addStat(yCoordinate);
+        
+        Text angle = new Text();
+        formatText(angle);
+        angle.setMessage(() -> {
+            double temp = rectInfo.getAngle();
+            if (temp == Double.MAX_VALUE) {
+                return "???";
+            }
+            else {
+                return roundDouble(180 * rectInfo.getAngle() / Math.PI);
+            }
+        });
+        addStat(angle);
+        
+        Text width = new Text();
+        formatText(width);
+        width.setMessage(() -> {return roundDouble(rectInfo.getWidth());});
+        addStat(width);
+        
+        Text height = new Text();
+        formatText(height);
+        height.setMessage(() -> {return roundDouble(rectInfo.getHeight());});
+        addStat(height);
     }
     
     public void subUpdate() {
         if (rectInfo.getCenterX() < 0 || rectInfo.getCenterX() > Camera.getMapWidth()){
-            info.setColor(WARNING_COLOR);
-            
-        }
-        else if (rectInfo.getCenterY() < 0 || rectInfo.getCenterY() > Camera.getMapHeight()){
-            info.setColor(WARNING_COLOR);
-        }
-        else if (rectInfo.getWidth() <= 0 || rectInfo.getHeight() <= 0){
-            info.setColor(WARNING_COLOR);
+            info.get(0).setColor(WARNING_COLOR);
         }
         else {
-            info.setColor(STANDARD_COLOR);
+            info.get(0).setColor(STANDARD_COLOR);
         }
-    }
-    
-    private String stats() {
-        String stack = "";
-        stack += roundDouble(rectInfo.getCenterX());
-        stack += "\t";
-        stack += roundDouble(rectInfo.getCenterY());
-        stack += "\t";
-        stack += roundDouble(rectInfo.getAngle());
-        stack += "\t";
-        stack += roundDouble(rectInfo.getWidth());
-        stack += "\t";
-        stack += roundDouble(rectInfo.getHeight());
-        
-        return stack;
+        if (rectInfo.getCenterY() < 0 || rectInfo.getCenterY() > Camera.getMapHeight()){
+            info.get(1).setColor(WARNING_COLOR);
+        }
+        else {
+            info.get(1).setColor(STANDARD_COLOR);
+        }
+        if (rectInfo.getWidth() <= 0){
+            info.get(3).setColor(WARNING_COLOR);
+        }
+        else {
+            info.get(3).setColor(STANDARD_COLOR);
+        }
+        if (rectInfo.getHeight() <= 0){
+            info.get(4).setColor(WARNING_COLOR);
+        }
+        else {
+            info.get(4).setColor(STANDARD_COLOR);
+        }
     }
     
     private String roundDouble(double input) {
-        return Double.toString((int)(1000.0 * input)/1000.0);
+        return Double.toString(((int)(input * 10))/10.0);
+    }
+    
+    private void formatText(Text input) {
+        info.add(input);
+        input.setColor(STANDARD_COLOR);
+        input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));
+        input.setCornerX(() -> {return rect.getCornerX() + info.indexOf(input) * INFO_OFFSET_X;});
+        input.setCenterY(() -> {return rect.getCenterY();});
     }
 }

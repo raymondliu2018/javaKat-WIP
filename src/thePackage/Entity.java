@@ -10,7 +10,7 @@ package thePackage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import thePackage.debugger.IsDebugger;
+import thePackage.debugger.DebuggerTag;
 
 public abstract class Entity
 {
@@ -184,27 +184,27 @@ public abstract class Entity
     public final ArrayList<Button> getButtons() {return buttons;}
     
     public final HashMap<String, KeyCommand> getKeyMapPressed(Object requestor) {
-        if (requestor instanceof IsDebugger){
+        if (requestor instanceof DebuggerTag){
             return keyMapPressed;
         }
-        System.out.println(IsDebugger.DEBUGGER_MESSAGE);
+        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
         return null;
     }
     
     
     public final HashMap<String, KeyCommand> getKeyMapReleased(Object requestor) {
-        if (requestor instanceof IsDebugger){
+        if (requestor instanceof DebuggerTag){
             return keyMapReleased;
         }
-        System.out.println(IsDebugger.DEBUGGER_MESSAGE);
+        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
         return null;
     }
     
     public final boolean matchesClassOf(String input, Entity requestor) {
-        if (requestor instanceof IsDebugger){
+        if (requestor instanceof DebuggerTag){
             return input.equals(this.getClass().getName());
         }
-        System.out.println(IsDebugger.DEBUGGER_MESSAGE);
+        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
         throw new RuntimeException();
     }
 }
