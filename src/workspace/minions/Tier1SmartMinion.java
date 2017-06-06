@@ -11,7 +11,7 @@ public class Tier1SmartMinion extends SmartMinion implements MinionData
         if (this.getColor().equals("blue")){
             sprite.addImage("images/Blue/Minions/Smart/Tier1.png","main",true);
         }
-        resize();
+        resizeByCenter();
         speed = TIER1_SMART_MINION_SPEED;
         attackFrequency = TIER1_SMART_MINION_ATTACK_FREQUENCY;
         attack = TIER1_SMART_MINION_ATTACK;

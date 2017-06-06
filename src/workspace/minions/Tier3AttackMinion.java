@@ -11,7 +11,7 @@ public class Tier3AttackMinion extends AttackMinion implements MinionData
         if (this.getColor().equals("blue")){
             sprite.addImage("images/Blue/Minions/Attack/Tier3.png","main",true);
         }
-        resize();
+        resizeByCenter();
         speed = TIER3_ATTACK_MINION_SPEED;
         attackFrequency = TIER3_ATTACK_MINION_ATTACK_FREQUENCY;
         attack = TIER3_ATTACK_MINION_ATTACK;

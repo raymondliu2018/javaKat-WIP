@@ -63,9 +63,15 @@ public final class Text
      */
     public String getMessage() {return message;}
     
-    public void setCenterX(double input) {x = input;}
+    public void setCenterX(double input) {
+        x = input;
+        x$ = null;
+    }
 
-    public void setCenterY(double input) {y = input;}
+    public void setCenterY(double input) {
+        y = input;
+        y$ = null;
+    }
     
     /**
      * @param input bind code to the x position of this Text to automatically recalculate position
@@ -79,10 +85,12 @@ public final class Text
     
     public void setCornerX(double input) {
         x = input + getRoughWidth()/2;
+        x$ = null;
     }
     
     public void setCornerY(double input) {
         y = input + getRoughHeight()/2;
+        y$ = null;
     }
     
     public void setCornerX(DoubleCommand input) {

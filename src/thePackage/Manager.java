@@ -1,6 +1,7 @@
 package thePackage;
 
 import java.util.ArrayList;
+import thePackage.debugger.DebuggerTag;
 
 public final class Manager extends Manipulator implements GameData{
     private static ArrayList<VoidCommand> queuedCommands = new ArrayList<>();
@@ -11,6 +12,14 @@ public final class Manager extends Manipulator implements GameData{
             }
             queuedCommands.clear();
         }
+    }
+    
+    public static boolean commandsQueued(Object requestor) {
+        if (requestor instanceof DebuggerTag){
+            return queuedCommands.isEmpty();
+        }
+        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
+        throw new RuntimeException();
     }
     
     public static void queueWipeAll() {

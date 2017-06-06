@@ -1,8 +1,8 @@
 package thePackage;
 
 import java.awt.image.BufferedImage;
-import thePackage.debugger.IsDebugger;
-public final class Background extends Entity implements IsDebugger {
+import thePackage.debugger.DebuggerTag;
+public final class Background extends Entity implements DebuggerTag {
     protected Background(BufferedImage picture) {
         super();
         set(picture);

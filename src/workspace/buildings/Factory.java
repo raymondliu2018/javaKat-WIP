@@ -39,7 +39,7 @@ public abstract class Factory extends Entity$ implements PlayerData, MinionData
     public void setTier(int input) {
         tier = input;
         sprite.setImage(Integer.toString(input));
-        resize();
+        resizeByCenter();
     }
     
     public void subUpdate()

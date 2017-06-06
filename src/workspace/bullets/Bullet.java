@@ -19,7 +19,7 @@ public class Bullet extends Entity$ implements BulletData
         }
         sprite.addImage( Utility.scaleImage(image, BULLET_SIZE, BULLET_SIZE), "main", true);
         setHealth(health);
-        resize();
+        resizeByCenter();
     }
     public boolean collidedWith(Entity input) {
         if (input instanceof Entity$){

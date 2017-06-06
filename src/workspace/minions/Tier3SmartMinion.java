@@ -11,7 +11,7 @@ public class Tier3SmartMinion extends SmartMinion implements MinionData
         if (this.getColor().equals("blue")){
             sprite.addImage("images/Blue/Minions/Smart/Tier3.png","main",true);
         }
-        resize();
+        resizeByCenter();
         speed = TIER3_SMART_MINION_SPEED;
         attackFrequency = TIER3_SMART_MINION_ATTACK_FREQUENCY;
         attack = TIER3_SMART_MINION_ATTACK;
