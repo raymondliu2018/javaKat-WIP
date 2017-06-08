@@ -60,7 +60,7 @@ public class DebugTool extends TrinketBase implements DebugToolSettings, Debugge
     private int getOffset() {
         int total = 0;
         for (Integer width: entityDebugTrinketOffsetList){
-            total += width.intValue();
+            total += width;
         }
         return total;
     }

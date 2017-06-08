@@ -11,6 +11,7 @@ public class Script implements SuperScript ,PlayerData {
     public static void init() {
         Debugger.enabled();
         Camera.setBackground(Utility.scaleImage("images/Background.png",SCREEN_WIDTH,SCREEN_HEIGHT));
+        Speaker.setTrack("sounds/background.mp3");
         
         red = new Player("red");
         red.bindKeyToAction('w',"up");
