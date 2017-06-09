@@ -32,7 +32,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
     }
     
     private void fillActions() {
-        HashMap <String, KeyCommand> keyMapPressed = exampleEntity.getKeyMapPressed(this);
+        HashMap <String, KeyCommand> keyMapPressed = DebugTool.getInstance().getEntityKeyMapPressed(exampleEntity);
         ArrayList <Key> keys = exampleEntity.getKeys();
         HashMap<KeyCommand, String> keyMapPressed$ = new HashMap<>();
         for (String action: keyMapPressed.keySet()){
