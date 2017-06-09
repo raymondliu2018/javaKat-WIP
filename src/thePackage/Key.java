@@ -60,15 +60,13 @@ public final class Key {
         if (requestor instanceof DebuggerTag) {
             return commandPressed;
         }
-        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
-        return null;
+        throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
     }
     
     public KeyCommand getCommandReleased(Object requestor) {
         if (requestor instanceof DebuggerTag) {
             return commandReleased;
         }
-        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
-        return null;
+        throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
     }
 }

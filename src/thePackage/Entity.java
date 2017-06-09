@@ -10,6 +10,7 @@ package thePackage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import thePackage.debugger.DebugTool;
 import thePackage.debugger.DebuggerTag;
 
 public abstract class Entity
@@ -184,27 +185,24 @@ public abstract class Entity
     public final ArrayList<Button> getButtons() {return buttons;}
     
     public final HashMap<String, KeyCommand> getKeyMapPressed(Object requestor) {
-        if (requestor instanceof DebuggerTag){
+        if (requestor instanceof DebugTool){
             return keyMapPressed;
         }
-        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
-        return null;
+        throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
     }
     
     
     public final HashMap<String, KeyCommand> getKeyMapReleased(Object requestor) {
-        if (requestor instanceof DebuggerTag){
+        if (requestor instanceof DebugTool){
             return keyMapReleased;
         }
-        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
-        return null;
+        throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
     }
     
     public final boolean matchesClassOf(String input, Entity requestor) {
-        if (requestor instanceof DebuggerTag){
+        if (requestor instanceof DebugTool){
             return input.equals(this.getClass().getName());
         }
-        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
-        throw new RuntimeException();
+        throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
     }
 }
