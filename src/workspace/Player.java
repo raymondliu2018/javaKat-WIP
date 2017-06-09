@@ -17,6 +17,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public Player(String color) {
         super();
         this.color = color;
+        jukeBox.addTrack("sounds/primary.wav", "primary", 0.5f, false);
         rect.setLayer(5);
         Text creditsCounter = new Text();
         creditsCounter.setMessage(() -> {return Integer.toString(credits);});
@@ -57,6 +58,8 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     }
     
     public void primary() {
+        jukeBox.setCurrentTrack("primary");
+        jukeBox.loopCurrentTrack();
         switch( state ) {
             case FREE:
                 if (color.equals("red")){

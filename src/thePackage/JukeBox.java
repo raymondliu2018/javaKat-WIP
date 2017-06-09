@@ -21,54 +21,55 @@ public final class JukeBox {
         this(null);
     }
     
-    public void addSound(String input, String name, boolean set){
-        addSound(Loader.loadClip(input),name,set);
+    public void addTrack(String input, String name, boolean set){
+        addTrack(Loader.loadClip(input),name,set);
     }
     
-    public void addSound(String input, String name) {
-        addSound(Loader.loadClip(input),name);
+    public void addTrack(String input, String name) {
+        addTrack(Loader.loadClip(input),name);
     }
     
-    public void addSound(Clip input, String name) {
+    public void addTrack(Clip input, String name) {
         clipMap.put(name,input);
         setVolumeOfNamedClip(name,1.0f);
     }
-    public void addSound(Clip input, String name, boolean set) {
-        addSound(input,name);
+    public void addTrack(Clip input, String name, boolean set) {
+        addTrack(input,name);
         if (set) {
-            setSound(name);
+            setCurrentTrack(name);
         }
     }
     
-    public void addSound(String input, String name, float volume) {
-        addSound(Loader.loadClip(input),name,volume);
+    public void addTrack(String input, String name, float volume) {
+        addTrack(Loader.loadClip(input),name,volume);
     }
     
-    public void addSound(Clip input, String name, float volume) {
-        addSound(input,name);
+    public void addTrack(Clip input, String name, float volume) {
+        addTrack(input,name);
         setVolumeOfNamedClip(name,volume);
     }
     
-    public void addSound(Clip input, String name, float volume, boolean set) {
-        addSound(input,name,volume);
+    public void addTrack(Clip input, String name, float volume, boolean set) {
+        addTrack(input,name,volume);
         if (set) {
-            setSound(name);
+            setCurrentTrack(name);
         }
     }
     
-    public void addSound(String input, String name, float volume, boolean set) {
-        addSound(Loader.loadClip(input),name,volume,set);
+    public void addTrack(String input, String name, float volume, boolean set) {
+        addTrack(Loader.loadClip(input),name,volume,set);
     }
     
-    public String getCurrentSound() {
+    public String getCurrentTrack() {
         return currentString;
     }
     
-    public void setSound(String input){
+    public void setCurrentTrack(String input){
         currentString = input;
+        currentClip = clipMap.get(currentString);
     }
     
-    public void playSound(){
+    public void playCurrentTrack(){
         if (currentString != null){
             currentClip = clipMap.get(currentString);
             currentClip.setFramePosition(0);
@@ -102,7 +103,7 @@ public final class JukeBox {
         return (float) Math.log10(input) * 20.0f;
     }
     
-    public void interrupt() {
+    public void interruptCurrentTrack() {
         if (currentClip != null) {
             currentClip.stop();
         }
@@ -111,12 +112,21 @@ public final class JukeBox {
         }
     }
     
-    public void proceed(){
+    public void proceedCurrentTrack(){
         if (currentClip != null) {
             currentClip.start();
         }
         else {
             System.out.println("No clip to continue");
+        }
+    }
+    
+    public void loopCurrentTrack() {
+        if (currentClip != null) {
+            currentClip.loop(Clip.LOOP_CONTINUOUSLY);
+        }
+        else {
+            System.out.println("No clip to loop");
         }
     }
     

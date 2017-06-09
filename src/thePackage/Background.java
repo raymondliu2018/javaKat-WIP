@@ -30,8 +30,8 @@ final class Background extends Entity implements DebuggerTag {
     }
     
     protected void set(Clip input) {
-        jukeBox.addSound(input,"main",true);
-        jukeBox.playSound();
+        jukeBox.addTrack(input,"main",true);
+        jukeBox.loopCurrentTrack();
     }
     
     protected void set(float input) {
