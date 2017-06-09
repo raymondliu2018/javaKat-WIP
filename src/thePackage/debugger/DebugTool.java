@@ -1,4 +1,4 @@
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +68,7 @@ public final class DebugTool extends TrinketBase implements DebugToolSettings, D
     private int getOffset() {
         int total = 0;
         for (Integer width: entityDebugTrinketOffsetList){
-            total += width.intValue();
+            total += width;
         }
         return total;
     }

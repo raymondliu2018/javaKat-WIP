@@ -1,4 +1,4 @@
-package workspace;
+package workspace; 
 
 import thePackage.*;
 public abstract class Entity$ extends Entity

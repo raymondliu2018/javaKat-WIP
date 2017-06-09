@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 import java.util.ArrayList;
 import java.awt.image.BufferedImage;
@@ -9,10 +9,8 @@ public final class Camera extends Manipulator implements GameData
     private static double backgroundHeight;
     private static double backgroundWidth;
     private static ArrayList<Entity> focused;
-    private static Background background;
     
-    protected static void run()
-    {
+    protected static void run(){
         if (enabled) {
             centerX = 0.0;
             centerY = 0.0;
@@ -54,9 +52,7 @@ public final class Camera extends Manipulator implements GameData
     }
     
     public static void setBackground(BufferedImage input) {
-        if (background != null) {Manager.removeEntity(background);}
-        background = new Background(input);
-        Manager.queueNewEntity(background);
+        Background.getInstance().set(input);
         if (input != null) {
             backgroundWidth = input.getWidth(null);
             backgroundHeight = input.getHeight(null);

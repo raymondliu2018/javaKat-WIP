@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 abstract class Manipulator {
     protected static boolean enabled = true;

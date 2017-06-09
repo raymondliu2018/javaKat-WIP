@@ -1,5 +1,5 @@
 
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 import java.awt.Font;
 import java.util.ArrayList;

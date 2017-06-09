@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 import thePackage.debugger.DebuggerTag;
 

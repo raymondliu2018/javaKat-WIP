@@ -1,5 +1,5 @@
 
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 import java.awt.Font;
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, 
     private void listSizeErrorIncrement() {
         listSizeError += 1;
         if (listSizeError > DISPLAY_OVERFLOW){
-            listSizeError = 0;
+            listSizeError = -subRectDebugTrinkets.size();
         }
     }
 }

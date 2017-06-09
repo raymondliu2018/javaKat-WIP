@@ -1,12 +1,21 @@
-package thePackage;
+package thePackage;  
 
 import java.awt.image.BufferedImage;
+import javax.sound.sampled.Clip;
 import thePackage.debugger.DebuggerTag;
-public final class Background extends Entity implements DebuggerTag {
-    protected Background(BufferedImage picture) {
+final class Background extends Entity implements DebuggerTag {
+    protected static Background instance;
+    private Background() {
         super();
-        set(picture);
         rect.setLayer(0);
+    }
+    
+    public static Background getInstance() {
+        if (instance == null) {
+            instance = new Background();
+            Manager.queueNewEntity(instance);
+        }
+        return instance;
     }
     
     protected void set(BufferedImage input) {
@@ -17,8 +26,16 @@ public final class Background extends Entity implements DebuggerTag {
             System.out.println("Frame did not resize: Invalid image");
         }
         sprite.clearImages();
-        sprite.addImage(input,"main");
-        sprite.setImage("main");
+        sprite.addImage(input,"main",true);
+    }
+    
+    protected void set(Clip input) {
+        jukeBox.addTrack(input,"main",true);
+        jukeBox.loopCurrentTrack();
+    }
+    
+    protected void set(float input) {
+        jukeBox.setVolumeOfCurrentClip(input);
     }
     
     public void subUpdate(){

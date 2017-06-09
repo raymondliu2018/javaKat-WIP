@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 public interface SuperScript {
    public static void init(){}

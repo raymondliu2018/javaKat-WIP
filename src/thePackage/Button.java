@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 class Button{
     private Entity owner;

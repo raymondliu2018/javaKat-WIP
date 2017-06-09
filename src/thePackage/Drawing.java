@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 final class Drawing extends Manipulator implements GameData {
     protected static void run() {

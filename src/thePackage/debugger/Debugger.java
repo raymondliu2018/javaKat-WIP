@@ -1,5 +1,5 @@
 
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 import thePackage.Manager;
 public class Debugger {
@@ -10,6 +10,5 @@ public class Debugger {
         temp.getRect().setCornerX(0);
         temp.getRect().setCornerY(0);
         Manager.queueNewEntity(temp);
-        
     }
 }

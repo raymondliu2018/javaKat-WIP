@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 import java.util.*;
 import java.awt.event.*;
@@ -9,6 +9,8 @@ public final class GameMaster implements GameData
     private static Frame frame;
     private static Timer looper;
     private static Looper loop;
+    private static long loopStartTime;
+    private static long loopEndTime;
     
     private GameMaster(String name) {
         frame = new Frame(name);
@@ -44,5 +46,17 @@ public final class GameMaster implements GameData
     
     public static void disable() {
         loop.disable();
+    }
+    
+    protected static long getRunTime() {
+        return loopEndTime - loopStartTime;
+    }
+    
+    protected static void recordStartTime(long input) {
+        loopStartTime = input;
+    }
+    
+    protected static void recordEndTime(long input){
+        loopEndTime = input;
     }
 }

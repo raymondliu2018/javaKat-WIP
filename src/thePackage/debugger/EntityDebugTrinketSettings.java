@@ -1,5 +1,5 @@
 
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 public interface EntityDebugTrinketSettings {
     public static int ENTITY_TYPE_OFFSET_X = 0;

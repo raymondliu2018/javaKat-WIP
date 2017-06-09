@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 public final class GameEnder {
     public static void disableUpdates() {

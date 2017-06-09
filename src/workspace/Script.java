@@ -1,4 +1,4 @@
-package workspace;
+package workspace; 
 import thePackage.*;
 import java.awt.Font;
 import java.awt.Color;
@@ -8,9 +8,10 @@ import thePackage.debugger.Debugger;
 public class Script implements SuperScript ,PlayerData {
     static Player red,blue;
     static String winner = null;
-    public static void init() {
+    public static void init() { 
         Debugger.enabled();
         Camera.setBackground(Utility.scaleImage("images/Background.png",SCREEN_WIDTH,SCREEN_HEIGHT));
+        Speaker.setBackground("sounds/background.wav", 1.0f);
         
         red = new Player("red");
         red.bindKeyToAction('w',"up");
