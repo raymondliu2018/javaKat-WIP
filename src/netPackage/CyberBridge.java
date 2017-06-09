@@ -12,14 +12,16 @@ public final class CyberBridge extends Thread implements CyberCompass{
     private CyberPort cyberPort;
     private InetAddress cyberFleet;
     private Role role;
+    private static CyberBridge cyberBridge;
     
     public static void setSail(Object requestor) {
         if (requestor instanceof GameMaster){
-            new CyberBridge().start();
+            cyberBridge = new CyberBridge();
+            cyberBridge.start();
         }
         else {
             System.out.println("Object starting server was not GameMaster!!!");
-            System.exit(0);
+            throw new IllegalArgumentException("SET_SAIL-ATTEMPTING_STARTUP");
         }
     }
     
@@ -45,11 +47,12 @@ public final class CyberBridge extends Thread implements CyberCompass{
         }
         catch (IOException e) {
             System.out.println("Failed to bind to port " + CYBER_DOCK);
-            System.exit(0);
+            throw new RuntimeException("CYBERBRIDGE-PORT_BINDING");
         }
         if (role == Role.FLAGSHIP) {
             System.out.print("Server created at: ");
             System.out.println(cyberPort.getInetAddress().toString());
+            CYBER_FLEET.concat(cyberPort.getInetAddress().toString());
         }
         else if (role == Role.SUBMARINE){
             System.out.println("Enter server IP Address: ");
@@ -59,9 +62,8 @@ public final class CyberBridge extends Thread implements CyberCompass{
             cyberFleet = InetAddress.getByName(CYBER_FLEET);
         }
         catch (UnknownHostException e) {
-            cyberFleet = null;
             System.out.println("Unable to connect");
-            System.exit(0);
+            throw new RuntimeException("CYBERBRIDGE-CONNECT_TO_CYBERFLEET");
         }
     }
     
@@ -76,14 +78,14 @@ public final class CyberBridge extends Thread implements CyberCompass{
                 }
                 catch (InterruptedException e){
                     System.out.println("Internal error");
-                    System.exit(0);
+                    throw new RuntimeException("RUN-CYBERBRIDGE_INTERRUPTED");
                 }
                 try {
                     cyberPort.send(cyberFrigate);
                 }
                 catch (IOException e) {
                     System.out.println("Internal error");
-                    System.exit(0);
+                    throw new RuntimeException("RUN-SEND_CYBERFRIGATE");
                 }
             }
             else if (role == Role.SUBMARINE){
@@ -92,14 +94,7 @@ public final class CyberBridge extends Thread implements CyberCompass{
                 }
                 catch(IOException e) {
                     System.out.println("Internal error");
-                    System.exit(0);
-                }
-                try {
-                    this.wait();
-                }
-                catch (InterruptedException e) {
-                    System.out.println("Internal error");
-                    System.exit(0);
+                    throw new RuntimeException("RUN-RECEIVE_CYBERFRIGATE");
                 }
                 cyberMap = cyberFrigate.getData();
                 CyberChart.replaceMap(cyberMap);
