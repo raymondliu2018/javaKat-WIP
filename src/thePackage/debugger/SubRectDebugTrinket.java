@@ -30,12 +30,12 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
         Text angle = new Text();
         formatText(angle);
         angle.setMessage(() -> {
-            double temp = rectInfo.getAngle();
-            if (temp == Double.MAX_VALUE) {
+            double temp = rectInfo.getVelocityAngle();
+            if (temp == Double.NaN) {
                 return "???";
             }
             else {
-                return roundDouble(180 * rectInfo.getAngle() / Math.PI);
+                return roundDouble(180 * rectInfo.getVelocityAngle() / Math.PI);
             }
         });
         addStat(angle);

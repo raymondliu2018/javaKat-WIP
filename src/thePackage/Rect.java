@@ -14,8 +14,8 @@ public final class Rect{
     private double yAcceleration = 0.0;
     private double xMomentum = 0.0;
     private double yMomentum = 0.0;
-    private double maximumXVelocity = Integer.MAX_VALUE;
-    private double maximumYVelocity = Integer.MAX_VALUE;
+    private double maximumXVelocity = Double.MAX_VALUE;
+    private double maximumYVelocity = Double.MAX_VALUE;
     private double fric = 0.0;
     
     public Rect(Entity input){
@@ -24,7 +24,10 @@ public final class Rect{
     /**
      * @param input set the size of the rect
      */ 
-    public void setSize( double initWidth, double initHeight ) {width = initWidth; height = initHeight;}
+    public void setSize( double inputx, double inputy ) {
+        setWidth(inputx);
+        setHeight(inputy);
+    }
     /**
      * @param input set the width of the rect
      */
@@ -36,82 +39,152 @@ public final class Rect{
     /**
      * @param input set the center position of the rect
      */
-    public void setCenterPosition( double centerx, double centery ) {xPosition = centerx; yPosition = centery;}
+    public void setCenterPosition(double inputx, double inputy ) {
+        setCenterX(inputx);
+        setCenterY(inputy);
+    }
     /**
      * @param input set the center x of the rect
      */
-    public void setCenterX( double input ) {xPosition = input;}
+    public void setCenterX(double input) {xPosition = input;}
     /**
      * @param input set the center y of the rect
      */
-    public void setCenterY( double input ) {yPosition = input;}
+    public void setCenterY(double input) {yPosition = input;}
     /**
      * @param input set the top left corner position of the rect
      */
-    public void setCornerPosition( double cornerx, double cornery ) {xPosition = cornerx + width/2.0; yPosition = cornery + height/2.0;}
+    public void setCornerPosition(double inputx, double inputy) {
+        setCornerX(inputx);
+        setCornerY(inputy);
+    }
     /**
      * @param input set the top left corner xof the rect
      */
-    public void setCornerX( double input ) {xPosition = input + width/2;}
+    public void setCornerX(double input) {
+        xPosition = input + width/2;
+    }
     /**
      * @param input set the top left corner y of the rect
      */
-    public void setCornerY( double input ) {yPosition = input + height/2;}
+    public void setCornerY(double input) {
+        yPosition = input + height/2;
+    }
     /**
-     * @param input set velocity of the rect
+     * @param inputx set x velocity of the rect
+     * @param inputy set y velocity of the rect
      */
-    public void setVelocity( double velocityx, double velocityy ) {xVelocity = velocityx; yVelocity = velocityy;}
+    public void setVelocity(double inputx, double inputy) {
+        setXVelocity(inputx);
+        setYVelocity(inputy);
+    }
     /**
      * @param input set the xvelocity of the rect
      */
-    public void setXVelocity( double input ) {xVelocity = input;}
+    public void setXVelocity(double input) {
+        xVelocity = ( input > 0 ) ? Math.min( input , maximumXVelocity ) : Math.max( input , -maximumXVelocity );
+    }
     /**
      * @param input set the y velocity of the rect
      */
-    public void setYVelocity( double input ) {yVelocity = input;}
+    public void setYVelocity(double input) {
+        yVelocity = ( input > 0 ) ? Math.min( input , maximumYVelocity ) : Math.max( input , -maximumYVelocity );
+    }
+    
+    public void offsetVelocityBy(double inputx, double inputy) {
+        offsetXVelocityBy(inputx);
+        offsetYVelocityBy(inputy);
+    }
+    
+    public void offsetXVelocityBy(double input) {
+        setXVelocity(xVelocity + input);
+    }
+    
+    public void offsetYVelocityBy(double input) {
+        setYVelocity(yVelocity + input);
+    }
     /**
      * @param input set the friction of the rect
      */
-    public void setFriction( double input ) {fric = input;}
+    public void setFriction(double input) {fric = input;}
     /**
      * @param input set the mass of the rect
      */
-    public void setMass( double input ) {mass = input;}
+    public void setMass(double input) {mass = input;}
     /**
      * @param input set the maximum speed of the rect
      */
-    public void setMaxSpeed( double input ) {maximumXVelocity = input; maximumYVelocity = input;}
+    public void setMaxSpeed(double input) {
+        setMaxXSpeed(input);
+        setMaxYSpeed(input);
+    }
+    
+    public void setMaxSpeed(double inputx, double inputy) {
+        setMaxXSpeed(inputx);
+        setMaxYSpeed(inputy);
+    }
     /**
      * @param input set the maximum xspeed of the rect
      */
-    public void setMaxXSpeed( double input ) {maximumXVelocity = input;}
+    public void setMaxXSpeed(double input) {
+        maximumXVelocity = input;
+    }
     /**
      * @param input set the maximum y speed of the rect
      */
-    public void setMaxYSpeed( double input ) {maximumYVelocity = input;}
+    public void setMaxYSpeed(double input) {
+        maximumYVelocity = input;
+    }
     /**
      * @param teleportx teleport this many units in the x-direction
      * @param teleporty teleport this many units in the y-direction
      */
-    public void teleportBy( double teleportx, double teleporty ){
-        xPosition += teleportx;
-        yPosition += teleporty;
+    public void offsetPositionBy(double inputx, double inputy){
+        offsetXPositionBy(inputx);
+        offsetYPositionBy(inputy);
+    }
+    
+    public void offsetXPositionBy(double input){
+        setCenterX(getCenterX() + input);
+    }
+    
+    public void offsetYPositionBy(double input) {
+        setCenterY(getCenterY() + input);
     }
     /**
      * calculate and incorperate the jerk in the the rect's movement
      */
-    public void jerk(double jerkx, double jerky) {
-        xAcceleration += jerkx;
-        yAcceleration += jerky;
+    public void setAcceleration(double inputx, double inputy) {
+        setXAcceleration(inputx);
+        setYAcceleration(inputy);
+    }
+    
+    public void setXAcceleration(double input) {
+        xAcceleration = input;
+    }
+    
+    public void setYAcceleration(double input) {
+        yAcceleration = input;
+    }
+    
+    public void offsetAccelerationBy(double inputx, double inputy) {
+        offsetXAccelerationBy(inputx);
+        offsetYAccelerationBy(inputy);
+    }
+    
+    public void offsetXAccelerationBy(double input){
+        xAcceleration += input;
+    }
+    
+    public void offsetYAccelerationBy(double input){
+        yAcceleration += input;
     }
     /**
      * stop all movement
      */
     public void stop() {
-        xVelocity = 0;
-        yVelocity = 0;
-        xAcceleration = 0;
-        yAcceleration = 0;
+        stopX();
+        stopY();
     }
     
     public void stopX() {
@@ -122,15 +195,6 @@ public final class Rect{
     public void stopY() {
         yVelocity = 0;
         yAcceleration = 0;
-    }
-    
-    /**
-     * inplement acceleration into the movement
-     */
-    public void accel(double aX, double aY)
-    {
-        xVelocity = ( aX > 0 ) ? Math.min( xVelocity + aX , maximumXVelocity ) : Math.max( xVelocity + aX , -maximumXVelocity );
-        yVelocity = ( aY > 0 ) ? Math.min( yVelocity + aY , maximumYVelocity ) : Math.max( yVelocity + aY , -maximumYVelocity );
     }
     /**
      * updates the momentum of the chosen object
@@ -143,14 +207,12 @@ public final class Rect{
     /**
      * the all-in-one update function that updates the accel, position, and momentum of the selected object
      */
-    public void update()
-    {
-        accel((xVelocity == 0) ? 0 : (( xVelocity > 0 ) ? Math.max(-fric, -xVelocity) : Math.min(fric,-xVelocity )) ,
+    public void update(){
+        offsetVelocityBy((xVelocity == 0) ? 0 : (( xVelocity > 0 ) ? Math.max(-fric, -xVelocity) : Math.min(fric,-xVelocity )) ,
               (yVelocity == 0) ? 0 : (( yVelocity > 0 ) ? Math.max(-fric, -yVelocity) : Math.min(fric,-yVelocity )));
-        accel(xAcceleration,yAcceleration);
+        offsetVelocityBy(xAcceleration,yAcceleration);
         updateMomentum();
-        xPosition += xVelocity;
-        yPosition += yVelocity;
+        offsetPositionBy(xVelocity,yVelocity);
     }
     /**
      * Movement when friction is negligible 
@@ -220,12 +282,21 @@ public final class Rect{
      */
     public double getCornerY() {return yPosition - height/2;}
     
-    public double getAngle() {
+    public double getVelocityAngle() {
         if (xVelocity == 0 && yVelocity == 0){
-            return Double.MAX_VALUE;
+            return Double.NaN;
         }
         else {
             return Math.atan2(xVelocity, -yVelocity);
+        }
+    }
+    
+    public double getAccelerationAngle() {
+        if (xAcceleration == 0 && yAcceleration == 0) {
+            return Double.NaN;
+        }
+        else {
+            return Math.atan2(xAcceleration, -yAcceleration);
         }
     }
 }

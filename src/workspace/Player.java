@@ -266,7 +266,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public void left() {
         switch( state ) {
             case FREE:
-                rect.accel(-CURSORSPEED,0.0);
+                rect.offsetVelocityBy(-CURSORSPEED,0.0);
                 break;
             case PLACING_BUILDING:
                 break;
@@ -278,7 +278,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public void right() {
         switch( state ) {
             case FREE:
-                rect.accel(CURSORSPEED,0.0);
+                rect.offsetVelocityBy(CURSORSPEED,0.0);
                 break;
             case PLACING_BUILDING:
                 break;
@@ -290,7 +290,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public void down() {
         switch( state ) {
             case FREE:
-                rect.accel(0.0,CURSORSPEED);
+                rect.offsetVelocityBy(0.0,CURSORSPEED);
                 break;
             case PLACING_BUILDING:
                 break;
@@ -302,7 +302,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public void up() {
         switch( state ) {
             case FREE:
-                rect.accel(0.0,-CURSORSPEED);
+                rect.offsetVelocityBy(0.0,-CURSORSPEED);
                 break;
             case PLACING_BUILDING:
                 break;
@@ -314,7 +314,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public void stopLeft() {
         switch( state ) {
             case FREE:
-                rect.accel(CURSORSPEED,0.0);
+                rect.offsetVelocityBy(CURSORSPEED,0.0);
                 break;
             case PLACING_BUILDING:
             case USING_BUILDING:
@@ -339,7 +339,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public void stopRight() {
         switch( state ) {
             case FREE:
-                rect.accel(-CURSORSPEED,0.0);
+                rect.offsetVelocityBy(-CURSORSPEED,0.0);
                 break;
             case USING_BUILDING:
             case PLACING_BUILDING:
@@ -364,7 +364,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public void stopUp() {
         switch( state ) {
             case FREE:
-                rect.accel(0.0,CURSORSPEED);
+                rect.offsetVelocityBy(0.0,CURSORSPEED);
                 break;
             case USING_BUILDING:
             case PLACING_BUILDING:
@@ -389,7 +389,7 @@ public class Player extends Entity implements PlayerData, GameData, MinionData{
     public void stopDown() {
         switch( state ) {
             case FREE:
-                rect.accel(0.0,-CURSORSPEED);
+                rect.offsetVelocityBy(0.0,-CURSORSPEED);
                 break;
             case USING_BUILDING:
             case PLACING_BUILDING:

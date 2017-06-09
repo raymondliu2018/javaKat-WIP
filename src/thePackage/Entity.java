@@ -24,7 +24,7 @@ public abstract class Entity
     protected Rect rect;
     protected int timer;
     protected ArrayList<Text> stats;
-    protected boolean rotating = false;
+    protected RotationMode rotationMode = RotationMode.NONE;
     
     public Entity() {
         rect = new Rect(this);
@@ -93,10 +93,16 @@ public abstract class Entity
     }
     
     final void rotationUpdate() {
-        if (rotating){
-            double temp = rect.getAngle();
-            if (temp != Double.MAX_VALUE){
-                sprite.rotateCurrentImage(temp);
+        if (rotationMode == RotationMode.BY_VELOCITY){
+            double angle = rect.getVelocityAngle();
+            if (angle != Double.NaN){
+                sprite.rotateCurrentImage(angle);
+            }
+        }
+        if (rotationMode == RotationMode.BY_ACCELERATION){
+            double angle = rect.getAccelerationAngle();
+            if (angle != Double.NaN){
+                sprite.rotateCurrentImage(angle);
             }
         }
     }

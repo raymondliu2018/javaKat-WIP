@@ -10,7 +10,7 @@ public class DefenseMinion extends Minion implements MinionData{
         if (timer - internalTimer2 >= DEFENSE_MINION_JITTER_TIMER){
             internalTimer2 = timer;
             System.out.println("trying");
-            rect.accel(speed * (Math.random() * 2 - 1), speed * (Math.random() * 2 - 1));
+            rect.offsetVelocityBy(speed * (Math.random() * 2 - 1), speed * (Math.random() * 2 - 1));
             dealDamage(DEFENSE_MINION_DECAY_RATE);
         }
     }
