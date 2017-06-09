@@ -82,13 +82,13 @@ public final class Rect{
      * @param input set the xvelocity of the rect
      */
     public void setXVelocity(double input) {
-        xVelocity = ( input > 0 ) ? Math.min( xVelocity + input , maximumXVelocity ) : Math.max( xVelocity + input , -maximumXVelocity );
+        xVelocity = ( input > 0 ) ? Math.min( input , maximumXVelocity ) : Math.max( input , -maximumXVelocity );
     }
     /**
      * @param input set the y velocity of the rect
      */
     public void setYVelocity(double input) {
-        yVelocity = ( input > 0 ) ? Math.min( yVelocity + input , maximumYVelocity ) : Math.max( yVelocity + input , -maximumYVelocity );
+        yVelocity = ( input > 0 ) ? Math.min( input , maximumYVelocity ) : Math.max( input , -maximumYVelocity );
     }
     
     public void offsetVelocityBy(double inputx, double inputy) {
@@ -97,11 +97,11 @@ public final class Rect{
     }
     
     public void offsetXVelocityBy(double input) {
-        setXVelocity(getXVelocity() + input);
+        setXVelocity(xVelocity + input);
     }
     
     public void offsetYVelocityBy(double input) {
-        setYVelocity(getYVelocity() + input);
+        setYVelocity(yVelocity + input);
     }
     /**
      * @param input set the friction of the rect
@@ -212,8 +212,7 @@ public final class Rect{
               (yVelocity == 0) ? 0 : (( yVelocity > 0 ) ? Math.max(-fric, -yVelocity) : Math.min(fric,-yVelocity )));
         offsetVelocityBy(xAcceleration,yAcceleration);
         updateMomentum();
-        xPosition += xVelocity;
-        yPosition += yVelocity;
+        offsetPositionBy(xVelocity,yVelocity);
     }
     /**
      * Movement when friction is negligible 
@@ -283,12 +282,21 @@ public final class Rect{
      */
     public double getCornerY() {return yPosition - height/2;}
     
-    public double getAngle() {
+    public double getVelocityAngle() {
         if (xVelocity == 0 && yVelocity == 0){
-            return Double.MAX_VALUE;
+            return Double.NaN;
         }
         else {
             return Math.atan2(xVelocity, -yVelocity);
+        }
+    }
+    
+    public double getAccelerationAngle() {
+        if (xAcceleration == 0 && yAcceleration == 0) {
+            return Double.NaN;
+        }
+        else {
+            return Math.atan2(xAcceleration, -yAcceleration);
         }
     }
 }

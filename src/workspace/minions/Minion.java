@@ -20,7 +20,7 @@ public abstract class Minion extends Entity$ implements GameData, MinionData, Bu
     
     public Minion(String color){
         super(color);
-        rotating = true;
+        rotationMode = RotationMode.BY_VELOCITY;
         Text text = new Text();
         if (this.getColor().equals("red")){
             text.setColor(Color.RED);
