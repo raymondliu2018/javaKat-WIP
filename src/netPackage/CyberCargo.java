@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import thePackage.GameData;
 
 class CyberCargo implements Serializable{
-    private ArrayList allEntities, focusedEntities, keys, buttons, layers, files, images, enders;
+    private ArrayList allEntities, focusedEntities, keys, buttons, layers, soundFiles, imageFiles, images, sounds, enders;
     private CopyOnWriteArrayList sprites, stats;
     private static CyberCargo storage;
     
@@ -17,8 +17,10 @@ class CyberCargo implements Serializable{
         pack(keys,GameData.keys);
         pack(buttons,GameData.buttons);
         pack(layers,GameData.layers);
-        pack(files,GameData.files);
+        pack(soundFiles,GameData.soundFiles);
+        pack(imageFiles,GameData.imageFiles);
         pack(images,GameData.images);
+        pack(sounds,GameData.sounds);
         pack(enders,GameData.enders);
         pack(sprites,GameData.sprites);
         pack(stats,GameData.stats);
@@ -33,8 +35,10 @@ class CyberCargo implements Serializable{
         unpack(GameData.keys,input.keys);
         unpack(GameData.buttons,input.buttons);
         unpack(GameData.layers,input.layers);
-        unpack(GameData.files,input.files);
+        unpack(GameData.imageFiles,input.imageFiles);
+        unpack(GameData.soundFiles,input.soundFiles);
         unpack(GameData.images,input.images);
+        unpack(GameData.sounds,input.sounds);
         unpack(GameData.enders,input.enders);
         unpack(GameData.sprites,input.sprites);
         unpack(GameData.stats,input.stats);
