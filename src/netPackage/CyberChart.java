@@ -13,38 +13,39 @@ class CyberChart {
         try {
             objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
             
-            objectOutputStream.writeObject(CyberCargo.pack());
-            return byteArrayOutputStream.toByteArray();
         }
         catch (IOException e) {
             System.out.println("Internal errors");
-            System.exit(0);
-            return null;
+            throw new RuntimeException("GET_MAP-CREATE_OBJECT_OUTPUT_STREAM");
         }
+        try {
+            objectOutputStream.writeObject(CyberCargo.pack());
+        }
+        catch (IOException e) {
+            System.out.println("Internal errors");
+            throw new RuntimeException("GET_MAP-WRITE_OBJECT");
+        }
+        return byteArrayOutputStream.toByteArray();
     }
     
     protected static void replaceMap(byte [] input) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
+        CyberCargo cyberCargo;
         ObjectInputStream objectInputStream;
         try {
             objectInputStream = new ObjectInputStream(byteArrayInputStream);
         }
         catch (IOException e) {
-            objectInputStream = null;
             System.out.println("Internal errors");
-            System.exit(0);
+            throw new RuntimeException("REPLACE_MAP-CREATE_OBJECT_INPUT_STREAM");
         }
         try {
-            CyberCargo cyberCargo = (CyberCargo) objectInputStream.readObject();
-            CyberCargo.store(cyberCargo);
+            cyberCargo = (CyberCargo) objectInputStream.readObject();
         }
-        catch (IOException e) {
+        catch (IOException | ClassNotFoundException e) {
             System.out.println("Internal errors");
-            System.exit(0);
+            throw new RuntimeException("REPLACE_MAP-READ_OBJECT");
         }
-        catch (ClassNotFoundException e) {
-            System.out.println("Internal errors");
-            System.exit(0);
-        }
+        CyberCargo.store(cyberCargo);
     }
 }
