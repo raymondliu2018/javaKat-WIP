@@ -18,8 +18,7 @@ public final class Manager extends Manipulator implements GameData{
         if (requestor instanceof DebuggerTag){
             return queuedCommands.isEmpty();
         }
-        System.out.println(DebuggerTag.DEBUGGER_MESSAGE);
-        throw new RuntimeException();
+        throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
     }
     
     public static void queueWipeAll() {

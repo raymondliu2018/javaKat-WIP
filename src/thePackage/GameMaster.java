@@ -12,7 +12,7 @@ public final class GameMaster implements GameData
     private static long loopStartTime;
     private static long loopEndTime;
     
-    public GameMaster(String name) {
+    private GameMaster(String name) {
         frame = new Frame(name);
         looper = new Timer();
         Script.init();
@@ -21,6 +21,10 @@ public final class GameMaster implements GameData
     }
     
     public static Frame getFrame() {return frame;}
+    
+    public static void start(String name) {
+        new GameMaster(name);
+    }
     
     protected static void stop() {
         looper.cancel();

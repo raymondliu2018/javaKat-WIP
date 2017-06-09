@@ -42,7 +42,7 @@ public class Script implements SuperScript ,PlayerData {
     }
     
     public static void main(String [] args) {
-        new GameMaster("NAME");
+        GameMaster.start("NAME");
     }
     
     public static void loop() {

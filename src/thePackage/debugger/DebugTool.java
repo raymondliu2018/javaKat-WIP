@@ -7,11 +7,13 @@ import thePackage.Entity;
 import thePackage.GameData;
 import thePackage.Manager;
 
-public class DebugTool extends TrinketBase implements DebugToolSettings, DebuggerTag{
+public final class DebugTool extends TrinketBase implements DebugToolSettings, DebuggerTag{
     private ArrayList<String> entityTypes;
     private ArrayList<Entity> registeredEntities;
     private ArrayList<Integer> entityDebugTrinketOffsetList;
     private HashMap<String,EntityDebugTrinket> entityDebugTrinketMap;
+    private static DebugTool instance = null;
+    
     protected DebugTool() {
         super(0,0);
         entityTypes = new ArrayList<>();
@@ -20,7 +22,13 @@ public class DebugTool extends TrinketBase implements DebugToolSettings, Debugge
         registeredEntities = new ArrayList<>();
         sprite.addImage(IMAGE, "main", true);
         resizeByCorner();
+        instance = this;
     }
+    
+    protected static DebugTool getInstance() {
+        return instance;
+    }
+    
     public void subUpdate() {
         for (Entity input : GameData.allEntities){
             if (!(input instanceof DebuggerTag)){
@@ -78,5 +86,17 @@ public class DebugTool extends TrinketBase implements DebugToolSettings, Debugge
         Manager.queueNewEntity(entityDebugTrinket);
         entityTypes.add(input.getClass().getName());
         entityDebugTrinketMap.put(input.getClass().getName(),entityDebugTrinket);
+    }
+    
+    protected HashMap getEntityKeyMapPressed(Entity input){
+        return input.getKeyMapPressed(this);
+    }
+    
+    protected HashMap getEntityKeyMapReleased(Entity input) {
+        return input.getKeyMapReleased(this);
+    }
+    
+    protected boolean entityClassMatchesString(Entity entity, String input){
+        return entity.matchesClassOf(input, this);
     }
 }
