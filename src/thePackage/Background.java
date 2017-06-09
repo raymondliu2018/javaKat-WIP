@@ -3,7 +3,7 @@ package thePackage;
 import java.awt.image.BufferedImage;
 import javax.sound.sampled.Clip;
 import thePackage.debugger.DebuggerTag;
-public final class Background extends Entity implements DebuggerTag {
+final class Background extends Entity implements DebuggerTag {
     protected static Background instance;
     private Background() {
         super();
@@ -32,6 +32,10 @@ public final class Background extends Entity implements DebuggerTag {
     protected void set(Clip input) {
         jukeBox.addSound(input,"main",true);
         jukeBox.playSound();
+    }
+    
+    protected void set(float input) {
+        jukeBox.setVolumeOfCurrentClip(input);
     }
     
     public void subUpdate(){
