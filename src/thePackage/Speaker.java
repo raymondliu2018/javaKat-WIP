@@ -10,6 +10,6 @@ public final class Speaker {
     }
     
     public static void setTrack(String input) {
-        
+        setTrack(Loader.loadClip(input));
     }
 }
