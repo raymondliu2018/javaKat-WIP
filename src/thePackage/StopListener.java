@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 import java.awt.event.*;
 import thePackage.GameMaster;

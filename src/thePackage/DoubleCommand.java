@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 public interface DoubleCommand {
     public double value();

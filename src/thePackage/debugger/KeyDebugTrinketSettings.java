@@ -1,4 +1,4 @@
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 public interface KeyDebugTrinketSettings {
     public static int FONT_SIZE = 12;

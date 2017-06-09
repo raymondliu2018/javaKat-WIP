@@ -1,4 +1,4 @@
-package workspace;
+package workspace; 
 
 import java.awt.Color;
 import thePackage.*;

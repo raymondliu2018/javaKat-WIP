@@ -1,5 +1,5 @@
 
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 public interface ControlDebugTrinketSettings {
     public static int FONT_SIZE = 12;

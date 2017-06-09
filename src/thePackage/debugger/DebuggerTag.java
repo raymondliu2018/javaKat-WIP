@@ -1,5 +1,5 @@
 
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 import java.awt.Color;
 import java.awt.Font;

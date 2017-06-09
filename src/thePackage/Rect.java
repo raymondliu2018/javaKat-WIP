@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 public final class Rect{
     private Entity owner;

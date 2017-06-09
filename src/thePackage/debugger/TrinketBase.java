@@ -1,4 +1,4 @@
-package thePackage.debugger;
+package thePackage.debugger; ;
 
 import thePackage.Entity;
 

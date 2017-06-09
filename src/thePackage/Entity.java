@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 /**
  * Every game character should be a subclass of Entity

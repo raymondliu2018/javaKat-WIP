@@ -1,4 +1,4 @@
-package thePackage;
+package thePackage;  
 
 import java.util.TimerTask;
 import workspace.Script;
