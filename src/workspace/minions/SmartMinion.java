@@ -36,7 +36,7 @@ public class SmartMinion extends Minion implements MinionData{
         if (destinationX != null){
             double tempY = destinationY != null ? destinationY : rect.getCenterY();
             double distance = getDistance(rect.getCenterX(),rect.getCenterY(),destinationX,tempY);
-            rect.accel((SMART_MINION_ACCELERATION_SCALE / distance) *
+            rect.offsetVelocityBy((SMART_MINION_ACCELERATION_SCALE / distance) *
                     (destinationX - rect.getCenterX()), 0);
             if (Math.abs(destinationX - rect.getCenterX()) <= SMART_MINION_TOLERANCE){
                 destinationX = null;
@@ -45,7 +45,7 @@ public class SmartMinion extends Minion implements MinionData{
         if (destinationY != null){
             double tempX = destinationX != null ? destinationX : rect.getCenterX();
             double distance = getDistance(rect.getCenterX(),rect.getCenterY(),tempX,destinationY);
-            rect.accel(0, (SMART_MINION_ACCELERATION_SCALE / distance) *
+            rect.offsetVelocityBy(0, (SMART_MINION_ACCELERATION_SCALE / distance) *
                     (destinationY - rect.getCenterY()));
             if (Math.abs(destinationY - rect.getCenterY()) <= SMART_MINION_TOLERANCE){
                 destinationY = null;

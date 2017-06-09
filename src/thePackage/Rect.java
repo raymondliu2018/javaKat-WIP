@@ -166,6 +166,19 @@ public final class Rect{
     public void setYAcceleration(double input) {
         yAcceleration = input;
     }
+    
+    public void offsetAccelerationBy(double inputx, double inputy) {
+        offsetXAccelerationBy(inputx);
+        offsetYAccelerationBy(inputy);
+    }
+    
+    public void offsetXAccelerationBy(double input){
+        xAcceleration += input;
+    }
+    
+    public void offsetYAccelerationBy(double input){
+        yAcceleration += input;
+    }
     /**
      * stop all movement
      */
