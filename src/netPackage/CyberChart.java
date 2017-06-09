@@ -36,7 +36,7 @@ class CyberChart {
         }
         try {
             CyberCargo cyberCargo = (CyberCargo) objectInputStream.readObject();
-            CyberCargo.unpack(cyberCargo);
+            CyberCargo.store(cyberCargo);
         }
         catch (IOException e) {
             System.out.println("Internal errors");
