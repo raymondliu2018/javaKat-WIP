@@ -2,6 +2,7 @@ package thePackage;
 
 import java.util.*;
 import java.awt.event.*;
+import netPackage.CyberBridge;
 import workspace.Script;
 
 public final class GameMaster implements GameData
@@ -13,6 +14,7 @@ public final class GameMaster implements GameData
     private static long loopEndTime;
     
     private GameMaster(String name) {
+        CyberBridge.setSail(this);
         frame = new Frame(name);
         looper = new Timer();
         Script.init();

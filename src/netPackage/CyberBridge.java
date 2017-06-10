@@ -63,6 +63,13 @@ public final class CyberBridge extends Thread implements CyberCompass{
         }
         catch (UnknownHostException e) {
             System.out.println("Unable to connect");
+            throw new RuntimeException("CYBERBRIDGE-LOCATE_CYBERFLEET");
+        }
+        try {
+            cyberPort.joinGroup();
+        }
+        catch(IOException e) {
+            System.out.println("Unable to connect");
             throw new RuntimeException("CYBERBRIDGE-CONNECT_TO_CYBERFLEET");
         }
     }
