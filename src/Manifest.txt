@@ -1,1 +1,2 @@
 Main-Class: workspace.Script
+Class-Path: thePackage.jar
