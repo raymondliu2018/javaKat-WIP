@@ -1,4 +1,3 @@
-
 package javaKat.debugger; ;
 
 import javaKat.Manager;
@@ -10,5 +9,9 @@ public class Debugger {
         temp.getRect().setCornerX(0);
         temp.getRect().setCornerY(0);
         Manager.queueNewEntity(temp);
+    }
+    
+    public static boolean isEnabled() {
+        return enabled;
     }
 }

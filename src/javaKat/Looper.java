@@ -1,6 +1,7 @@
 package javaKat;  
 
 import java.util.TimerTask;
+import javaKat.debugger.Debugger;
 import workspace.Script;
 final class Looper extends TimerTask implements GameData{
     
@@ -28,9 +29,11 @@ final class Looper extends TimerTask implements GameData{
         
         GameMaster.recordEndTime(System.nanoTime());
         
-        System.out.println(GameMaster.getRunTime()/1e6);
+        if (Debugger.isEnabled()) {
+            System.out.println(GameMaster.getRunTime()/1e6);
+        }
         
-        if (GameMaster.getRunTime() > 20 * 1e6){
+        if (GameMaster.getRunTime()/1e6 > 20){
             System.out.println("WARNING: OVERTIME");
         }
     }
