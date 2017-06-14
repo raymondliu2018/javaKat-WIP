@@ -62,11 +62,11 @@ public final class GameMaster implements GameData
         loopEndTime = input;
     }
     
-    public static void wait(int input) {
-        //try {
+    public static void pause(int input) {
+        try {
             instance.wait(input);
-        //} catch (InterruptedException ex) {
-        //    throw new RuntimeException("Waiting Interrupted");
-        //}
+        } catch (InterruptedException ex) {
+            throw new RuntimeException("Waiting Interrupted");
+        }
     }
 }
