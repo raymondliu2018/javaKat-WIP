@@ -12,6 +12,7 @@ public final class GameMaster implements GameData
     private static long loopStartTime;
     private static long loopEndTime;
     private static GameMaster instance;
+    private static int gameTick = 0;
     
     private GameMaster(String name) {
         frame = new Frame(name);
@@ -74,5 +75,13 @@ public final class GameMaster implements GameData
         catch (InterruptedException e) {
             throw new RuntimeException("Internal error");
         }
+    }
+    
+    protected static void tick() {
+        gameTick += 1;
+    }
+    
+    public int gameTick() {
+        return gameTick;
     }
 }

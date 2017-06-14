@@ -24,7 +24,11 @@ final class Looper extends TimerTask implements GameData{
         
         Drawing.run();
         
+        GameMaster.tick();
+        
         GameMaster.recordEndTime(System.nanoTime());
+        
+        System.out.println(GameMaster.getRunTime()/1e6);
         
         if (GameMaster.getRunTime() > 20 * 1e6){
             System.out.println("WARNING: OVERTIME");
