@@ -12,9 +12,13 @@ public final class GameMaster implements GameData
     private static long loopStartTime;
     private static long loopEndTime;
     private static GameMaster instance;
+    
     private GameMaster(String name) {
         frame = new Frame(name);
         looper = new Timer();
+    }
+    
+    private void init() {
         Script.init();
         loop = new Looper();
         looper.scheduleAtFixedRate(loop,20,20);
@@ -26,6 +30,7 @@ public final class GameMaster implements GameData
     
     public static void start(String name) {
         instance = new GameMaster(name + " - javaKat");
+        instance.init();
     }
     
     protected static void stop() {
