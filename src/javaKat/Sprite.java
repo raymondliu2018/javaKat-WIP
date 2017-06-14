@@ -130,9 +130,9 @@ public final class Sprite{
         y$ = null;
     }
     
-    public double getCornerX() {return x;}
+    public int getCornerX() {return (int) x;}
     
-    public double getCornerY() {return y;}
+    public int getCornerY() {return (int) y;}
     
     /**
      * @return get the current Image this Sprite is displaying

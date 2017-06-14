@@ -23,7 +23,7 @@ public final class GameMaster implements GameData
     public static Frame getFrame() {return frame;}
     
     public static void start(String name) {
-        new GameMaster(name + " +--]=====- javaKat");
+        new GameMaster(name + " - javaKat");
     }
     
     protected static void stop() {
