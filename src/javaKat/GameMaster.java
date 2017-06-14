@@ -11,7 +11,7 @@ public final class GameMaster implements GameData
     private static Looper loop;
     private static long loopStartTime;
     private static long loopEndTime;
-    
+    private static GameMaster instance;
     private GameMaster(String name) {
         frame = new Frame(name);
         looper = new Timer();
@@ -20,10 +20,12 @@ public final class GameMaster implements GameData
         looper.scheduleAtFixedRate(loop,20,20);
     }
     
+    private GameMaster getInstance() { return instance; }
+    
     public static Frame getFrame() {return frame;}
     
     public static void start(String name) {
-        new GameMaster(name + " - javaKat");
+        instance = new GameMaster(name + " - javaKat");
     }
     
     protected static void stop() {
@@ -61,10 +63,10 @@ public final class GameMaster implements GameData
     }
     
     public static void wait(int input) {
-        try {
-            loop.wait(input);
-        } catch (InterruptedException ex) {
-            throw new RuntimeException("Waiting Interrupted");
-        }
+        //try {
+            instance.wait(input);
+        //} catch (InterruptedException ex) {
+        //    throw new RuntimeException("Waiting Interrupted");
+        //}
     }
 }
