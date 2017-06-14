@@ -9,29 +9,25 @@ public final class Sprite{
     private HashMap<String,BufferedImage> images;
     private HashMap<String,BufferedImage> rotatedImages;
     private String currentKey;
-    private double x;
-    private double y;
+    private int x;
+    private int y;
+    private int layer;
     private DoubleCommand x$ = null;
     private DoubleCommand y$ = null;
-    private Entity owner;
-    protected Sprite(Entity input) {
-        owner = input;
-        images = new HashMap<>();
-        rotatedImages = new HashMap<>();
-    }
     
-    public Sprite() {
-        owner = null;
+    public Sprite(int input) {
+        layer = input;
         images = new HashMap<>();
         rotatedImages = new HashMap<>();
+        Manager.addSprite(this);
     }
     
     protected void update() {
         if (x$ != null) {
-            x = x$.value();
+            x = (int) x$.value();
         }
         if (y$ != null) {
-            y = y$.value();
+            y = (int) y$.value();
         }
     }
     
@@ -82,19 +78,17 @@ public final class Sprite{
      * @param d1 set the X position of this Sprite
      * @param d2 set the Y position of this Sprite
      */
-    public void setPos( double d1, double d2 ){
-        x = d1;
-        y = d2;
-        x$ = null;
-        y$ = null;
+    public void setCornerPosition( int inputx, int inputy ){
+        setCornerX(inputx);
+        setCornerY(inputy);
     }
     
-    public void setX(double input) {
+    public void setCornerX(int input) {
         x = input;
         x$ = null;
     }
     
-    public void setY(double input) {
+    public void setCornerY(int input) {
         y = input;
         y$ = null;
     }
@@ -102,16 +96,43 @@ public final class Sprite{
     /**
      * @param input bind code to the x position of this Sprite to automatically recalculate position
      */
-    public void setX(DoubleCommand input) {x$ = input;}
+    public void setCornerX(DoubleCommand input) {x$ = input;}
     
     /**
      * @param input bind code to the y position of this Sprite to automatically recalculate position
      */
-    public void setY(DoubleCommand input) {y$ = input;}
+    public void setCornerY(DoubleCommand input) {y$ = input;}
     
-    public double getX() {return x;}
+    public void setCenterPosition(int inputx, int inputy){
+        setCenterX(inputx);
+        setCenterX(inputy);
+    }
     
-    public double getY() {return y;}
+    public void setCenterX(DoubleCommand input) {
+        x$ = () -> {
+            return input.value() - getImage().getWidth()/2;
+        };
+    }
+    
+    public void setCenterY(DoubleCommand input) {
+        x$ = () -> {
+            return input.value() - getImage().getHeight()/2;
+        };
+    }
+    
+    public void setCenterX(int input) {
+        x = input - getImage().getWidth()/2;
+        x$ = null;
+    }
+    
+    public void setCenterY(int input) {
+        y = input - getImage().getHeight()/2;
+        y$ = null;
+    }
+    
+    public double getCornerX() {return x;}
+    
+    public double getCornerY() {return y;}
     
     /**
      * @return get the current Image this Sprite is displaying
@@ -173,8 +194,7 @@ public final class Sprite{
         
     }
     
-    /**
-     * @return get the Entity that controls this Sprite
-     */
-    public Entity getOwner() {return owner;}
+    public void setLayer(int input) {layer = input;}
+    
+    public int getLayer() {return layer;}
 }

@@ -15,6 +15,8 @@ import javaKat.debugger.DebuggerTag;
 
 public abstract class Entity
 {
+    private int layer;
+    private boolean superCalled = false;
     private HashMap<String,KeyCommand> keyMapPressed;
     private HashMap<String,KeyCommand> keyMapReleased;
     private ArrayList<Key> keys;
@@ -28,12 +30,15 @@ public abstract class Entity
     protected RotationMode rotationMode = RotationMode.NONE;
     
     public Entity() {
-        rect = new Rect(this);
         timer = 0;
+
+        layer = 1;
+        rect = new Rect(layer);
+        rect.setOwner(this);
         
-        sprite = new Sprite(this);
-        sprite.setX(() -> rect.getCornerX());
-        sprite.setY(() -> rect.getCornerY());
+        sprite = new Sprite(layer);
+        sprite.setCornerX(() -> rect.getCornerX());
+        sprite.setCornerY(() -> rect.getCornerY());
         
         jukeBox = new JukeBox(this);
         
@@ -42,6 +47,8 @@ public abstract class Entity
         buttons = new ArrayList<>();
         keyMapPressed = new HashMap<>();
         keyMapReleased = new HashMap<>();
+        superCalled = true;
+        Manager.queueNewEntity(this);
     }
     
     //Sprite
@@ -123,7 +130,8 @@ public abstract class Entity
      * @return return true to simulate a normal collision
      */
     public boolean collidedWith(Entity input) {
-        return false;}
+        return false;
+    }
     
     //Stats
     /**
@@ -131,7 +139,6 @@ public abstract class Entity
      */
     public final void addStat( Text input ) {
         stats.add(input);
-        Manager.addStat(input);
     }
     
     /**
@@ -166,7 +173,7 @@ public abstract class Entity
      * intended to be constant across all instances of a subclass of Entity
      * null when no code is to be triggered
      */
-    public final void bindCodeToAction( String s1, KeyCommand a1 , KeyCommand a2) {
+    protected final void bindCodeToAction( String s1, KeyCommand a1 , KeyCommand a2) {
         keyMapPressed.put(s1,a1);
         keyMapReleased.put(s1,a2);
     }
@@ -213,5 +220,14 @@ public abstract class Entity
             return input.equals(this.getClass().getName());
         }
         throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
+    }
+    
+    protected boolean superCalled() {return superCalled;}
+    
+    public void setLayer(int input) {
+        rect.setLayer(input);
+        sprite.setLayer(input);
+        Manager.switchLayer(this, layer, input);
+        layer = input;
     }
 }

@@ -23,7 +23,7 @@ public final class GameMaster implements GameData
     public static Frame getFrame() {return frame;}
     
     public static void start(String name) {
-        new GameMaster(name);
+        new GameMaster(name + " +--]=====- javaKat");
     }
     
     protected static void stop() {
@@ -58,5 +58,13 @@ public final class GameMaster implements GameData
     
     protected static void recordEndTime(long input){
         loopEndTime = input;
+    }
+    
+    public static void wait(int input) {
+        try {
+            loop.wait(input);
+        } catch (InterruptedException ex) {
+            throw new RuntimeException("Waiting Interrupted");
+        }
     }
 }
