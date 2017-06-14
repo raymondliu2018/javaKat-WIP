@@ -69,9 +69,10 @@ public final class GameMaster implements GameData
     
     public static void pause(int input) {
         try {
-            instance.wait(input);
-        } catch (InterruptedException ex) {
-            throw new RuntimeException("Waiting Interrupted");
+            Thread.sleep((long) input);
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException("Internal error");
         }
     }
 }
