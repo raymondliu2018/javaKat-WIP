@@ -43,9 +43,9 @@ public final class Camera extends Manipulator implements GameData
         }
     }
     
-    protected static double getShiftX() { return centerX - GameMaster.getFrame().getWidth()/2;}
+    protected static int getShiftX() { return ((int) centerX) - GameMaster.getFrame().getWidth()/2;}
     
-    protected static double getShiftY() { return centerY - GameMaster.getFrame().getHeight()/2;}
+    protected static int getShiftY() { return ((int) centerY) - GameMaster.getFrame().getHeight()/2;}
     
     public static void setBackground(String input) {
         setBackground(Loader.loadImage(input));

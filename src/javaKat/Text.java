@@ -17,23 +17,21 @@ public final class Text
     private FontMetrics fontMetrics = null;
     
     public Text() {
-        setFont(new Font("Textbox",0,12));
-        setColor(new Color(0,0,0));
+        this(new Font("Textbox",0,12),new Color(0,0,0));
     }
     
     public Text(Font font) {
-        setFont(font);
-        setColor(new Color(0,0,0));
+        this(font, new Color(0,0,0));
     }
     
     public Text(Color color) {
-        setColor(color);
-        setFont(new Font("Textbox",0,12));
+        this(new Font("Textbox",0,12),color);
     }
     
     public Text(Font font, Color color) {
         setFont(font);
         setColor(color);
+        Manager.addStat(this);
     }
     
     protected void update() {

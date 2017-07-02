@@ -19,8 +19,8 @@ final class Panel extends JPanel {
                 BufferedImage image = sprite.getImage();
                 if (image != null ) {
                     g.drawImage(sprite.getImage(),
-                            (int) (sprite.getX() - Camera.getShiftX()),
-                            (int) (sprite.getY() - Camera.getShiftY()),
+                            (sprite.getCornerX() - Camera.getShiftX()),
+                            (sprite.getCornerY() - Camera.getShiftY()),
                             null);
                 }
                 else{

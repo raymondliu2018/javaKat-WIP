@@ -11,19 +11,27 @@ public final class GameMaster implements GameData
     private static Looper loop;
     private static long loopStartTime;
     private static long loopEndTime;
+    private static GameMaster instance;
+    private static int gameTick = 0;
     
     private GameMaster(String name) {
         frame = new Frame(name);
         looper = new Timer();
+    }
+    
+    private void init() {
         Script.init();
         loop = new Looper();
         looper.scheduleAtFixedRate(loop,20,20);
     }
     
+    private GameMaster getInstance() { return instance; }
+    
     public static Frame getFrame() {return frame;}
     
     public static void start(String name) {
-        new GameMaster(name);
+        instance = new GameMaster(name + " - javaKat");
+        instance.init();
     }
     
     protected static void stop() {
@@ -58,5 +66,22 @@ public final class GameMaster implements GameData
     
     protected static void recordEndTime(long input){
         loopEndTime = input;
+    }
+    
+    public static void pause(int input) {
+        try {
+            Thread.sleep((long) input);
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException("Internal error");
+        }
+    }
+    
+    protected static void tick() {
+        gameTick += 1;
+    }
+    
+    public int gameTick() {
+        return gameTick;
     }
 }

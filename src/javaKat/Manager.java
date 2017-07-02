@@ -42,6 +42,10 @@ public final class Manager extends Manipulator implements GameData{
         initEntity(input);
     }
     
+    public static void addSprite(Sprite input){
+        initSprite(input);
+    }
+                
     public static void addStat( Text input ) {
         queuedCommands.add(() -> {GameData.stats.add(input);});
     }
@@ -55,11 +59,13 @@ public final class Manager extends Manipulator implements GameData{
     }
     
     private static void initEntity( Entity input ) {
+        queuedCommands.add(() -> {if (!input.superCalled()){throw new RuntimeException("Super not called on " + input);}});
         queuedCommands.add(() -> {GameData.keys.addAll(input.getKeys());});
         queuedCommands.add(() -> {GameData.buttons.addAll(input.getButtons());});
         initLayer(input,input.getLayer());
-        initSprite(input,input.getLayer());
         initEnder(input);
+        initFocused(input);
+        initSprite(input.getSprite());
         queuedCommands.add(() -> {GameData.allEntities.add(input);});
     }
     
@@ -73,11 +79,11 @@ public final class Manager extends Manipulator implements GameData{
         queuedCommands.add(() -> {GameData.allEntities.remove(input);});
     }
       
-    public static void switchLayer( Entity input, int from, int to ){
+    protected static void switchLayer( Entity input, int from, int to ){
         removeLayer(input, from);
         initLayer(input, to);
         removeSprite(input, from);
-        initSprite(input, to);
+        initSprite(input.getSprite());
     }
     
     public static void addLonelySprite( Sprite input, int to ) {
@@ -90,6 +96,10 @@ public final class Manager extends Manipulator implements GameData{
         });
     }
     
+    private static void initSprite(Sprite input) {
+        queuedCommands.add(() -> {Utility.addSprite(input, input.getLayer());});
+    }
+    
     private static void initLayer( Entity input, int to ) {
         queuedCommands.add(() -> {Utility.addLayer(input,to);});
     }
@@ -100,11 +110,6 @@ public final class Manager extends Manipulator implements GameData{
                 GameData.focusedEntities.add(input);
             }
         });
-    }
-    
-    private static void initSprite( Entity input, int to ){
-        queuedCommands.add(() -> {Utility.addSprite(input.getSprite(),to);});
-        initFocused(input);
     }
     
     private static void initEnder( Entity input ) {

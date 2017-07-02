@@ -6,7 +6,7 @@ public final class Rect{
     private double yPosition = 0.0;
     private double width = 0.0;
     private double height = 0.0;
-    private int layer = 1;
+    private int layer;
     private double mass = 1.0;
     private double xVelocity = 0.0;
     private double yVelocity = 0.0;
@@ -14,12 +14,20 @@ public final class Rect{
     private double yAcceleration = 0.0;
     private double xMomentum = 0.0;
     private double yMomentum = 0.0;
-    private double maximumXVelocity = Double.MAX_VALUE;
-    private double maximumYVelocity = Double.MAX_VALUE;
+    private double xMaxSpeed = Integer.MAX_VALUE;
+    private double yMaxSpeed = Integer.MAX_VALUE;
     private double fric = 0.0;
     
-    public Rect(Entity input){
+    public Rect(int input){
+        layer = input;
+    }
+    
+    protected void setOwner(Entity input) {
         owner = input;
+    }
+    
+    protected Entity getOwner() {
+        return owner;
     }
     /**
      * @param input set the size of the rect
@@ -82,13 +90,13 @@ public final class Rect{
      * @param input set the xvelocity of the rect
      */
     public void setXVelocity(double input) {
-        xVelocity = ( input > 0 ) ? Math.min( input , maximumXVelocity ) : Math.max( input , -maximumXVelocity );
+        xVelocity = ( input > 0 ) ? Math.min(input , xMaxSpeed ) : Math.max(input , -xMaxSpeed );
     }
     /**
      * @param input set the y velocity of the rect
      */
     public void setYVelocity(double input) {
-        yVelocity = ( input > 0 ) ? Math.min( input , maximumYVelocity ) : Math.max( input , -maximumYVelocity );
+        yVelocity = ( input > 0 ) ? Math.min(input , yMaxSpeed ) : Math.max(input , -yMaxSpeed );
     }
     
     public void offsetVelocityBy(double inputx, double inputy) {
@@ -127,13 +135,13 @@ public final class Rect{
      * @param input set the maximum xspeed of the rect
      */
     public void setMaxXSpeed(double input) {
-        maximumXVelocity = input;
+        xMaxSpeed = input;
     }
     /**
      * @param input set the maximum y speed of the rect
      */
     public void setMaxYSpeed(double input) {
-        maximumYVelocity = input;
+        yMaxSpeed = input;
     }
     /**
      * @param teleportx teleport this many units in the x-direction
@@ -226,7 +234,6 @@ public final class Rect{
      * @param input focus on one lay of objects and set it to an array of objects
      */
     public void setLayer( int initLayer ){
-        int previous = layer;
         layer = initLayer;
     }
     /**
@@ -260,15 +267,11 @@ public final class Rect{
     /**
      * @return returns the maximum xvelocity of the rect
      */
-    public double getMaxXSpeed() {return maximumXVelocity;}
+    public double getMaxXSpeed() {return xMaxSpeed;}
     /**
      * @return returns the maximum y velocity of the rect
      */
-    public double getMaxYSpeed() {return maximumYVelocity;}
-    /**
-     * @return returns the owner of the rect
-     */
-    public Entity getOwner() {return owner;}
+    public double getMaxYSpeed() {return yMaxSpeed;}
     /**
      * @return returns the mass of the object
      */
