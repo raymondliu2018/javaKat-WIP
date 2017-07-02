@@ -7,13 +7,10 @@ public final class Rect{
     private double width = 0.0;
     private double height = 0.0;
     private int layer;
-    private double mass = 1.0;
     private double xVelocity = 0.0;
     private double yVelocity = 0.0;
     private double xAcceleration = 0.0;
     private double yAcceleration = 0.0;
-    private double xMomentum = 0.0;
-    private double yMomentum = 0.0;
     private double xMaxSpeed = Integer.MAX_VALUE;
     private double yMaxSpeed = Integer.MAX_VALUE;
     private double fric = 0.0;
@@ -116,10 +113,6 @@ public final class Rect{
      */
     public void setFriction(double input) {fric = input;}
     /**
-     * @param input set the mass of the rect
-     */
-    public void setMass(double input) {mass = input;}
-    /**
      * @param input set the maximum speed of the rect
      */
     public void setMaxSpeed(double input) {
@@ -205,28 +198,18 @@ public final class Rect{
         yAcceleration = 0;
     }
     /**
-     * updates the momentum of the chosen object
-     */
-    public void updateMomentum()
-    {
-        xMomentum = mass*xVelocity;
-        yMomentum = mass*yVelocity;
-    }
-    /**
      * the all-in-one update function that updates the accel, position, and momentum of the selected object
      */
     public void update(){
         offsetVelocityBy((xVelocity == 0) ? 0 : (( xVelocity > 0 ) ? Math.max(-fric, -xVelocity) : Math.min(fric,-xVelocity )) ,
               (yVelocity == 0) ? 0 : (( yVelocity > 0 ) ? Math.max(-fric, -yVelocity) : Math.min(fric,-yVelocity )));
         offsetVelocityBy(xAcceleration,yAcceleration);
-        updateMomentum();
         offsetPositionBy(xVelocity,yVelocity);
     }
     /**
      * Movement when friction is negligible 
      */
-    public void updateWithoutFriction()
-    {   updateMomentum();
+    public void updateWithoutFriction(){
         xPosition += xVelocity;
         yPosition += yVelocity;
     }
@@ -272,10 +255,6 @@ public final class Rect{
      * @return returns the maximum y velocity of the rect
      */
     public double getMaxYSpeed() {return yMaxSpeed;}
-    /**
-     * @return returns the mass of the object
-     */
-    public double getMass() {return mass;}
     /**
      * @return returns the corner xposition of the rect
      */
