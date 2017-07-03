@@ -43,8 +43,8 @@ final class Collision extends Manipulator implements GameData
                        //Noninertial system with respect to object a
                        if ( object1.getOwner().collidedWith(object2.getOwner()) &&
                             object2.getOwner().collidedWith(object1.getOwner())) {
-                           Script.collide(object2.getOwner(),object1.getOwner());
-                           collide(object2,object1);
+                           //Script.collide(object2.getOwner(),object1.getOwner());
+                           //collide(object2,object1);
                            object2.updateWithoutFriction();
                            object1.updateWithoutFriction();
                        }
@@ -54,7 +54,8 @@ final class Collision extends Manipulator implements GameData
         }
     }
     
-    protected static void collide(Rect a, Rect b){
+    //No longer in use
+    /*protected static void collide(Rect a, Rect b){
         double Vax = a.getXVelocity();
         double Vay = a.getYVelocity();
         double Vbx = b.getXVelocity();
@@ -65,5 +66,5 @@ final class Collision extends Manipulator implements GameData
         b.setYVelocity((-Vby*(m_a-m_b)+2*m_a*Vay)/(m_a+m_b));
         a.setXVelocity((Vax*(m_a-m_b)+2*m_b*Vbx)/(m_a+m_b));
         a.setYVelocity((Vay*(m_a-m_b)+2*m_b*Vby)/(m_a+m_b));
-    }
+    }*/
 }
