@@ -7,10 +7,10 @@ import java.awt.Graphics;
 
 public final class Utility implements GameData{
     protected static void addAlbum( Album input, int index ) {
-        while (GameData.sprites.size() <= index + 1) {
-            GameData.sprites.add( new CopyOnWriteArrayList<>() );
+        while (GameData.albums.size() <= index + 1) {
+            GameData.albums.add( new CopyOnWriteArrayList<>() );
         }
-        GameData.sprites.get(index).add(input);
+        GameData.albums.get(index).add(input);
     }
     
     protected static void addLayer( Rect input, int index ) {

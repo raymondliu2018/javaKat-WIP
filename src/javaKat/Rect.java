@@ -16,7 +16,6 @@ public final class Rect{
     private double fric = 0.0;
     
     public Rect(Entity input){
-        layer = input.getLayer();
     }
     
     protected Entity getOwner() {

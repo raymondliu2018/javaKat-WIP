@@ -9,7 +9,7 @@ final class Update extends Manipulator implements GameData
         for( Entity entity: GameData.allEntities ){
             entity.update();
         }
-        for( List <Album> list: GameData.sprites ) {
+        for( List <Album> list: GameData.albums ) {
             for ( Album sprite: list ) {
                 sprite.update();
             }

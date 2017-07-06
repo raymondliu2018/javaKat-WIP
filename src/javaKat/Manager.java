@@ -27,7 +27,7 @@ public final class Manager extends Manipulator implements GameData{
     
     public static void wipeAll() {
          GameData.allEntities.clear();
-         GameData.sprites.clear();
+         GameData.albums.clear();
          GameData.focusedEntities.clear();
          GameData.keys.clear();
          GameData.buttons.clear();
@@ -94,7 +94,7 @@ public final class Manager extends Manipulator implements GameData{
     
     public static void removeAlbum( Album input, int from ) {
         queuedCommands.add(() -> {
-            GameData.sprites.get(from).remove(input);
+            GameData.albums.get(from).remove(input);
         });
     }
     

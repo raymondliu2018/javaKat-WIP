@@ -7,7 +7,7 @@ import javax.sound.sampled.Clip;
 
 public interface GameData {
     ArrayList<Entity> allEntities = new ArrayList<>();
-    CopyOnWriteArrayList<CopyOnWriteArrayList<Album>> sprites = new CopyOnWriteArrayList<>();
+    CopyOnWriteArrayList<CopyOnWriteArrayList<Album>> albums = new CopyOnWriteArrayList<>();
     ArrayList<Entity> focusedEntities = new ArrayList<>();
     ArrayList<Key> keys = new ArrayList<>();
     ArrayList<Button> buttons = new ArrayList<>();

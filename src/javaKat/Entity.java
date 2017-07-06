@@ -21,7 +21,7 @@ public abstract class Entity
     private final HashMap<String,KeyCommand> keyMapReleased;
     private final ArrayList<Key> keys;
     private final ArrayList<Button> buttons;
-    private ArrayList<Album> sprites;
+    private ArrayList<Album> albums;
     protected JukeBox jukeBox;
     private boolean focused = false;
     protected Rect rect;
@@ -40,6 +40,7 @@ public abstract class Entity
         stats = new ArrayList<>();
         keys = new ArrayList<>();
         buttons = new ArrayList<>();
+        albums = new ArrayList<>();
         keyMapPressed = new HashMap<>();
         keyMapReleased = new HashMap<>();
         superCalled = true;
@@ -50,10 +51,10 @@ public abstract class Entity
     /**
      * @return get the Album element of this Entity
      */
-    public final ArrayList<Album> getAlbums() {return sprites;}
+    public final ArrayList<Album> getAlbums() {return albums;}
     
     protected final void attachSprite(Album input) {
-        sprites.add(input);
+        albums.add(input);
     }
     
     /**
@@ -205,13 +206,13 @@ public abstract class Entity
     
     public final void setLayer(int input) {
         Manager.removeRect(rect, layer);
-        Manager.removeAlbums(sprites, layer);
+        Manager.removeAlbums(albums, layer);
         layer = input;
         rect.setLayer(layer);
-        for (Album sprite: sprites) {  
+        for (Album sprite: albums) {  
             sprite.setLayer(layer);
         }
-        Manager.addAlbums(sprites, layer);
+        Manager.addAlbums(albums, layer);
         Manager.addRect(rect, layer);
     }
     
