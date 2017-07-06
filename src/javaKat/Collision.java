@@ -29,26 +29,47 @@ final class Collision extends Manipulator implements GameData
                 double bound_b2 = b+l_1/2.0;
                 for(z=y+1;z<max_2;z++)
                 {
-                   Rect object1 = GameData.layers.get(x).get(z);
-                   double c = object1.getCenterX();
-                   double d = object1.getCenterY();
-                   double w_2 = object1.getWidth();
-                   double l_2 = object1.getHeight(); 
-                   double bound_l1 = c-w_2/2.0;
-                   double bound_r1 = c+w_2/2.0;
-                   double bound_u1 = d-l_2/2.0;
-                   double bound_b1 = d+l_2/2.0;
-                   if(((bound_l1-w_1<=bound_l2  && bound_l2<= bound_r1) &&
-                      (bound_u1<=bound_b2 &&  bound_b2<=bound_b1+l_1))){
-                       //Noninertial system with respect to object a
-                       if ( object1.getOwner().collidedWith(object2.getOwner()) &
-                            object2.getOwner().collidedWith(object1.getOwner())) {
-                           //Script.collide(object2.getOwner(),object1.getOwner());
-                           //collide(object2,object1);
-                           object2.updateWithoutFriction();
-                           object1.updateWithoutFriction();
-                       }
-                   }
+                    Rect object1 = GameData.layers.get(x).get(z);
+                    double c = object1.getCenterX();
+                    double d = object1.getCenterY();
+                    double w_2 = object1.getWidth();
+                    double l_2 = object1.getHeight(); 
+                    double bound_l1 = c-w_2/2.0;
+                    double bound_r1 = c+w_2/2.0;
+                    double bound_u1 = d-l_2/2.0;
+                    double bound_b1 = d+l_2/2.0;
+                    if(((bound_l1-w_1<=bound_l2  && bound_l2<= bound_r1) &&
+                       (bound_u1<=bound_b2 &&  bound_b2<=bound_b1+l_1))){
+                        Reaction reaction_1 = object1.getOwner().collidedWith(object2.getOwner());
+                        Reaction reaction_2 = object2.getOwner().collidedWith(object1.getOwner());
+                        switch((reaction_1.getCode() * 10) + reaction_2.getCode()){
+                            case 12:
+                            case 21:
+                            case 22:
+                                //Ghost Collision; Nothing happens
+                                break;
+                            case 34:
+                                //Object 1 Deflects, Object 2 Reflects (Object 2 block Object 1)
+                                break;
+                            case 43:
+                                //Opposite of above
+                            case 15:
+                            case 51:
+                            case 55:
+                                //Bounce
+                            default:
+                                String error = new String();
+                                String entity1 = object1.getOwner().toString();
+                                String entity2 = object2.getOwner().toString();
+                                error += entity1 + " and " + entity2 + " collided. ";
+                                error += entity1 + " requested to ";
+                                error += reaction_1.getDescription();
+                                error += ", and " + entity2 + " requested to ";
+                                error += reaction_2.getDescription();
+                                error += ". This is invalid.";
+                                throw new IllegalArgumentException(error);
+                        }
+                    }
                 }
             }
         }

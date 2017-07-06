@@ -113,8 +113,8 @@ public abstract class Entity
      * @param input the other Entity this Entity collided with
      * @return return true to simulate a normal collision
      */
-    public boolean collidedWith(Entity input) {
-        return false;
+    public Reaction collidedWith(Entity input) {
+        return Reaction.GHOST;
     }
     
     //Stats
