@@ -33,6 +33,7 @@ public abstract class Entity
 
         layer = 1;
         rect = new Rect(this);
+        rect.setLayer(layer);
         
         jukeBox = new JukeBox(this);
         
