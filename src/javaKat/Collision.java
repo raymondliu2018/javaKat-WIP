@@ -39,7 +39,7 @@ final class Collision extends Manipulator implements GameData
                     double bound_u1 = d-l_2/2.0;
                     double bound_b1 = d+l_2/2.0;
                     if(((bound_l1-w_1<=bound_l2  && bound_l2<= bound_r1) &&
-                       (bound_u1<=bound_b2 &&  bound_b2<=bound_b1+l_1))){
+                        (bound_u1<=bound_b2 &&  bound_b2<=bound_b1+l_1))){
                         Reaction reaction_1 = object1.getOwner().collidedWith(object2.getOwner());
                         Reaction reaction_2 = object2.getOwner().collidedWith(object1.getOwner());
                         switch((reaction_1.getCode() * 10) + reaction_2.getCode()){
@@ -87,6 +87,8 @@ final class Collision extends Manipulator implements GameData
         if (solutionHeight <= solutionWidth) {
             deflector.offsetYVelocityBy(-2 * deflector.getYVelocity());
         }
+        reflector.updateWithoutFriction();
+        deflector.updateWithoutFriction();
     }
     
     private static void bounce(Rect r1, Rect r2) {
@@ -98,6 +100,8 @@ final class Collision extends Manipulator implements GameData
         r1.setYVelocity(r2y);
         r2.setXVelocity(r1x);
         r2.setYVelocity(r1y);
+        r1.updateWithoutFriction();
+        r2.updateWithoutFriction();
     }
 //No longer in use
     /*protected static void collide(Rect a, Rect b){

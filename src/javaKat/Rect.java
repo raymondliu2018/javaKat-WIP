@@ -16,6 +16,7 @@ public final class Rect{
     private double fric = 0.0;
     
     public Rect(Entity input){
+        owner = input;
     }
     
     protected Entity getOwner() {
