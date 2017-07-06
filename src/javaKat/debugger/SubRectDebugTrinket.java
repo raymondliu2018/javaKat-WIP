@@ -1,16 +1,16 @@
 
 package javaKat.debugger; ;
 
+import javaKat.Tag;
 import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import javaKat.Camera;
 import javaKat.Rect;
-import javaKat.Text;
 
 class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSettings, DebuggerTag{
     private Rect rectInfo;
-    private ArrayList<Text> info;
+    private ArrayList<Tag> info;
     protected SubRectDebugTrinket(Rect input, double xPosition, double yPosition) {
         super(xPosition,yPosition);
         Album album = new Album(this);
@@ -21,15 +21,15 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
         rectInfo = input;
         info = new ArrayList<>();
         
-        Text xCoordinate = new Text(this);
+        Tag xCoordinate = new Tag(this);
         formatText(xCoordinate);
         xCoordinate.setMessage(() -> {return roundDouble(rectInfo.getCenterX());});
         
-        Text yCoordinate = new Text(this);
+        Tag yCoordinate = new Tag(this);
         formatText(yCoordinate);
         yCoordinate.setMessage(() -> {return roundDouble(rectInfo.getCenterY());});
         
-        Text angle = new Text(this);
+        Tag angle = new Tag(this);
         formatText(angle);
         angle.setMessage(() -> {
             double temp = rectInfo.getVelocityAngle();
@@ -41,11 +41,11 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
             }
         });
         
-        Text width = new Text(this);
+        Tag width = new Tag(this);
         formatText(width);
         width.setMessage(() -> {return roundDouble(rectInfo.getWidth());});
         
-        Text height = new Text(this);
+        Tag height = new Tag(this);
         formatText(height);
         height.setMessage(() -> {return roundDouble(rectInfo.getHeight());});
     }
@@ -81,7 +81,7 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
         return Double.toString(((int)(input * 10))/10.0);
     }
     
-    private void formatText(Text input) {
+    private void formatText(Tag input) {
         info.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

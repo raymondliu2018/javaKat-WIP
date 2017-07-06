@@ -1,5 +1,6 @@
 package javaKat.debugger; ;
 
+import javaKat.Tag;
 import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
@@ -9,12 +10,11 @@ import javaKat.GameData;
 import javaKat.Key;
 import javaKat.KeyCommand;
 import javaKat.Manager;
-import javaKat.Text;
 
 class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSettings, DebuggerTag, GameData{
     Entity exampleEntity;
     private HashMap<Entity, KeyDebugTrinket> keyDebugTrinketMap;
-    private ArrayList<Text> actions;
+    private ArrayList<Tag> actions;
     private int listSizeError;
     protected ControlDebugTrinket(Entity input, double xPosition, double yPosition) {
         super(xPosition, yPosition);
@@ -46,7 +46,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
             }
         }
         for (Key key: keys){
-            Text temp = new Text(this);
+            Tag temp = new Tag(this);
             formatText(temp);
             String action = keyMapPressed$.get(key.getCommandPressed(this));
             if (action.length() > 5) {
@@ -73,7 +73,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
         listSizeErrorIncrement();
     }
     
-    private void formatText(Text input) {
+    private void formatText(Tag input) {
         actions.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

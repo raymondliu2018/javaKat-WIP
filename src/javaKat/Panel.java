@@ -7,10 +7,10 @@ import java.awt.*;
 
 final class Panel extends JPanel {
     private CopyOnWriteArrayList <CopyOnWriteArrayList<Album>> stack1 = new CopyOnWriteArrayList<>();
-    private CopyOnWriteArrayList <Text> stack2 = new CopyOnWriteArrayList<>();
+    private CopyOnWriteArrayList <Tag> stack2 = new CopyOnWriteArrayList<>();
     protected void preparePaint(CopyOnWriteArrayList <CopyOnWriteArrayList<Album>> input) {stack1 = input;}
     
-    protected void prepareWrite(CopyOnWriteArrayList<Text> input){stack2 = input;}
+    protected void prepareWrite(CopyOnWriteArrayList<Tag> input){stack2 = input;}
         
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -28,7 +28,7 @@ final class Panel extends JPanel {
                 }
             }
         }
-        for ( Text t: stack2 ) {
+        for ( Tag t: stack2 ) {
             g.setColor(t.getColor());
             g.setFont(t.getFont());
             g.drawString(t.getMessage(),

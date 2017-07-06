@@ -42,11 +42,11 @@ public final class Manager extends Manipulator implements GameData{
         addEntity(input);
     }
     
-    public static void addStat( Text input ) {
+    public static void addStat( Tag input ) {
         queuedCommands.add(() -> {GameData.stats.add(input);});
     }
     
-    public static void removeStat( Text input ) {
+    public static void removeStat( Tag input ) {
         queuedCommands.add(() -> {GameData.stats.remove(input);});
     }
     

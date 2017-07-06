@@ -16,6 +16,6 @@ public interface GameData {
     ArrayList<BufferedImage> images = new ArrayList<>();
     ArrayList<String> soundFiles = new ArrayList<>();
     ArrayList<Clip> sounds = new ArrayList<>();
-    CopyOnWriteArrayList<Text> stats = new CopyOnWriteArrayList<>();
+    CopyOnWriteArrayList<Tag> stats = new CopyOnWriteArrayList<>();
     ArrayList<Ender> enders = new ArrayList<>();
 }

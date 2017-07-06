@@ -1,17 +1,17 @@
 
 package javaKat.debugger; ;
 
+import javaKat.Tag;
 import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javaKat.Entity;
 import javaKat.Manager;
-import javaKat.Text;
 
 class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, DebuggerTag{
     private HashMap <Entity,SubRectDebugTrinket> subRectDebugTrinkets;
-    private ArrayList<Text> labelList;
+    private ArrayList<Tag> labelList;
     private int listSizeError;
     protected RectDebugTrinket(double xPosition, double yPosition){
         super(xPosition, yPosition);
@@ -23,23 +23,23 @@ class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, 
         subRectDebugTrinkets = new HashMap<>();
         labelList = new ArrayList<>();
         
-        Text xCoordinate = new Text(this);
+        Tag xCoordinate = new Tag(this);
         formatText(xCoordinate);
         xCoordinate.setMessage("x-pos");
         
-        Text yCoordinate = new Text(this);
+        Tag yCoordinate = new Tag(this);
         formatText(yCoordinate);
         yCoordinate.setMessage("y-pos");
         
-        Text angle = new Text(this);
+        Tag angle = new Tag(this);
         formatText(angle);
         angle.setMessage("angle");
         
-        Text width = new Text(this);
+        Tag width = new Tag(this);
         formatText(width);
         width.setMessage("width");
         
-        Text height = new Text(this);
+        Tag height = new Tag(this);
         formatText(height);
         height.setMessage("height");
 
@@ -63,7 +63,7 @@ class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, 
         listSizeErrorIncrement();
     }
     
-    private void formatText(Text input) {
+    private void formatText(Tag input) {
         labelList.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

@@ -14,7 +14,7 @@ final class Update extends Manipulator implements GameData
                 sprite.update();
             }
         }
-        for( Text text: GameData.stats ){
+        for( Tag text: GameData.stats ){
             text.update();
         }
         for( Ender ender: GameData.enders ) {

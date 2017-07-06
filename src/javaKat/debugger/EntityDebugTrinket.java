@@ -1,11 +1,11 @@
 package javaKat.debugger; ;
 
+import javaKat.Tag;
 import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import javaKat.Entity;
 import javaKat.Manager;
-import javaKat.Text;
 import javaKat.Utility;
 
 class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebugTrinketSettings{
@@ -36,14 +36,14 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         Manager.queueNewEntity(rectDebugTrinket);
         
         //DOESN'T NEED TO BE ADDED
-        Text entityType = new Text(this);
+        Tag entityType = new Tag(this);
         entityType.setColor(STANDARD_COLOR);
         entityType.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_TYPE_FONT_SIZE));
         entityType.setMessage(truncateString(entityName.substring(entityName.lastIndexOf(".") + 1)));
         entityType.setCornerX(() -> {return rect.getCornerX() + ENTITY_TYPE_OFFSET_X;});
         entityType.setCenterY(() -> {return rect.getCenterY() + ENTITY_TYPE_OFFSET_Y;});
         
-        Text entityNumber = new Text(this);
+        Tag entityNumber = new Tag(this);
         entityNumber.setColor(STANDARD_COLOR);
         entityNumber.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_COUNT_FONT_SIZE));
         entityNumber.setMessage(() -> {

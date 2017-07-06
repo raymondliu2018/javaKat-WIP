@@ -26,7 +26,7 @@ public abstract class Entity
     private boolean focused = false;
     protected Rect rect;
     private int timer;
-    protected ArrayList<Text> stats;
+    protected ArrayList<Tag> stats;
     
     public Entity() {
         timer = 0;
@@ -116,13 +116,13 @@ public abstract class Entity
     }
     
     //Stats
-    protected final void attachStat(Text input) {
+    protected final void attachStat(Tag input) {
         stats.add(input);
     }
     /**
-     * @return get an Arraylist of Text elements that this Entity is displaying
+     * @return get an Arraylist of Tag elements that this Entity is displaying
      */
-    public final ArrayList<Text> getStats() {return stats;}
+    public final ArrayList<Tag> getStats() {return stats;}
     
     //Keys
     /**
