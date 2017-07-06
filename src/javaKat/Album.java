@@ -14,9 +14,11 @@ public final class Album{
     private int x;
     private int y;
     private int layer = Integer.MAX_VALUE;
+    private double angle;
     private DoubleCommand x$ = null;
     private DoubleCommand y$ = null;
     private RotationMode rotationMode = RotationMode.NONE;
+    private MovementMode movementMode = MovementMode.NONE;
     
     public Album(int input) {
         layer = input;
@@ -33,17 +35,11 @@ public final class Album{
     }
     
     protected void update() {
-        if (x$ != null) {
-            x = (int) x$.value();
-        }
-        if (y$ != null) {
-            y = (int) y$.value();
-        }
+        movementUpdate();
         rotationUpdate();
     }
     
     private void rotationUpdate() {
-        double angle;
         switch (rotationMode) {
             case BY_VELOCITY:
                 angle = owner.getRect().getVelocityAngle();
@@ -58,6 +54,25 @@ public final class Album{
                 }
                 break;
             case BY_INPUT:
+            case NONE:
+                break;
+        }
+    }
+    
+    private void movementUpdate() {
+        switch (movementMode) {
+            case BY_RECT:
+                x = (int) owner.getRect().getCornerX();
+                y = (int) owner.getRect().getCornerY();
+                break;
+            case BY_INPUT:
+                if (x$ != null) {
+                    x = (int) x$.value();
+                }
+                if (y$ != null) {
+                    y = (int) y$.value();
+                }
+                break;
             case NONE:
                 break;
         }
@@ -95,11 +110,13 @@ public final class Album{
     }
     
     public void setCornerX(int input) {
+        checkMovementMode();
         x = input;
         x$ = null;
     }
     
     public void setCornerY(int input) {
+        checkMovementMode();
         y = input;
         y$ = null;
     }
@@ -107,12 +124,18 @@ public final class Album{
     /**
      * @param input bind code to the x position of this Album to automatically recalculate position
      */
-    public void setCornerX(DoubleCommand input) {x$ = input;}
+    public void setCornerX(DoubleCommand input) {
+        checkMovementMode();
+        x$ = input;
+    }
     
     /**
      * @param input bind code to the y position of this Album to automatically recalculate position
      */
-    public void setCornerY(DoubleCommand input) {y$ = input;}
+    public void setCornerY(DoubleCommand input) {
+        checkMovementMode();
+        y$ = input;
+    }
     
     public void setCenterPosition(int inputx, int inputy){
         setCenterX(inputx);
@@ -120,25 +143,25 @@ public final class Album{
     }
     
     public void setCenterX(DoubleCommand input) {
+        checkMovementMode();
         x$ = () -> {
             return input.value() - getPicture().getWidth()/2;
         };
     }
     
     public void setCenterY(DoubleCommand input) {
+        checkMovementMode();
         x$ = () -> {
             return input.value() - getPicture().getHeight()/2;
         };
     }
     
     public void setCenterX(int input) {
-        x = input - getPicture().getWidth()/2;
-        x$ = null;
+        setCornerX(input - getPicture().getWidth()/2);
     }
     
     public void setCenterY(int input) {
-        y = input - getPicture().getHeight()/2;
-        y$ = null;
+        setCornerY(input - getPicture().getHeight()/2);
     }
     
     public int getCornerX() {return (int) x;}
@@ -244,5 +267,22 @@ public final class Album{
     
     public int getPageHeight(String input) {
         return imageNameMap.get(input).getHeight();
+    }
+    
+    private void checkMovementMode() {
+        if (movementMode != MovementMode.BY_INPUT) {
+            throw new IllegalArgumentException("Movement mode not by input; cannot set coordinates");
+        }
+    }
+    
+    public void setMovementMode(MovementMode input) {
+        switch(input) {
+            case BY_RECT:
+                if (owner == null) {
+                    throw new IllegalArgumentException("This album is not attached to an Entity to calculate position from");
+                }
+                break;
+        }
+        movementMode = input;
     }
 }
