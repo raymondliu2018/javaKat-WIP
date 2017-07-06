@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import javaKat.Entity;
 import javaKat.GameData;
 import javaKat.Manager;
+import javaKat.Sprite;
 
 public final class DebugTool extends TrinketBase implements DebugToolSettings, DebuggerTag{
     private ArrayList<String> entityTypes;
@@ -20,8 +21,9 @@ public final class DebugTool extends TrinketBase implements DebugToolSettings, D
         entityDebugTrinketOffsetList = new ArrayList<>();
         entityDebugTrinketMap = new HashMap<>();
         registeredEntities = new ArrayList<>();
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        Sprite sprite = new Sprite(this);
+        sprite.addImage(IMAGE, "main");
+        sprite.setImage("main");
         instance = this;
     }
     

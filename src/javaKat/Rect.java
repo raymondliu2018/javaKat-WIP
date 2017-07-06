@@ -15,12 +15,8 @@ public final class Rect{
     private double yMaxSpeed = Integer.MAX_VALUE;
     private double fric = 0.0;
     
-    public Rect(int input){
-        layer = input;
-    }
-    
-    protected void setOwner(Entity input) {
-        owner = input;
+    public Rect(Entity input){
+        layer = input.getLayer();
     }
     
     protected Entity getOwner() {
@@ -192,8 +188,8 @@ public final class Rect{
         yPosition += yVelocity;
     }
     
-    public void setLayer( int initLayer ){
-        layer = initLayer;
+    public void setLayer( int input ){
+        layer = input;
     }
     
     public int getLayer() {return layer;}

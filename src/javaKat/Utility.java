@@ -6,18 +6,18 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 
 public final class Utility implements GameData{
-    protected static void addSprite( Sprite sprite, int index ) {
+    protected static void addSprite( Sprite input, int index ) {
         while (GameData.sprites.size() <= index + 1) {
             GameData.sprites.add( new CopyOnWriteArrayList<>() );
         }
-        GameData.sprites.get(index).add(sprite);
+        GameData.sprites.get(index).add(input);
     }
     
-    protected static void addLayer( Entity entity, int index ) {
+    protected static void addLayer( Rect input, int index ) {
         while (GameData.layers.size() <= index + 1) {
             GameData.layers.add( new ArrayList<>() );
         }
-        GameData.layers.get(index).add(entity.getRect());
+        GameData.layers.get(index).add(input);
     }
     
     public static BufferedImage scaleImage( BufferedImage input, double scale ){

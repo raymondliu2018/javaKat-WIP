@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javaKat.Entity;
 import javaKat.Manager;
+import javaKat.Sprite;
 import javaKat.Text;
 
 class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, DebuggerTag{
@@ -14,36 +15,33 @@ class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, 
     private int listSizeError;
     protected RectDebugTrinket(double xPosition, double yPosition){
         super(xPosition, yPosition);
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        Sprite sprite = new Sprite(this);
+        sprite.addImage(IMAGE, "main");
+        sprite.setImage("main");
         
         subRectDebugTrinkets = new HashMap<>();
         labelList = new ArrayList<>();
         
-        Text xCoordinate = new Text();
+        Text xCoordinate = new Text(this);
         formatText(xCoordinate);
         xCoordinate.setMessage("x-pos");
-        addStat(xCoordinate);
         
-        Text yCoordinate = new Text();
+        Text yCoordinate = new Text(this);
         formatText(yCoordinate);
         yCoordinate.setMessage("y-pos");
-        addStat(yCoordinate);
         
-        Text angle = new Text();
+        Text angle = new Text(this);
         formatText(angle);
         angle.setMessage("angle");
-        addStat(angle);
         
-        Text width = new Text();
+        Text width = new Text(this);
         formatText(width);
         width.setMessage("width");
-        addStat(width);
         
-        Text height = new Text();
+        Text height = new Text(this);
         formatText(height);
         height.setMessage("height");
-        addStat(height);
+
         listSizeError = 0;
     }
     

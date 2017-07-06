@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import javaKat.Camera;
 import javaKat.Rect;
+import javaKat.Sprite;
 import javaKat.Text;
 
 class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSettings, DebuggerTag{
@@ -12,22 +13,21 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
     private ArrayList<Text> info;
     protected SubRectDebugTrinket(Rect input, double xPosition, double yPosition) {
         super(xPosition,yPosition);
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        Sprite sprite = new Sprite(this);
+        sprite.addImage(IMAGE, "main");
+        sprite.setImage("main");
         rectInfo = input;
         info = new ArrayList<>();
         
-        Text xCoordinate = new Text();
+        Text xCoordinate = new Text(this);
         formatText(xCoordinate);
         xCoordinate.setMessage(() -> {return roundDouble(rectInfo.getCenterX());});
-        addStat(xCoordinate);
         
-        Text yCoordinate = new Text();
+        Text yCoordinate = new Text(this);
         formatText(yCoordinate);
         yCoordinate.setMessage(() -> {return roundDouble(rectInfo.getCenterY());});
-        addStat(yCoordinate);
         
-        Text angle = new Text();
+        Text angle = new Text(this);
         formatText(angle);
         angle.setMessage(() -> {
             double temp = rectInfo.getVelocityAngle();
@@ -38,17 +38,14 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
                 return roundDouble(180 * rectInfo.getVelocityAngle() / Math.PI);
             }
         });
-        addStat(angle);
         
-        Text width = new Text();
+        Text width = new Text(this);
         formatText(width);
         width.setMessage(() -> {return roundDouble(rectInfo.getWidth());});
-        addStat(width);
         
-        Text height = new Text();
+        Text height = new Text(this);
         formatText(height);
         height.setMessage(() -> {return roundDouble(rectInfo.getHeight());});
-        addStat(height);
     }
     
     public void subUpdate() {

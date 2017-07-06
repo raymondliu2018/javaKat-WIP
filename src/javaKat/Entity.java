@@ -17,28 +17,22 @@ public abstract class Entity
 {
     private int layer;
     private boolean superCalled = false;
-    private HashMap<String,KeyCommand> keyMapPressed;
-    private HashMap<String,KeyCommand> keyMapReleased;
-    private ArrayList<Key> keys;
-    private ArrayList<Button> buttons;
-    protected Sprite sprite;
+    private final HashMap<String,KeyCommand> keyMapPressed;
+    private final HashMap<String,KeyCommand> keyMapReleased;
+    private final ArrayList<Key> keys;
+    private final ArrayList<Button> buttons;
+    private ArrayList<Sprite> sprites;
     protected JukeBox jukeBox;
-    protected boolean focused = false;
+    private boolean focused = false;
     protected Rect rect;
-    protected int timer;
+    private int timer;
     protected ArrayList<Text> stats;
-    protected RotationMode rotationMode = RotationMode.NONE;
     
     public Entity() {
         timer = 0;
 
         layer = 1;
-        rect = new Rect(layer);
-        rect.setOwner(this);
-        
-        sprite = new Sprite(layer);
-        sprite.setCornerX(() -> rect.getCornerX());
-        sprite.setCornerY(() -> rect.getCornerY());
+        rect = new Rect(this);
         
         jukeBox = new JukeBox(this);
         
@@ -55,7 +49,11 @@ public abstract class Entity
     /**
      * @return get the Sprite element of this Entity
      */
-    public final Sprite getSprite() {return sprite;}
+    public final ArrayList<Sprite> getSprites() {return sprites;}
+    
+    protected final void attachSprite(Sprite input) {
+        sprites.add(input);
+    }
     
     /**
      * @return get whether or not the Entity is being focused on by the Camera
@@ -65,16 +63,14 @@ public abstract class Entity
     /**
      * Sets this entity's hitbox to the size of its current image
      */
-    public final void resizeByCenter() {
-        if (sprite.getImage() != null){
-            rect.setSize(sprite.getImage().getWidth(null),sprite.getImage().getHeight(null));
-        }
+    public final void resizeByCenter(double inputx, double inputy) {
+        rect.setSize(inputx,inputy);
     }
     
-    public final void resizeByCorner() {
+    public final void resizeByCorner(double inputx, double inputy) {
         double xPosition = rect.getCornerX();
         double yPosition = rect.getCornerY();
-        resizeByCenter();
+        resizeByCenter(inputx,inputy);
         rect.setCornerPosition(xPosition, yPosition);
     }
     
@@ -98,24 +94,10 @@ public abstract class Entity
     final void update() {
         tick();
         rect.update();
-        rotationUpdate();
         subUpdate();
     }
     
-    final void rotationUpdate() {
-        if (rotationMode == RotationMode.BY_VELOCITY){
-            double angle = rect.getVelocityAngle();
-            if (angle != Double.NaN){
-                sprite.rotateCurrentImage(angle);
-            }
-        }
-        if (rotationMode == RotationMode.BY_ACCELERATION){
-            double angle = rect.getAccelerationAngle();
-            if (angle != Double.NaN){
-                sprite.rotateCurrentImage(angle);
-            }
-        }
-    }
+    
     
     final void tick() {timer += 1;}
     
@@ -134,13 +116,9 @@ public abstract class Entity
     }
     
     //Stats
-    /**
-     * @param input Text element this Entity will display 
-     */
-    public final void addStat( Text input ) {
+    protected final void attachStat(Text input) {
         stats.add(input);
     }
-    
     /**
      * @return get an Arraylist of Text elements that this Entity is displaying
      */
@@ -222,12 +200,31 @@ public abstract class Entity
         throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
     }
     
-    protected boolean superCalled() {return superCalled;}
+    protected final boolean superCalled() {return superCalled;}
     
-    public void setLayer(int input) {
-        rect.setLayer(input);
-        sprite.setLayer(input);
-        Manager.switchLayer(this, layer, input);
+    public final void setLayer(int input) {
+        Manager.removeRect(rect, layer);
+        Manager.removeSprites(sprites, layer);
         layer = input;
+        rect.setLayer(layer);
+        for (Sprite sprite: sprites) {  
+            sprite.setLayer(layer);
+        }
+        Manager.addSprites(sprites, layer);
+        Manager.addRect(rect, layer);
+    }
+    
+    public final void focus() {
+        focused = true;
+        Manager.addFocused(this);
+    }
+    
+    public final void defocus() {
+        focused = false;
+        Manager.removeFocused(this);
+    }
+    
+    public final int ticksCounted(){
+        return timer;
     }
 }

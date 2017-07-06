@@ -8,6 +8,7 @@ import javaKat.GameData;
 import javaKat.Key;
 import javaKat.KeyCommand;
 import javaKat.Manager;
+import javaKat.Sprite;
 import javaKat.Text;
 
 class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSettings, DebuggerTag, GameData{
@@ -17,8 +18,8 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
     private int listSizeError;
     protected ControlDebugTrinket(Entity input, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        Sprite sprite = new Sprite(this);
+        sprite.addImage(IMAGE, "main");
         
         exampleEntity = input;
         
@@ -43,7 +44,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
             }
         }
         for (Key key: keys){
-            Text temp = new Text();
+            Text temp = new Text(this);
             formatText(temp);
             String action = keyMapPressed$.get(key.getCommandPressed(this));
             if (action.length() > 5) {
@@ -52,7 +53,6 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
             else {
                 temp.setMessage(action);
             }
-            addStat(temp);
         }
         listSizeError = 0;
     }

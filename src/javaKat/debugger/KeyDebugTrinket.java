@@ -4,15 +4,17 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javaKat.Key;
+import javaKat.Sprite;
 import javaKat.Text;
 
 class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, DebuggerTag{
     private HashMap<Integer,Text> individualKeyMap;
     private ArrayList<Text> individualKeyList;
+    private Sprite sprite;
     protected KeyDebugTrinket(ArrayList<Key> keys, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        sprite.addImage(IMAGE, "main");
+        sprite.setImage("main");
         
         int counter = 0;
         individualKeyMap = new HashMap<>();
@@ -26,11 +28,10 @@ class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, De
             });
             bindKeyToAction(key.getInput(), key.toString());
             
-            Text temp = new Text();
+            Text temp = new Text(this);
             formatText(temp);
             temp.setMessage("'" + Character.toString((char)(key.getInput())) + "'");
             individualKeyMap.put(key.getInput(),temp);
-            addStat(temp);  
         }
     }
     

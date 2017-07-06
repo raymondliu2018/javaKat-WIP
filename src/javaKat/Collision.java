@@ -41,7 +41,7 @@ final class Collision extends Manipulator implements GameData
                    if(((bound_l1-w_1<=bound_l2  && bound_l2<= bound_r1) &&
                       (bound_u1<=bound_b2 &&  bound_b2<=bound_b1+l_1))){
                        //Noninertial system with respect to object a
-                       if ( object1.getOwner().collidedWith(object2.getOwner()) &&
+                       if ( object1.getOwner().collidedWith(object2.getOwner()) &
                             object2.getOwner().collidedWith(object1.getOwner())) {
                            //Script.collide(object2.getOwner(),object1.getOwner());
                            //collide(object2,object1);

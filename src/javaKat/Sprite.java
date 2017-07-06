@@ -6,20 +6,30 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 public final class Sprite{
+    private Entity owner = null;
     private HashMap<String,BufferedImage> images;
     private HashMap<String,BufferedImage> rotatedImages;
+    private HashMap<String,Double> imageAngles;
     private String currentKey;
     private int x;
     private int y;
-    private int layer;
+    private int layer = Integer.MAX_VALUE;
     private DoubleCommand x$ = null;
     private DoubleCommand y$ = null;
+    private RotationMode rotationMode = RotationMode.NONE;
     
     public Sprite(int input) {
         layer = input;
         images = new HashMap<>();
         rotatedImages = new HashMap<>();
+        imageAngles = new HashMap<>();
         Manager.addSprite(this);
+    }
+    
+    public Sprite(Entity input) {
+        this(input.getLayer());       
+        owner = input;
+        input.attachSprite(this);
     }
     
     protected void update() {
@@ -28,6 +38,28 @@ public final class Sprite{
         }
         if (y$ != null) {
             y = (int) y$.value();
+        }
+        rotationUpdate();
+    }
+    
+    private void rotationUpdate() {
+        double angle;
+        switch (rotationMode) {
+            case BY_VELOCITY:
+                angle = owner.getRect().getVelocityAngle();
+                if (angle != Double.NaN){
+                    rotateCurrentImage(angle);
+                }
+                break;
+            case BY_ACCELERATION:
+                angle = owner.getRect().getAccelerationAngle();
+                if (angle != Double.NaN){
+                    rotateCurrentImage(angle);
+                }
+                break;
+            case BY_INPUT:
+            case NONE:
+                break;
         }
     }
     
@@ -44,29 +76,8 @@ public final class Sprite{
      * @param name give this Image a name so this Sprite can access it anytime
      */
     public void addImage(String input, String name) {
-        images.put(name,Loader.loadImage(input));
+        addImage(Loader.loadImage(input),name);
     }
-    
-    /**
-     * @param input add an Image this Sprite can display
-     * @param name give this Image a name so this Sprite can access it anytime
-     * @param set indicate whether the image should be set as current image
-     */
-    public void addImage(String input, String name, boolean set) {
-        addImage(input,name);
-        if (set) {setImage(name);}
-    }
-    
-    /**
-     * @param input add an BufferedImage this Sprite can display
-     * @param name give this Image a name so this Sprite can access it anytime
-     * @param set indicate whether the image should be set as current image
-     */
-    public void addImage(BufferedImage input, String name, boolean set) {
-        addImage(input,name);
-        if (set) {setImage(name);}
-    }
-    
     /**
      * clear all Images this Sprite has stored
      */
@@ -164,11 +175,14 @@ public final class Sprite{
      * @param radians the number of radians to rotate this image by
      */
     public void rotateImage(String name, double radians){
-        rotatedImages.put(name,rotateImage(images.get(name), radians));
+        if (imageAngles.get(name) == null || imageAngles.get(name) != radians) {
+            rotatedImages.put(name,rotateImage(images.get(name), radians));
+            imageAngles.put(name, radians);
+        }
     }
     
     public void rotateCurrentImage(double radians) {
-        rotatedImages.put(currentKey,rotateImage(images.get(currentKey), radians));
+        rotateImage(currentKey,radians);
     }
             
     public void rotateCurrentImage(int degrees) {
@@ -190,11 +204,29 @@ public final class Sprite{
         }
         else {
             return image;
-        }
-        
+        }  
     }
     
-    public void setLayer(int input) {layer = input;}
+    public void setLayer(int input) {
+        Manager.removeSprite(this, layer);
+        layer = input;
+        Manager.addSprite(this, layer);
+    }
     
     public int getLayer() {return layer;}
+    
+    public void setRotationMode( RotationMode input ) {
+        switch (input) {
+            case BY_ACCELERATION:
+            case BY_VELOCITY:
+                if (owner == null) {
+                    throw new NullPointerException("This sprite is not attached to an Entity");
+                }
+                break;
+            case BY_INPUT:
+            case NONE:
+                break;
+        }
+        rotationMode = input;
+    }
 }

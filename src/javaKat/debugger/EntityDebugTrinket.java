@@ -3,8 +3,8 @@ package javaKat.debugger; ;
 import java.awt.Font;
 import java.util.ArrayList;
 import javaKat.Entity;
-import javaKat.GameData;
 import javaKat.Manager;
+import javaKat.Sprite;
 import javaKat.Text;
 import javaKat.Utility;
 
@@ -14,10 +14,11 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
     private ControlDebugTrinket controlDebugTrinket;
     private RectDebugTrinket rectDebugTrinket;
     private int instances;
+    private Sprite sprite;
     protected EntityDebugTrinket (Entity input, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        sprite.addImage(IMAGE,"main",true);
-        resizeByCorner();
+        sprite = new Sprite(this);
+        sprite.addImage(IMAGE,"main");
         entityName = input.getClass().getName();
         discoveredEntities = new ArrayList<>();
         
@@ -32,15 +33,14 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         Manager.queueNewEntity(rectDebugTrinket);
         
         //DOESN'T NEED TO BE ADDED
-        Text entityType = new Text();
+        Text entityType = new Text(this);
         entityType.setColor(STANDARD_COLOR);
         entityType.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_TYPE_FONT_SIZE));
         entityType.setMessage(truncateString(entityName.substring(entityName.lastIndexOf(".") + 1)));
         entityType.setCornerX(() -> {return rect.getCornerX() + ENTITY_TYPE_OFFSET_X;});
         entityType.setCenterY(() -> {return rect.getCenterY() + ENTITY_TYPE_OFFSET_Y;});
-        addStat(entityType);
         
-        Text entityNumber = new Text();
+        Text entityNumber = new Text(this);
         entityNumber.setColor(STANDARD_COLOR);
         entityNumber.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_COUNT_FONT_SIZE));
         entityNumber.setMessage(() -> {
@@ -55,7 +55,6 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         });
         entityNumber.setCornerX(() -> {return rect.getCornerX() + rect.getWidth() + ENTITY_COUNT_OFFSET_X;});
         entityNumber.setCenterY(() -> {return rect.getCenterY() + ENTITY_COUNT_OFFSET_Y;});
-        addStat(entityNumber);
         instances = 0;
     }
     
@@ -85,8 +84,8 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
     protected boolean noControls(){
         if (controlDebugTrinket.noControls()){
             Manager.removeEntity(controlDebugTrinket);
-            sprite.addImage(Utility.scaleImage(sprite.getImage(), 250, 25), "smaller", true);
-            resizeByCorner();
+            sprite.addImage(Utility.scaleImage(sprite.getImage(), 250, 25), "smaller");
+            sprite.setImage("smaller");
             return true;
         }
         else {
