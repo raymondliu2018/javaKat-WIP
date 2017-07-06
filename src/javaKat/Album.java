@@ -5,33 +5,33 @@ import java.util.HashMap;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public final class Album{
-    private Entity owner = null;
+public final class Album extends Attachable{
     private HashMap<String,BufferedImage> imageNameMap;
     private HashMap<String,BufferedImage> rotatedImageNameMap;
     private HashMap<String,Double> imageNameAngleMap;
     private String page;
-    private int x;
-    private int y;
     private int layer = Integer.MAX_VALUE;
     private double angle;
-    private DoubleCommand x$ = null;
-    private DoubleCommand y$ = null;
     private RotationMode rotationMode = RotationMode.NONE;
-    private MovementMode movementMode = MovementMode.NONE;
     
     public Album(int input) {
+        super();
         layer = input;
+        constructionHelper();
+    }
+    
+    public Album(Entity input) {
+        super(input);
+        layer = input.getLayer();       
+        input.attachSprite(this);
+        constructionHelper();
+    }
+    
+    private void constructionHelper(){
         imageNameMap = new HashMap<>();
         rotatedImageNameMap = new HashMap<>();
         imageNameAngleMap = new HashMap<>();
         Manager.addAlbum(this);
-    }
-    
-    public Album(Entity input) {
-        this(input.getLayer());       
-        owner = input;
-        input.attachSprite(this);
     }
     
     protected void update() {
@@ -42,37 +42,18 @@ public final class Album{
     private void rotationUpdate() {
         switch (rotationMode) {
             case BY_VELOCITY:
-                angle = owner.getRect().getVelocityAngle();
+                angle = getOwner().getRect().getVelocityAngle();
                 if (angle != Double.NaN){
                     Album.this.rotateCurrentPicture(angle);
                 }
                 break;
             case BY_ACCELERATION:
-                angle = owner.getRect().getAccelerationAngle();
+                angle = getOwner().getRect().getAccelerationAngle();
                 if (angle != Double.NaN){
                     Album.this.rotateCurrentPicture(angle);
                 }
                 break;
             case BY_INPUT:
-            case NONE:
-                break;
-        }
-    }
-    
-    private void movementUpdate() {
-        switch (movementMode) {
-            case BY_RECT:
-                x = (int) owner.getRect().getCornerX();
-                y = (int) owner.getRect().getCornerY();
-                break;
-            case BY_INPUT:
-                if (x$ != null) {
-                    x = (int) x$.value();
-                }
-                if (y$ != null) {
-                    y = (int) y$.value();
-                }
-                break;
             case NONE:
                 break;
         }
@@ -100,73 +81,7 @@ public final class Album{
         imageNameMap.clear();
     }
     
-    /**
-     * @param d1 set the X position of this Album
-     * @param d2 set the Y position of this Album
-     */
-    public void setCornerPosition( int inputx, int inputy ){
-        setCornerX(inputx);
-        setCornerY(inputy);
-    }
     
-    public void setCornerX(int input) {
-        checkMovementMode();
-        x = input;
-        x$ = null;
-    }
-    
-    public void setCornerY(int input) {
-        checkMovementMode();
-        y = input;
-        y$ = null;
-    }
-    
-    /**
-     * @param input bind code to the x position of this Album to automatically recalculate position
-     */
-    public void setCornerX(DoubleCommand input) {
-        checkMovementMode();
-        x$ = input;
-    }
-    
-    /**
-     * @param input bind code to the y position of this Album to automatically recalculate position
-     */
-    public void setCornerY(DoubleCommand input) {
-        checkMovementMode();
-        y$ = input;
-    }
-    
-    public void setCenterPosition(int inputx, int inputy){
-        setCenterX(inputx);
-        setCenterX(inputy);
-    }
-    
-    public void setCenterX(DoubleCommand input) {
-        checkMovementMode();
-        x$ = () -> {
-            return input.value() - getPicture().getWidth()/2;
-        };
-    }
-    
-    public void setCenterY(DoubleCommand input) {
-        checkMovementMode();
-        x$ = () -> {
-            return input.value() - getPicture().getHeight()/2;
-        };
-    }
-    
-    public void setCenterX(int input) {
-        setCornerX(input - getPicture().getWidth()/2);
-    }
-    
-    public void setCenterY(int input) {
-        setCornerY(input - getPicture().getHeight()/2);
-    }
-    
-    public int getCornerX() {return (int) x;}
-    
-    public int getCornerY() {return (int) y;}
     
     /**
      * @return get the current Image this Album is displaying
@@ -242,7 +157,7 @@ public final class Album{
         switch (input) {
             case BY_ACCELERATION:
             case BY_VELOCITY:
-                if (owner == null) {
+                if (getOwner() == null) {
                     throw new NullPointerException("This sprite is not attached to an Entity");
                 }
                 break;
@@ -269,20 +184,11 @@ public final class Album{
         return imageNameMap.get(input).getHeight();
     }
     
-    private void checkMovementMode() {
-        if (movementMode != MovementMode.BY_INPUT) {
-            throw new IllegalArgumentException("Movement mode not by input; cannot set coordinates");
-        }
+    protected int getWidth() {
+        return getCurrentPageWidth();
     }
     
-    public void setMovementMode(MovementMode input) {
-        switch(input) {
-            case BY_RECT:
-                if (owner == null) {
-                    throw new IllegalArgumentException("This album is not attached to an Entity to calculate position from");
-                }
-                break;
-        }
-        movementMode = input;
+    protected int getHeight() {
+        return getCurrentPageHeight();
     }
 }
