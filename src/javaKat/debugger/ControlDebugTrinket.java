@@ -1,5 +1,6 @@
 package javaKat.debugger; ;
 
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,7 +9,6 @@ import javaKat.GameData;
 import javaKat.Key;
 import javaKat.KeyCommand;
 import javaKat.Manager;
-import javaKat.Sprite;
 import javaKat.Text;
 
 class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSettings, DebuggerTag, GameData{
@@ -18,8 +18,10 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
     private int listSizeError;
     protected ControlDebugTrinket(Entity input, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        Sprite sprite = new Sprite(this);
-        sprite.addImage(IMAGE, "main");
+        Album album = new Album(this);
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
         exampleEntity = input;
         

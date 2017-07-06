@@ -1,12 +1,12 @@
 package javaKat.debugger; ;
 
+import javaKat.Album;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
 import javaKat.Entity;
 import javaKat.GameData;
 import javaKat.Manager;
-import javaKat.Sprite;
 
 public final class DebugTool extends TrinketBase implements DebugToolSettings, DebuggerTag{
     private ArrayList<String> entityTypes;
@@ -21,9 +21,11 @@ public final class DebugTool extends TrinketBase implements DebugToolSettings, D
         entityDebugTrinketOffsetList = new ArrayList<>();
         entityDebugTrinketMap = new HashMap<>();
         registeredEntities = new ArrayList<>();
-        Sprite sprite = new Sprite(this);
-        sprite.addImage(IMAGE, "main");
-        sprite.setImage("main");
+        Album album = new Album(this);
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        
         instance = this;
     }
     

@@ -1,11 +1,11 @@
 
 package javaKat.debugger; ;
 
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import javaKat.Camera;
 import javaKat.Rect;
-import javaKat.Sprite;
 import javaKat.Text;
 
 class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSettings, DebuggerTag{
@@ -13,9 +13,11 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
     private ArrayList<Text> info;
     protected SubRectDebugTrinket(Rect input, double xPosition, double yPosition) {
         super(xPosition,yPosition);
-        Sprite sprite = new Sprite(this);
-        sprite.addImage(IMAGE, "main");
-        sprite.setImage("main");
+        Album album = new Album(this);
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        
         rectInfo = input;
         info = new ArrayList<>();
         

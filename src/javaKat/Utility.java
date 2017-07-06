@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics;
 
 public final class Utility implements GameData{
-    protected static void addSprite( Sprite input, int index ) {
+    protected static void addAlbum( Album input, int index ) {
         while (GameData.sprites.size() <= index + 1) {
             GameData.sprites.add( new CopyOnWriteArrayList<>() );
         }

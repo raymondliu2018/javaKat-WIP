@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public final class Sprite{
+public final class Album{
     private Entity owner = null;
-    private HashMap<String,BufferedImage> images;
-    private HashMap<String,BufferedImage> rotatedImages;
-    private HashMap<String,Double> imageAngles;
-    private String currentKey;
+    private HashMap<String,BufferedImage> imageNameMap;
+    private HashMap<String,BufferedImage> rotatedImageNameMap;
+    private HashMap<String,Double> imageNameAngleMap;
+    private String page;
     private int x;
     private int y;
     private int layer = Integer.MAX_VALUE;
@@ -18,15 +18,15 @@ public final class Sprite{
     private DoubleCommand y$ = null;
     private RotationMode rotationMode = RotationMode.NONE;
     
-    public Sprite(int input) {
+    public Album(int input) {
         layer = input;
-        images = new HashMap<>();
-        rotatedImages = new HashMap<>();
-        imageAngles = new HashMap<>();
-        Manager.addSprite(this);
+        imageNameMap = new HashMap<>();
+        rotatedImageNameMap = new HashMap<>();
+        imageNameAngleMap = new HashMap<>();
+        Manager.addAlbum(this);
     }
     
-    public Sprite(Entity input) {
+    public Album(Entity input) {
         this(input.getLayer());       
         owner = input;
         input.attachSprite(this);
@@ -48,13 +48,13 @@ public final class Sprite{
             case BY_VELOCITY:
                 angle = owner.getRect().getVelocityAngle();
                 if (angle != Double.NaN){
-                    rotateCurrentImage(angle);
+                    Album.this.rotateCurrentPicture(angle);
                 }
                 break;
             case BY_ACCELERATION:
                 angle = owner.getRect().getAccelerationAngle();
                 if (angle != Double.NaN){
-                    rotateCurrentImage(angle);
+                    Album.this.rotateCurrentPicture(angle);
                 }
                 break;
             case BY_INPUT:
@@ -64,30 +64,30 @@ public final class Sprite{
     }
     
     /**
-     * @param input add an Image this Sprite can display
-     * @param name give this Image a name so this Sprite can access it anytime
+     * @param input add an Image this Album can display
+     * @param name give this Image a name so this Album can access it anytime
      */
-    public void addImage(BufferedImage input, String name) {
-        images.put(name,input);
+    public void addPageWithPicture(BufferedImage input, String name) {
+        imageNameMap.put(name,input);
     }
     
     /**
-     * @param input add an Image this Sprite can display
-     * @param name give this Image a name so this Sprite can access it anytime
+     * @param input add an Image this Album can display
+     * @param name give this Image a name so this Album can access it anytime
      */
-    public void addImage(String input, String name) {
-        addImage(Loader.loadImage(input),name);
+    public void addPageWithPicture(String input, String name) {
+        addPageWithPicture(Loader.loadImage(input),name);
     }
     /**
-     * clear all Images this Sprite has stored
+     * clear all Images this Album has stored
      */
-    public void clearImages() {
-        images.clear();
+    public void eraseAllPages() {
+        imageNameMap.clear();
     }
     
     /**
-     * @param d1 set the X position of this Sprite
-     * @param d2 set the Y position of this Sprite
+     * @param d1 set the X position of this Album
+     * @param d2 set the Y position of this Album
      */
     public void setCornerPosition( int inputx, int inputy ){
         setCornerX(inputx);
@@ -105,12 +105,12 @@ public final class Sprite{
     }
     
     /**
-     * @param input bind code to the x position of this Sprite to automatically recalculate position
+     * @param input bind code to the x position of this Album to automatically recalculate position
      */
     public void setCornerX(DoubleCommand input) {x$ = input;}
     
     /**
-     * @param input bind code to the y position of this Sprite to automatically recalculate position
+     * @param input bind code to the y position of this Album to automatically recalculate position
      */
     public void setCornerY(DoubleCommand input) {y$ = input;}
     
@@ -121,23 +121,23 @@ public final class Sprite{
     
     public void setCenterX(DoubleCommand input) {
         x$ = () -> {
-            return input.value() - getImage().getWidth()/2;
+            return input.value() - getPicture().getWidth()/2;
         };
     }
     
     public void setCenterY(DoubleCommand input) {
         x$ = () -> {
-            return input.value() - getImage().getHeight()/2;
+            return input.value() - getPicture().getHeight()/2;
         };
     }
     
     public void setCenterX(int input) {
-        x = input - getImage().getWidth()/2;
+        x = input - getPicture().getWidth()/2;
         x$ = null;
     }
     
     public void setCenterY(int input) {
-        y = input - getImage().getHeight()/2;
+        y = input - getPicture().getHeight()/2;
         y$ = null;
     }
     
@@ -146,47 +146,47 @@ public final class Sprite{
     public int getCornerY() {return (int) y;}
     
     /**
-     * @return get the current Image this Sprite is displaying
+     * @return get the current Image this Album is displaying
      */
-    public BufferedImage getImage() {
-        if (rotatedImages.get(currentKey) != null){
-            return rotatedImages.get(currentKey);
+    public BufferedImage getPicture() {
+        if (rotatedImageNameMap.get(page) != null){
+            return rotatedImageNameMap.get(page);
         }
-        return images.get(currentKey);
+        return imageNameMap.get(page);
     }
     
     /**
-     * @param input set the Image displayed by this Sprite to the Image with this name
+     * @param input set the Image displayed by this Album to the Image with this name
      */
-    public void setImage(String input) {
-        currentKey = input;
+    public void setPage(String input) {
+        page = input;
     }
     
     /**
      * @param name the name of the Image being rotated
      * @param degrees the number of degrees to rotate this image by
      */
-    public void rotateImage(String name, int degrees){
-        rotateImage(name, Math.toRadians((double) degrees));
+    public void rotatePictureOnPage(String name, int degrees){
+        rotatePictureOnPage(name, Math.toRadians((double) degrees));
     }
     
     /**
      * @param name the name of the Image being rotated
      * @param radians the number of radians to rotate this image by
      */
-    public void rotateImage(String name, double radians){
-        if (imageAngles.get(name) == null || imageAngles.get(name) != radians) {
-            rotatedImages.put(name,rotateImage(images.get(name), radians));
-            imageAngles.put(name, radians);
+    public void rotatePictureOnPage(String name, double radians){
+        if (imageNameAngleMap.get(name) == null || imageNameAngleMap.get(name) != radians) {
+            rotatedImageNameMap.put(name,rotateImage(imageNameMap.get(name), radians));
+            imageNameAngleMap.put(name, radians);
         }
     }
     
-    public void rotateCurrentImage(double radians) {
-        rotateImage(currentKey,radians);
+    public void rotateCurrentPicture(double radians) {
+        rotatePictureOnPage(page,radians);
     }
             
-    public void rotateCurrentImage(int degrees) {
-        rotateCurrentImage(Math.toRadians((double) degrees));
+    public void rotateCurrentPicture(int degrees) {
+        Album.this.rotateCurrentPicture(Math.toRadians((double) degrees));
     }
     
     private BufferedImage rotateImage(BufferedImage image, double radians){
@@ -208,9 +208,9 @@ public final class Sprite{
     }
     
     public void setLayer(int input) {
-        Manager.removeSprite(this, layer);
+        Manager.removeAlbum(this, layer);
         layer = input;
-        Manager.addSprite(this, layer);
+        Manager.addAlbum(this, layer);
     }
     
     public int getLayer() {return layer;}
@@ -228,5 +228,21 @@ public final class Sprite{
                 break;
         }
         rotationMode = input;
+    }
+    
+    public int getCurrentPageWidth() {
+        return getPicture().getWidth();
+    }
+    
+    public int getCurrentPageHeight() {
+        return getPicture().getHeight();
+    }
+    
+    public int getPageWidth(String input) {
+        return imageNameMap.get(input).getWidth();
+    }
+    
+    public int getPageHeight(String input) {
+        return imageNameMap.get(input).getHeight();
     }
 }

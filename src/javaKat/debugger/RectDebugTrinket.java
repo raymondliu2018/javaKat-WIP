@@ -1,12 +1,12 @@
 
 package javaKat.debugger; ;
 
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javaKat.Entity;
 import javaKat.Manager;
-import javaKat.Sprite;
 import javaKat.Text;
 
 class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, DebuggerTag{
@@ -15,9 +15,10 @@ class RectDebugTrinket extends TrinketBase implements RectDebugTrinketSettings, 
     private int listSizeError;
     protected RectDebugTrinket(double xPosition, double yPosition){
         super(xPosition, yPosition);
-        Sprite sprite = new Sprite(this);
-        sprite.addImage(IMAGE, "main");
-        sprite.setImage("main");
+        Album album = new Album(this);
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
         subRectDebugTrinkets = new HashMap<>();
         labelList = new ArrayList<>();

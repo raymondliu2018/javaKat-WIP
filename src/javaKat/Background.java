@@ -5,11 +5,11 @@ import javax.sound.sampled.Clip;
 import javaKat.debugger.DebuggerTag;
 final class Background extends Entity implements DebuggerTag {
     protected static Background instance;
-    private static Sprite sprite;
+    private static Album sprite;
     private Background() {
         super();
         rect.setLayer(0);
-        sprite = new Sprite(this);
+        sprite = new Album(this);
     }
     
     public static Background getInstance() {
@@ -27,9 +27,9 @@ final class Background extends Entity implements DebuggerTag {
         else {
             System.out.println("Frame did not resize: Invalid image");
         }
-        sprite.clearImages();
-        sprite.addImage(input,"main");
-        sprite.setImage("main");
+        sprite.eraseAllPages();
+        sprite.addPageWithPicture(input,"main");
+        sprite.setPage("main");
     }
     
     protected void set(Clip input) {

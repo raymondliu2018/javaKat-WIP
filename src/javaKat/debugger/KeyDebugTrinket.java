@@ -1,22 +1,22 @@
 package javaKat.debugger; ;
 
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javaKat.Key;
-import javaKat.Sprite;
 import javaKat.Text;
 
 class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, DebuggerTag{
     private HashMap<Integer,Text> individualKeyMap;
     private ArrayList<Text> individualKeyList;
-    private Sprite sprite;
+    private Album album;
     protected KeyDebugTrinket(ArrayList<Key> keys, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        sprite.addImage(IMAGE, "main");
-        sprite.setImage("main");
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
-        int counter = 0;
         individualKeyMap = new HashMap<>();
         individualKeyList = new ArrayList<>();
         

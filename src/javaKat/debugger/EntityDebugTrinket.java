@@ -1,10 +1,10 @@
 package javaKat.debugger; ;
 
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import javaKat.Entity;
 import javaKat.Manager;
-import javaKat.Sprite;
 import javaKat.Text;
 import javaKat.Utility;
 
@@ -14,11 +14,14 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
     private ControlDebugTrinket controlDebugTrinket;
     private RectDebugTrinket rectDebugTrinket;
     private int instances;
-    private Sprite sprite;
+    private Album album;
     protected EntityDebugTrinket (Entity input, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        sprite = new Sprite(this);
-        sprite.addImage(IMAGE,"main");
+        album = new Album(this);
+        album.addPageWithPicture(IMAGE,"main");
+        album.setPage("main");   
+        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        
         entityName = input.getClass().getName();
         discoveredEntities = new ArrayList<>();
         
@@ -84,8 +87,8 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
     protected boolean noControls(){
         if (controlDebugTrinket.noControls()){
             Manager.removeEntity(controlDebugTrinket);
-            sprite.addImage(Utility.scaleImage(sprite.getImage(), 250, 25), "smaller");
-            sprite.setImage("smaller");
+            album.addPageWithPicture(Utility.scaleImage(album.getPicture(), 250, 25), "smaller");
+            album.setPage("smaller");
             return true;
         }
         else {

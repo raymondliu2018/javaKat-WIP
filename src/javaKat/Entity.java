@@ -21,7 +21,7 @@ public abstract class Entity
     private final HashMap<String,KeyCommand> keyMapReleased;
     private final ArrayList<Key> keys;
     private final ArrayList<Button> buttons;
-    private ArrayList<Sprite> sprites;
+    private ArrayList<Album> sprites;
     protected JukeBox jukeBox;
     private boolean focused = false;
     protected Rect rect;
@@ -47,11 +47,11 @@ public abstract class Entity
     
     //Sprite
     /**
-     * @return get the Sprite element of this Entity
+     * @return get the Album element of this Entity
      */
-    public final ArrayList<Sprite> getSprites() {return sprites;}
+    public final ArrayList<Album> getAlbums() {return sprites;}
     
-    protected final void attachSprite(Sprite input) {
+    protected final void attachSprite(Album input) {
         sprites.add(input);
     }
     
@@ -204,13 +204,13 @@ public abstract class Entity
     
     public final void setLayer(int input) {
         Manager.removeRect(rect, layer);
-        Manager.removeSprites(sprites, layer);
+        Manager.removeAlbums(sprites, layer);
         layer = input;
         rect.setLayer(layer);
-        for (Sprite sprite: sprites) {  
+        for (Album sprite: sprites) {  
             sprite.setLayer(layer);
         }
-        Manager.addSprites(sprites, layer);
+        Manager.addAlbums(sprites, layer);
         Manager.addRect(rect, layer);
     }
     

@@ -58,16 +58,16 @@ public final class Manager extends Manipulator implements GameData{
         queuedCommands.add(() -> {if (!input.superCalled()){throw new RuntimeException("Super not called on " + input);}});
         queuedCommands.add(() -> {GameData.keys.addAll(input.getKeys());});
         queuedCommands.add(() -> {GameData.buttons.addAll(input.getButtons());});
-        addSprites(input.getSprites(),input.getLayer());
+        addAlbums(input.getAlbums(),input.getLayer());
         addRect(input.getRect(),input.getLayer());
         addEnder(input);
         addFocused(input);
         queuedCommands.add(() -> {GameData.allEntities.add(input);});
     }
     
-    protected static void addSprites(ArrayList <Sprite> sprites, int layer) {
-        for (Sprite sprite: sprites) {
-            addSprite(sprite, layer);
+    protected static void addAlbums(ArrayList <Album> albums, int layer) {
+        for (Album album: albums) {
+            Manager.addAlbum(album, layer);
         }
     }
     
@@ -75,44 +75,44 @@ public final class Manager extends Manipulator implements GameData{
         queuedCommands.add(() -> {GameData.keys.removeAll(input.getKeys());});
         queuedCommands.add(() -> {GameData.buttons.removeAll(input.getButtons());});
         queuedCommands.add(() -> {GameData.stats.removeAll(input.getStats());});
-        removeSprites(input.getSprites(), input.getLayer());
+        removeAlbums(input.getAlbums(), input.getLayer());
         removeRect(input.getRect(),input.getLayer());
         removeEnder(input);
         removeFocused(input);
         queuedCommands.add(() -> {GameData.allEntities.remove(input);});
     }
     
-    protected static void removeSprites(ArrayList <Sprite> sprites, int layer) {
-        for (Sprite sprite: sprites) {
-            removeSprite(sprite, layer);
+    protected static void removeAlbums(ArrayList <Album> albums, int layer) {
+        for (Album album: albums) {
+            Manager.removeAlbum(album, layer);
         }
     }
     
-    public static void addSprite( Sprite input, int to ) {
-        queuedCommands.add(() -> {Utility.addSprite(input, to);});
+    public static void addAlbum( Album input, int to ) {
+        queuedCommands.add(() -> {Utility.addAlbum(input, to);});
     }
     
-    public static void removeSprite( Sprite input, int from ) {
+    public static void removeAlbum( Album input, int from ) {
         queuedCommands.add(() -> {
             GameData.sprites.get(from).remove(input);
         });
     }
     
-    public static void addSprite( Sprite input ) {
+    public static void addAlbum( Album input ) {
         if (input.getLayer() == Integer.MAX_VALUE) {
-            throw new IllegalStateException("Sprite not bound to Entity nor assinged a layer to reside in");
+            throw new IllegalStateException("Album not bound to Entity nor assinged a layer to reside in");
         }
         else {
-            addSprite( input, input.getLayer() );
+            Manager.addAlbum( input, input.getLayer() );
         }
     }
     
-    public static void removeSprite( Sprite input ) {
+    public static void removeAlbum( Album input ) {
         if (input.getLayer() == Integer.MAX_VALUE) {
-            throw new IllegalStateException("Sprite not bound to Entity nor assinged a layer to reside in");
+            throw new IllegalStateException("Album not bound to Entity nor assinged a layer to reside in");
         }
         else {
-            removeSprite( input, input.getLayer());
+            Manager.removeAlbum( input, input.getLayer());
         }
     }
     protected static void addRect( Rect input, int to ) {
