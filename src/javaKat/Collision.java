@@ -49,14 +49,17 @@ final class Collision extends Manipulator implements GameData
                                 //Ghost Collision; Nothing happens
                                 break;
                             case 34:
-                                //Object 1 Deflects, Object 2 Reflects (Object 2 block Object 1)
+                                //Object 1 Deflects, Object 2 Reflects (Object 2 blocks Object 1)
+                                reflect$deflect(object2,object1);
                                 break;
                             case 43:
                                 //Opposite of above
+                                reflect$deflect(object1,object2);
                             case 15:
                             case 51:
                             case 55:
                                 //Bounce
+                                bounce(object1,object2);
                             default:
                                 String error = new String();
                                 String entity1 = object1.getOwner().toString();
@@ -75,7 +78,28 @@ final class Collision extends Manipulator implements GameData
         }
     }
     
-    //No longer in use
+    private static void reflect$deflect(Rect reflector, Rect deflector) {
+        int solutionWidth = -((int)deflector.getCornerX() - (int)reflector.getCornerX());
+        int solutionHeight = -((int)deflector.getCornerY() - (int)reflector.getCornerY());
+        if (solutionHeight >= solutionWidth) {
+            deflector.offsetXVelocityBy(-2 * deflector.getXVelocity());
+        }
+        if (solutionHeight <= solutionWidth) {
+            deflector.offsetYVelocityBy(-2 * deflector.getYVelocity());
+        }
+    }
+    
+    private static void bounce(Rect r1, Rect r2) {
+        double r1x = r1.getXVelocity();
+        double r1y = r1.getYVelocity();
+        double r2x = r2.getXVelocity();
+        double r2y = r2.getYVelocity();
+        r1.setXVelocity(r2x);
+        r1.setYVelocity(r2y);
+        r2.setXVelocity(r1x);
+        r2.setYVelocity(r1y);
+    }
+//No longer in use
     /*protected static void collide(Rect a, Rect b){
         double Vax = a.getXVelocity();
         double Vay = a.getYVelocity();
