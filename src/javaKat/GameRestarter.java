@@ -11,14 +11,11 @@ public final class GameRestarter {
         Manager.enable();
         Camera.enable();
         Drawing.enable();
+        Script.init();
+        GameMaster.enable();
     }
     
     public static void wipeAllEntities() {
         Manager.wipeAll();
-    }
-    
-    public static void finish() {
-        Script.init();
-        GameMaster.enable();
     }
 }
