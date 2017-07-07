@@ -1,5 +1,6 @@
 package javaKat;  
 
+import java.util.Arrays;
 import workspace.Script;
 
 final class Collision extends Manipulator implements GameData
@@ -79,16 +80,68 @@ final class Collision extends Manipulator implements GameData
     }
     
     private static void reflect$deflect(Rect reflector, Rect deflector) {
-        int solutionWidth = -((int)deflector.getCornerX() - (int)reflector.getCornerX());
-        int solutionHeight = -((int)deflector.getCornerY() - (int)reflector.getCornerY());
-        if (solutionHeight >= solutionWidth) {
-            deflector.offsetXVelocityBy(-2 * deflector.getXVelocity());
+        int intersectionWidth = Utility.intersectionWidth(reflector, deflector);
+        int intersectionHeight = Utility.intersectionHeight(reflector, deflector);
+        int intersectionWidthAbs = Math.abs(intersectionWidth);
+        int intersectionHeightAbs = Math.abs(intersectionHeight);
+        if (intersectionHeightAbs >= intersectionWidthAbs) {
+            //X
+            double deflectorCenterX = deflector.getCenterX();
+            double reflectorCenterX = reflector.getCenterX();
+            double reflectorVelocityX = reflector.getXVelocity();
+            if (reflectorCenterX > deflectorCenterX && reflectorVelocityX < 0.0) {
+                reflector.setXVelocity(-reflectorVelocityX);
+            }
+            if (deflectorCenterX > reflectorCenterX && reflectorVelocityX > 0.0) {
+                reflector.setXVelocity(-reflectorVelocityX);
+            }
         }
-        if (solutionHeight <= solutionWidth) {
-            deflector.offsetYVelocityBy(-2 * deflector.getYVelocity());
+        if (intersectionWidthAbs >= intersectionHeightAbs) {
+            //Y
+            double deflectorCenterY = deflector.getCenterY();
+            double reflectorCenterY = reflector.getCenterY();
+            double reflectorVelocityY = reflector.getYVelocity();
+            if (reflectorCenterY > deflectorCenterY && reflectorVelocityY < 0.0) {
+                reflector.setYVelocity(-reflectorVelocityY);
+            }
+            if (deflectorCenterY > reflectorCenterY && reflectorVelocityY > 0.0) {
+                reflector.setYVelocity(-reflectorVelocityY);
+            }
         }
-        reflector.updateWithoutFriction();
-        deflector.updateWithoutFriction();
+    }
+    
+    private static class Utility{
+        private static int intersectionHeight(Rect r1, Rect r2) {
+            int y1 = (int) r1.getCornerY();
+            int y2 = (int) r2.getCornerY();
+            return distanceBetweenMiddlePoints(y1,y1 + (int) r1.getHeight(),y2,y2 + (int)r2.getHeight());
+        }
+        
+        private static int intersectionWidth(Rect r1, Rect r2) {
+            int x1 = (int) r1.getCornerX();
+            int x2 = (int) r2.getCornerX();
+            return distanceBetweenMiddlePoints(x1,x1 + (int) r1.getWidth(),x2,x2 + (int)r2.getWidth());
+        }
+        
+        private static int distanceBetweenMiddlePoints(int i1, int i2, int i3, int i4) {
+            int [] array = {i1, i2, i3, i4};
+            sort( array );
+            return array[2] - array[1];
+        }
+        
+        private static void sort( int [] input ) {
+            int length = input.length;
+            int a, b, temp;
+            for (a = 1; a < length; a++) {
+                b = a;
+                temp = input[a];
+                while (b > 0 && temp < input[b]){
+                    input[b] = input[b - 1];
+                    b = b - 1;
+                }
+                input[b] = temp;
+            }
+        }
     }
     
     private static void bounce(Rect r1, Rect r2) {
