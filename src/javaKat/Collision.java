@@ -50,17 +50,19 @@ final class Collision extends Manipulator implements GameData
                                 //Ghost Collision; Nothing happens
                                 break;
                             case 34:
-                                //Object 1 Deflects, Object 2 Reflects (Object 2 blocks Object 1)
-                                reflect$deflect(object2,object1);
+                                //Object 2 Deflects, Object 1 Reflects (Object 1 blocks Object 2)
+                                reflect$deflect(object1,object2);
                                 break;
                             case 43:
                                 //Opposite of above
-                                reflect$deflect(object1,object2);
+                                reflect$deflect(object2,object1);
+                                break;
                             case 15:
                             case 51:
                             case 55:
                                 //Bounce
                                 bounce(object1,object2);
+                                break;
                             default:
                                 String error = new String();
                                 String entity1 = object1.getOwner().toString();
@@ -84,30 +86,31 @@ final class Collision extends Manipulator implements GameData
         int intersectionHeight = Utility.intersectionHeight(reflector, deflector);
         int intersectionWidthAbs = Math.abs(intersectionWidth);
         int intersectionHeightAbs = Math.abs(intersectionHeight);
-        if (intersectionHeightAbs >= intersectionWidthAbs) {
+        if (intersectionWidthAbs <= intersectionHeightAbs) {
             //X
             double deflectorCenterX = deflector.getCenterX();
             double reflectorCenterX = reflector.getCenterX();
-            double reflectorVelocityX = reflector.getXVelocity();
-            if (reflectorCenterX > deflectorCenterX && reflectorVelocityX < 0.0) {
-                reflector.setXVelocity(-reflectorVelocityX);
+            double deflectorVelocityX = deflector.getXVelocity();
+            if (reflectorCenterX < deflectorCenterX && deflectorVelocityX < 0.0) {
+                deflector.setXVelocity(-deflectorVelocityX);
             }
-            if (deflectorCenterX > reflectorCenterX && reflectorVelocityX > 0.0) {
-                reflector.setXVelocity(-reflectorVelocityX);
+            if (reflectorCenterX > deflectorCenterX && deflectorVelocityX > 0.0) {
+                deflector.setXVelocity(-deflectorVelocityX);
             }
         }
         if (intersectionWidthAbs >= intersectionHeightAbs) {
             //Y
             double deflectorCenterY = deflector.getCenterY();
             double reflectorCenterY = reflector.getCenterY();
-            double reflectorVelocityY = reflector.getYVelocity();
-            if (reflectorCenterY > deflectorCenterY && reflectorVelocityY < 0.0) {
-                reflector.setYVelocity(-reflectorVelocityY);
+            double deflectorVelocityY = deflector.getYVelocity();
+            if (reflectorCenterY < deflectorCenterY && deflectorVelocityY < 0.0) {
+                deflector.setYVelocity(-deflectorVelocityY);
             }
-            if (deflectorCenterY > reflectorCenterY && reflectorVelocityY > 0.0) {
-                reflector.setYVelocity(-reflectorVelocityY);
+            if (reflectorCenterY > deflectorCenterY && deflectorVelocityY > 0.0) {
+                deflector.setYVelocity(-deflectorVelocityY);
             }
         }
+        deflector.updateWithoutFriction();
     }
     
     private static class Utility{
