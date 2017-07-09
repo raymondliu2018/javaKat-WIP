@@ -15,6 +15,8 @@ final class Background extends Entity implements DebuggerTag {
     public static Background getInstance() {
         if (instance == null) {
             instance = new Background();
+        }
+        if (!Manager.findThisEntity(instance)){
             Manager.queueNewEntity(instance);
         }
         return instance;
