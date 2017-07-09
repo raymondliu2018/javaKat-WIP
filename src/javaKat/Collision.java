@@ -157,14 +157,32 @@ final class Collision extends Manipulator implements GameData
     }
     
     private static void bounce(Rect r1, Rect r2) {
-        double r1x = r1.getXVelocity();
-        double r1y = r1.getYVelocity();
-        double r2x = r2.getXVelocity();
-        double r2y = r2.getYVelocity();
-        r1.setXVelocity(r2x);
-        r1.setYVelocity(r2y);
-        r2.setXVelocity(r1x);
-        r2.setYVelocity(r1y);
+        int intersectionWidth = Utility.intersectionWidth(r1, r2);
+        int intersectionHeight = Utility.intersectionHeight(r1, r2);
+        int intersectionWidthAbs = Math.abs(intersectionWidth);
+        int intersectionHeightAbs = Math.abs(intersectionHeight);
+        /*System.out.print("Box\t");
+        System.out.print(reflector.getOwner().toString());
+        System.out.print("\tblocking\t");
+        System.out.print(deflector.getOwner().toString());
+        System.out.print("\t");
+        System.out.print(intersectionWidth);
+        System.out.print("\t");
+        System.out.println(intersectionHeight);*/
+        if (intersectionWidthAbs <= intersectionHeightAbs) {
+            //X
+            double d1 = r1.getXVelocity();
+            double d2 = r2.getXVelocity();
+            r1.setXVelocity(d2);
+            r2.setXVelocity(d1);
+        }
+        if (intersectionWidthAbs >= intersectionHeightAbs) {
+            //Y
+            double d1 = r1.getYVelocity();
+            double d2 = r2.getYVelocity();
+            r1.setYVelocity(d2);
+            r2.setYVelocity(d1);
+        }
         r1.updateWithoutFriction();
         r2.updateWithoutFriction();
     }
