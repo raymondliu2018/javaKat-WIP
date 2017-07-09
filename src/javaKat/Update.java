@@ -18,7 +18,10 @@ final class Update extends Manipulator implements GameData
             text.update();
         }
         for( Ender ender: GameData.enders ) {
-            if (ender.checkEndGameCondition()) {Script.end();}
+            if (ender.checkEndGameCondition()) {
+                Script.end();
+                break;
+            }
         }
     }
 }

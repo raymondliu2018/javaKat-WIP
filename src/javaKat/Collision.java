@@ -86,6 +86,14 @@ final class Collision extends Manipulator implements GameData
         int intersectionHeight = Utility.intersectionHeight(reflector, deflector);
         int intersectionWidthAbs = Math.abs(intersectionWidth);
         int intersectionHeightAbs = Math.abs(intersectionHeight);
+        /*System.out.print("Box\t");
+        System.out.print(reflector.getOwner().toString());
+        System.out.print("\tblocking\t");
+        System.out.print(deflector.getOwner().toString());
+        System.out.print("\t");
+        System.out.print(intersectionWidth);
+        System.out.print("\t");
+        System.out.println(intersectionHeight);*/
         if (intersectionWidthAbs <= intersectionHeightAbs) {
             //X
             double deflectorCenterX = deflector.getCenterX();
@@ -129,6 +137,7 @@ final class Collision extends Manipulator implements GameData
         private static int distanceBetweenMiddlePoints(int i1, int i2, int i3, int i4) {
             int [] array = {i1, i2, i3, i4};
             sort( array );
+            //System.out.println(array[0] + "\t" +  array[1] + "\t" + array[2] + "\t" + array[3]);
             return array[2] - array[1];
         }
         
@@ -136,13 +145,13 @@ final class Collision extends Manipulator implements GameData
             int length = input.length;
             int a, b, temp;
             for (a = 1; a < length; a++) {
-                b = a;
-                temp = input[a];
-                while (b > 0 && temp < input[b]){
-                    input[b] = input[b - 1];
-                    b = b - 1;
+                for(b = a; b > 0; b--) {
+                    if (input[b] < input[b - 1]){
+                        temp = input[b];
+                        input[b] = input[b-1];
+                        input[b-1] = temp;
+                    }
                 }
-                input[b] = temp;
             }
         }
     }
