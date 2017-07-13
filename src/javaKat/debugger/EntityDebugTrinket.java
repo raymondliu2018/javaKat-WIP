@@ -1,5 +1,6 @@
 package javaKat.debugger; ;
 
+import javaKat.PositionMode;
 import javaKat.Tag;
 import javaKat.Album;
 import java.awt.Font;
@@ -20,7 +21,8 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         album = new Album(this);
         album.addPageWithPicture(IMAGE,"main");
         album.setPage("main");   
-        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        album.setPositionMode(PositionMode.BY_RECT);
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
         entityName = input.getClass().getName();
         discoveredEntities = new ArrayList<>();
@@ -28,15 +30,14 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         controlDebugTrinket = new ControlDebugTrinket(input,
                 rect.getCornerX() + CONTROL_DEBUG_TRINKET_OFFSET_X,
                 rect.getCornerY() + rect.getHeight() + CONTROL_DEBUG_TRINKET_OFFSET_Y);
-        Manager.queueNewEntity(controlDebugTrinket);
         
         rectDebugTrinket = new RectDebugTrinket(
                 rect.getCornerX() + RECT_DEBUG_TRINKET_OFFSET_X,
                 rect.getCornerY() + rect.getHeight() + RECT_DEBUG_TRINKET_OFFSET_Y);
-        Manager.queueNewEntity(rectDebugTrinket);
         
         //DOESN'T NEED TO BE ADDED
         Tag entityType = new Tag(this);
+        entityType.setPositionMode(PositionMode.BY_INPUT);
         entityType.setColor(STANDARD_COLOR);
         entityType.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_TYPE_FONT_SIZE));
         entityType.setMessage(truncateString(entityName.substring(entityName.lastIndexOf(".") + 1)));
@@ -44,6 +45,7 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         entityType.setCenterY(() -> {return rect.getCenterY() + ENTITY_TYPE_OFFSET_Y;});
         
         Tag entityNumber = new Tag(this);
+        entityNumber.setPositionMode(PositionMode.BY_INPUT);
         entityNumber.setColor(STANDARD_COLOR);
         entityNumber.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_COUNT_FONT_SIZE));
         entityNumber.setMessage(() -> {
@@ -79,7 +81,7 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         rectDebugTrinket.entityRemoved(input);
         
         if (!controlDebugTrinket.noControls()){
-        controlDebugTrinket.entityRemoved(input);
+            controlDebugTrinket.entityRemoved(input);
         }
         instances -= 1;
     }

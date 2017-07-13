@@ -1,6 +1,7 @@
 
 package javaKat.debugger; ;
 
+import javaKat.PositionMode;
 import javaKat.Tag;
 import javaKat.Album;
 import java.awt.Font;
@@ -16,7 +17,8 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
         Album album = new Album(this);
         album.addPageWithPicture(IMAGE, "main");
         album.setPage("main");
-        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        album.setPositionMode(PositionMode.BY_RECT);
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
         rectInfo = input;
         info = new ArrayList<>();
@@ -82,6 +84,7 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
     }
     
     private void formatText(Tag input) {
+        input.setPositionMode(PositionMode.BY_INPUT);
         info.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

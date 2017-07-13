@@ -23,7 +23,7 @@ public final class Album extends Attachable{
     public Album(Entity input) {
         super(input);
         layer = input.getLayer();       
-        input.attachSprite(this);
+        input.attachAlbum(this);
         constructionHelper();
     }
     

@@ -24,7 +24,7 @@ public final class DebugTool extends TrinketBase implements DebugToolSettings, D
         Album album = new Album(this);
         album.addPageWithPicture(IMAGE, "main");
         album.setPage("main");
-        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
         instance = this;
     }
@@ -87,7 +87,6 @@ public final class DebugTool extends TrinketBase implements DebugToolSettings, D
         else {
             entityDebugTrinketOffsetList.add(750);
         }
-        Manager.queueNewEntity(entityDebugTrinket);
         entityTypes.add(input.getClass().getName());
         entityDebugTrinketMap.put(input.getClass().getName(),entityDebugTrinket);
     }

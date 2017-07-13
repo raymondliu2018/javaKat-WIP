@@ -1,5 +1,6 @@
 package javaKat.debugger; ;
 
+import javaKat.PositionMode;
 import javaKat.Tag;
 import javaKat.Album;
 import java.awt.Font;
@@ -21,7 +22,8 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
         Album album = new Album(this);
         album.addPageWithPicture(IMAGE, "main");
         album.setPage("main");
-        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        album.setPositionMode(PositionMode.BY_RECT);
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
         exampleEntity = input;
         
@@ -63,7 +65,6 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
         KeyDebugTrinket temp = new KeyDebugTrinket(input.getKeys(),
                 rect.getCornerX(),
                 (rect.getCornerY() + rect.getHeight()) + (KEY_DEBUG_TRINKET_OFFSET_Y * (keyDebugTrinketMap.size() + listSizeError)));
-        Manager.queueNewEntity(temp);
         keyDebugTrinketMap.put(input, temp);
     }
     
@@ -74,6 +75,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
     }
     
     private void formatText(Tag input) {
+        input.setPositionMode(PositionMode.BY_INPUT);
         actions.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

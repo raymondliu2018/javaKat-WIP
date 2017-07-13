@@ -7,7 +7,6 @@ abstract class TrinketBase extends Entity implements DebuggerTag{
         super();
         rect.setLayer(DEBUGGER_LAYER);
         rect.setCornerX(xPosition);
-        rect.setCornerY(yPosition);
+            rect.setCornerY(yPosition);
     }
-    
 }

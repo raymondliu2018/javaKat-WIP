@@ -67,7 +67,7 @@ public final class Manager extends Manipulator implements GameData{
     
     protected static void addAlbums(ArrayList <Album> albums, int layer) {
         for (Album album: albums) {
-            Manager.addAlbum(album, layer);
+            addAlbum(album, layer);
         }
     }
     

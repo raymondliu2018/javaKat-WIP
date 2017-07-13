@@ -1,5 +1,6 @@
 package javaKat.debugger; ;
 
+import javaKat.PositionMode;
 import javaKat.Tag;
 import javaKat.Album;
 import java.awt.Font;
@@ -13,9 +14,11 @@ class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, De
     private Album album;
     protected KeyDebugTrinket(ArrayList<Key> keys, double xPosition, double yPosition) {
         super(xPosition, yPosition);
+        album = new Album(this);
         album.addPageWithPicture(IMAGE, "main");
         album.setPage("main");
-        this.resizeByCenter(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        album.setPositionMode(PositionMode.BY_RECT);
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
         individualKeyMap = new HashMap<>();
         individualKeyList = new ArrayList<>();
@@ -40,6 +43,7 @@ class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, De
     }
     
     private void formatText(Tag input) {
+        input.setPositionMode(PositionMode.BY_INPUT);
         individualKeyList.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

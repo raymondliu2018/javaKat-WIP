@@ -2,7 +2,7 @@ package javaKat;
 
 abstract class Attachable {
     private Entity owner;
-    private MovementMode movementMode = MovementMode.NONE;
+    private PositionMode positionMode = PositionMode.NONE;
     private DoubleCommand x$ = null;
     private DoubleCommand y$ = null;
     private int x;
@@ -19,7 +19,7 @@ abstract class Attachable {
     protected Entity getOwner() {return owner;}
     
     protected void movementUpdate() {
-        switch (movementMode) {
+        switch (positionMode) {
             case BY_RECT:
                 x = (int) owner.getRect().getCornerX();
                 y = (int) owner.getRect().getCornerY();
@@ -78,7 +78,7 @@ abstract class Attachable {
     
     public void setCenterY(DoubleCommand input) {
         checkMovementMode();
-        x$ = () -> {
+        y$ = () -> {
             return input.value() - getHeight()/2;
         };
     }
@@ -100,19 +100,19 @@ abstract class Attachable {
     protected abstract int getHeight();
     
     private void checkMovementMode() {
-        if (movementMode != MovementMode.BY_INPUT) {
+        if (positionMode != PositionMode.BY_INPUT) {
             throw new IllegalArgumentException("Movement mode not by input; cannot set coordinates");
         }
     }
     
-    public void setMovementMode(MovementMode input) {
+    public void setPositionMode(PositionMode input) {
         switch(input) {
             case BY_RECT:
                 if (owner == null) {
-                    throw new IllegalArgumentException("This album is not attached to an Entity to calculate position from");
+                    throw new IllegalArgumentException("This Attachable is not attached to an Entity to calculate position from");
                 }
                 break;
         }
-        movementMode = input;
+        positionMode = input;
     }
 }

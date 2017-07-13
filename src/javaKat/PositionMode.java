@@ -1,5 +1,5 @@
 package javaKat;
 
-public enum MovementMode {
+public enum PositionMode {
     BY_RECT, BY_INPUT, NONE
 }

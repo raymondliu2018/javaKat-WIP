@@ -21,7 +21,7 @@ public abstract class Entity
     private final HashMap<String,KeyCommand> keyMapReleased;
     private final ArrayList<Key> keys;
     private final ArrayList<Button> buttons;
-    private ArrayList<Album> albums;
+    private final ArrayList<Album> albums;
     protected JukeBox jukeBox;
     private boolean focused = false;
     protected Rect rect;
@@ -53,7 +53,7 @@ public abstract class Entity
      */
     public final ArrayList<Album> getAlbums() {return albums;}
     
-    protected final void attachSprite(Album input) {
+    protected final void attachAlbum(Album input) {
         albums.add(input);
     }
     
