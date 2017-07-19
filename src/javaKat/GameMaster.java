@@ -3,6 +3,7 @@ package javaKat;
 import java.util.*;
 import java.awt.event.*;
 import workspace.Script;
+import javaKat.IE.CyberBridge;
 
 public final class GameMaster implements GameData
 {
@@ -11,13 +12,19 @@ public final class GameMaster implements GameData
     private static Looper loop;
     private static long loopStartTime;
     private static long loopEndTime;
+    private static boolean networkActivated = false;
     
     private GameMaster(String name) {
         frame = new Frame(name);
         looper = new Timer();
         Script.init();
-        loop = new Looper();
-        looper.scheduleAtFixedRate(loop,20,20);
+        if (networkActivated) {
+            CyberBridge.setSail(this);
+        }
+        else {
+            loop = new Looper();
+            looper.scheduleAtFixedRate(loop,20,20);
+        }
     }
     
     public static Frame getFrame() {return frame;}
@@ -58,5 +65,9 @@ public final class GameMaster implements GameData
     
     protected static void recordEndTime(long input){
         loopEndTime = input;
+    }
+    
+    public static void activateNetwork() {
+        networkActivated = true;
     }
 }

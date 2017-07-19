@@ -1,4 +1,4 @@
-package IE;
+package javaKat.IE;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
