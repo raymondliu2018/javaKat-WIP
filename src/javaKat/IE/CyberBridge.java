@@ -4,11 +4,9 @@ import java.util.Scanner;
 import javaKat.GameMaster;
 
 public final class CyberBridge {
+    private static CyberShip cyberShip;
     public static void setSail(Object requestor) {
-        CyberShip cyberShip;
-        if (requestor instanceof GameMaster){
-        }
-        else {
+        if (!(requestor instanceof GameMaster)){
             System.out.println("Object starting server was not GameMaster!!!");
             throw new IllegalArgumentException("SET_SAIL-ATTEMPTING_STARTUP");
         }
@@ -33,4 +31,7 @@ public final class CyberBridge {
         cyberShip.start();
     }
     
+    public static void run() {
+        cyberShip.sendShipment();
+    }
 }

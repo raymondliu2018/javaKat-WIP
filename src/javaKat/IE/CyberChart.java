@@ -12,7 +12,6 @@ class CyberChart {
         ObjectOutputStream objectOutputStream;
         try {
             objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-            
         }
         catch (IOException e) {
             System.out.println("Internal errors");

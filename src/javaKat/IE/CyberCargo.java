@@ -1,59 +1,70 @@
 package javaKat.IE;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import javaKat.GameData;
-
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 class CyberCargo implements Serializable{
-    private ArrayList allEntities, focusedEntities, keys, buttons, layers, soundFiles, imageFiles, images, sounds, enders;
-    private CopyOnWriteArrayList sprites, stats;
-    private static CyberCargo storage;
     
-    private CyberCargo() {
-        pack(allEntities,GameData.allEntities);
-        pack(focusedEntities,GameData.focusedEntities);
-        pack(keys,GameData.keys);
-        pack(buttons,GameData.buttons);
-        pack(layers,GameData.layers);
-        pack(soundFiles,GameData.soundFiles);
-        pack(imageFiles,GameData.imageFiles);
-        pack(images,GameData.images);
-        pack(sounds,GameData.sounds);
-        pack(enders,GameData.enders);
-        pack(sprites,GameData.sprites);
-        pack(stats,GameData.stats);
+    static int alphaSize() {
+        return 1024;
     }
     
-    protected static void store(CyberCargo input) {
-        storage = input;
-    }
-    protected static void unpack(CyberCargo input) {
-        unpack(GameData.allEntities,input.allEntities);
-        unpack(GameData.focusedEntities,input.allEntities);
-        unpack(GameData.keys,input.keys);
-        unpack(GameData.buttons,input.buttons);
-        unpack(GameData.layers,input.layers);
-        unpack(GameData.imageFiles,input.imageFiles);
-        unpack(GameData.soundFiles,input.soundFiles);
-        unpack(GameData.images,input.images);
-        unpack(GameData.sounds,input.sounds);
-        unpack(GameData.enders,input.enders);
-        unpack(GameData.sprites,input.sprites);
-        unpack(GameData.stats,input.stats);
+    static int betaSize(){
+        return 1024;
     }
     
-    protected static CyberCargo pack() {
-        return new CyberCargo();
+    static void setAlpha(byte [] input, int length) {
+        ObjectInputStream ois = getObjectInputStream(truncateByteArray(input,length));
     }
     
-    private static void unpack(List gameData, List input) {
-        gameData.clear();
-        gameData.addAll(input);
+    static void setBeta(byte [] input, int length) {
+        ObjectInputStream ois = getObjectInputStream(truncateByteArray(input,length));
     }
     
-    private static void pack(List input, List gameData){
-        input = gameData;
+    static byte [] getAlpha() {
+        ObjectOutputStream oos = getObjectOutputStream();
+        return new byte[]{1,2,3,4};
+    }
+    
+    static byte [] getBeta() {
+        ObjectOutputStream oos = getObjectOutputStream();
+        return new byte[]{1,2,3,4};
+    }
+    
+    private static ObjectOutputStream getObjectOutputStream() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream objectOutputStream;
+        try {
+            objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
+        }
+        catch (IOException e) {
+            System.out.println("Internal errors");
+            throw new RuntimeException("GET_STREAM-UNABLE_TO_CREATE_OBJECT_OUTPUT_STREAM");
+        }
+        return objectOutputStream;
+    }
+    
+    private static ObjectInputStream getObjectInputStream(byte [] input) {
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
+        ObjectInputStream objectInputStream;
+        try {
+            objectInputStream = new ObjectInputStream(byteArrayInputStream);
+        }
+        catch (IOException e) {
+            System.out.println("Internal errors");
+            throw new RuntimeException("GET_STREAM-UNABLE_TO_CREATE_OBJECT_INPUT_STREAM");
+        }
+        return objectInputStream;
+    } 
+    
+    private static byte[] truncateByteArray(byte [] input, int length) {
+        byte [] temp = new byte[length];
+        for (int a = 0; a < length; a++) {
+            temp[a] = input[a];
+        }
+        return temp;
     }
 }
