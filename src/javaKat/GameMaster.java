@@ -74,11 +74,10 @@ public final class GameMaster implements GameData
     protected static void recordEndTime(long input){
         loopEndTime = input;
     }
-    
-<<<<<<< HEAD
     public static void activateNetwork() {
         networkActivated = true;
-=======
+    }
+    
     public static void pause(int input) {
         try {
             Thread.sleep((long) input);
@@ -94,6 +93,5 @@ public final class GameMaster implements GameData
     
     public int gameTick() {
         return gameTick;
->>>>>>> 1.3
     }
 }
