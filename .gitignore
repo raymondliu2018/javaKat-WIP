@@ -2,3 +2,4 @@
 /dist/
 /README.md
 /nbproject/private/
+*.class
