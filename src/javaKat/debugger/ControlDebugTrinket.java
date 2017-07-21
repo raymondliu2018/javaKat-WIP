@@ -1,5 +1,8 @@
 package javaKat.debugger; ;
 
+import javaKat.PositionMode;
+import javaKat.Tag;
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,17 +11,19 @@ import javaKat.GameData;
 import javaKat.Key;
 import javaKat.KeyCommand;
 import javaKat.Manager;
-import javaKat.Text;
 
 class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSettings, DebuggerTag, GameData{
     Entity exampleEntity;
     private HashMap<Entity, KeyDebugTrinket> keyDebugTrinketMap;
-    private ArrayList<Text> actions;
+    private ArrayList<Tag> actions;
     private int listSizeError;
     protected ControlDebugTrinket(Entity input, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        Album album = new Album(this);
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        album.setPositionMode(PositionMode.BY_RECT);
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
         exampleEntity = input;
         
@@ -43,7 +48,7 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
             }
         }
         for (Key key: keys){
-            Text temp = new Text();
+            Tag temp = new Tag(this);
             formatText(temp);
             String action = keyMapPressed$.get(key.getCommandPressed(this));
             if (action.length() > 5) {
@@ -52,7 +57,6 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
             else {
                 temp.setMessage(action);
             }
-            addStat(temp);
         }
         listSizeError = 0;
     }
@@ -61,7 +65,6 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
         KeyDebugTrinket temp = new KeyDebugTrinket(input.getKeys(),
                 rect.getCornerX(),
                 (rect.getCornerY() + rect.getHeight()) + (KEY_DEBUG_TRINKET_OFFSET_Y * (keyDebugTrinketMap.size() + listSizeError)));
-        Manager.queueNewEntity(temp);
         keyDebugTrinketMap.put(input, temp);
     }
     
@@ -71,7 +74,8 @@ class ControlDebugTrinket extends TrinketBase implements ControlDebugTrinketSett
         listSizeErrorIncrement();
     }
     
-    private void formatText(Text input) {
+    private void formatText(Tag input) {
+        input.setPositionMode(PositionMode.BY_INPUT);
         actions.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

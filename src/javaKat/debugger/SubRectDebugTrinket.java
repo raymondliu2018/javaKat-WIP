@@ -1,33 +1,37 @@
 
 package javaKat.debugger; ;
 
+import javaKat.PositionMode;
+import javaKat.Tag;
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import javaKat.Camera;
 import javaKat.Rect;
-import javaKat.Text;
 
 class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSettings, DebuggerTag{
     private Rect rectInfo;
-    private ArrayList<Text> info;
+    private ArrayList<Tag> info;
     protected SubRectDebugTrinket(Rect input, double xPosition, double yPosition) {
         super(xPosition,yPosition);
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        Album album = new Album(this);
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        album.setPositionMode(PositionMode.BY_RECT);
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        
         rectInfo = input;
         info = new ArrayList<>();
         
-        Text xCoordinate = new Text();
+        Tag xCoordinate = new Tag(this);
         formatText(xCoordinate);
         xCoordinate.setMessage(() -> {return roundDouble(rectInfo.getCenterX());});
-        addStat(xCoordinate);
         
-        Text yCoordinate = new Text();
+        Tag yCoordinate = new Tag(this);
         formatText(yCoordinate);
         yCoordinate.setMessage(() -> {return roundDouble(rectInfo.getCenterY());});
-        addStat(yCoordinate);
         
-        Text angle = new Text();
+        Tag angle = new Tag(this);
         formatText(angle);
         angle.setMessage(() -> {
             double temp = rectInfo.getVelocityAngle();
@@ -38,17 +42,14 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
                 return roundDouble(180 * rectInfo.getVelocityAngle() / Math.PI);
             }
         });
-        addStat(angle);
         
-        Text width = new Text();
+        Tag width = new Tag(this);
         formatText(width);
         width.setMessage(() -> {return roundDouble(rectInfo.getWidth());});
-        addStat(width);
         
-        Text height = new Text();
+        Tag height = new Tag(this);
         formatText(height);
         height.setMessage(() -> {return roundDouble(rectInfo.getHeight());});
-        addStat(height);
     }
     
     public void subUpdate() {
@@ -82,7 +83,8 @@ class SubRectDebugTrinket extends TrinketBase implements SubRectDebugTrinketSett
         return Double.toString(((int)(input * 10))/10.0);
     }
     
-    private void formatText(Text input) {
+    private void formatText(Tag input) {
+        input.setPositionMode(PositionMode.BY_INPUT);
         info.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

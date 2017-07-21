@@ -5,5 +5,5 @@ public interface RectDebugTrinketSettings {
     public static int LABELS_OFFSET_X = 50;
     public static String LABELS_STRING = "x-pos\ty-pos\tangle\twidth\theight";
     public static int SUB_RECT_DEBUG_TRINKET_OFFSET_Y = 25;
-    public static String IMAGE = "thePackage/debugger/images/RectDebugTrinket.png";
+    public static String IMAGE = "javaKat/debugger/images/RectDebugTrinket.png";
 }

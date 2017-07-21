@@ -12,5 +12,5 @@ public interface EntityDebugTrinketSettings {
     public static int CONTROL_DEBUG_TRINKET_OFFSET_Y = 0;
     public static int RECT_DEBUG_TRINKET_OFFSET_X = 0;
     public static int RECT_DEBUG_TRINKET_OFFSET_Y = 0;
-    public static String IMAGE = "thePackage/debugger/images/EntityDebugTrinket.png";
+    public static String IMAGE = "javaKat/debugger/images/EntityDebugTrinket.png";
 }

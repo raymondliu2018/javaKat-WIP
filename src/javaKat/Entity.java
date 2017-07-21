@@ -15,40 +15,47 @@ import javaKat.debugger.DebuggerTag;
 
 public abstract class Entity
 {
-    private HashMap<String,KeyCommand> keyMapPressed;
-    private HashMap<String,KeyCommand> keyMapReleased;
-    private ArrayList<Key> keys;
-    private ArrayList<Button> buttons;
-    protected Sprite sprite;
+    private int layer;
+    private boolean superCalled = false;
+    private final HashMap<String,KeyCommand> keyMapPressed;
+    private final HashMap<String,KeyCommand> keyMapReleased;
+    private final ArrayList<Key> keys;
+    private final ArrayList<Button> buttons;
+    private final ArrayList<Album> albums;
     protected JukeBox jukeBox;
-    protected boolean focused = false;
+    private boolean focused = false;
     protected Rect rect;
-    protected int timer;
-    protected ArrayList<Text> stats;
-    protected RotationMode rotationMode = RotationMode.NONE;
+    private int timer;
+    protected ArrayList<Tag> stats;
     
     public Entity() {
-        rect = new Rect(this);
         timer = 0;
-        
-        sprite = new Sprite(this);
-        sprite.setX(() -> rect.getCornerX());
-        sprite.setY(() -> rect.getCornerY());
+
+        layer = 1;
+        rect = new Rect(this);
+        rect.setLayer(layer);
         
         jukeBox = new JukeBox(this);
         
         stats = new ArrayList<>();
         keys = new ArrayList<>();
         buttons = new ArrayList<>();
+        albums = new ArrayList<>();
         keyMapPressed = new HashMap<>();
         keyMapReleased = new HashMap<>();
+        superCalled = true;
+        Manager.queueNewEntity(this);
     }
     
     //Sprite
     /**
-     * @return get the Sprite element of this Entity
+     * @return get the Album element of this Entity
      */
-    public final Sprite getSprite() {return sprite;}
+    public final ArrayList<Album> getAlbums() {return albums;}
+    
+    protected final void attachAlbum(Album input) {
+        albums.add(input);
+    }
     
     /**
      * @return get whether or not the Entity is being focused on by the Camera
@@ -58,16 +65,14 @@ public abstract class Entity
     /**
      * Sets this entity's hitbox to the size of its current image
      */
-    public final void resizeByCenter() {
-        if (sprite.getImage() != null){
-            rect.setSize(sprite.getImage().getWidth(null),sprite.getImage().getHeight(null));
-        }
+    public final void resizeByCenter(double inputx, double inputy) {
+        rect.setSize(inputx,inputy);
     }
     
-    public final void resizeByCorner() {
+    public final void resizeByCorner(double inputx, double inputy) {
         double xPosition = rect.getCornerX();
         double yPosition = rect.getCornerY();
-        resizeByCenter();
+        resizeByCenter(inputx,inputy);
         rect.setCornerPosition(xPosition, yPosition);
     }
     
@@ -91,24 +96,10 @@ public abstract class Entity
     final void update() {
         tick();
         rect.update();
-        rotationUpdate();
         subUpdate();
     }
     
-    final void rotationUpdate() {
-        if (rotationMode == RotationMode.BY_VELOCITY){
-            double angle = rect.getVelocityAngle();
-            if (angle != Double.NaN){
-                sprite.rotateCurrentImage(angle);
-            }
-        }
-        if (rotationMode == RotationMode.BY_ACCELERATION){
-            double angle = rect.getAccelerationAngle();
-            if (angle != Double.NaN){
-                sprite.rotateCurrentImage(angle);
-            }
-        }
-    }
+    
     
     final void tick() {timer += 1;}
     
@@ -122,22 +113,18 @@ public abstract class Entity
      * @param input the other Entity this Entity collided with
      * @return return true to simulate a normal collision
      */
-    public boolean collidedWith(Entity input) {
-        return false;}
-    
-    //Stats
-    /**
-     * @param input Text element this Entity will display 
-     */
-    public final void addStat( Text input ) {
-        stats.add(input);
-        Manager.addStat(input);
+    public Reaction collidedWith(Entity input) {
+        return Reaction.GHOST;
     }
     
+    //Stats
+    protected final void attachStat(Tag input) {
+        stats.add(input);
+    }
     /**
-     * @return get an Arraylist of Text elements that this Entity is displaying
+     * @return get an Arraylist of Tag elements that this Entity is displaying
      */
-    public final ArrayList<Text> getStats() {return stats;}
+    public final ArrayList<Tag> getStats() {return stats;}
     
     //Keys
     /**
@@ -166,7 +153,7 @@ public abstract class Entity
      * intended to be constant across all instances of a subclass of Entity
      * null when no code is to be triggered
      */
-    public final void bindCodeToAction( String s1, KeyCommand a1 , KeyCommand a2) {
+    protected final void bindCodeToAction( String s1, KeyCommand a1 , KeyCommand a2) {
         keyMapPressed.put(s1,a1);
         keyMapReleased.put(s1,a2);
     }
@@ -213,5 +200,33 @@ public abstract class Entity
             return input.equals(this.getClass().getName());
         }
         throw new IllegalArgumentException(DebuggerTag.DEBUGGER_MESSAGE);
+    }
+    
+    protected final boolean superCalled() {return superCalled;}
+    
+    public final void setLayer(int input) {
+        Manager.removeRect(rect, layer);
+        Manager.removeAlbums(albums, layer);
+        layer = input;
+        rect.setLayer(layer);
+        for (Album sprite: albums) {  
+            sprite.setLayer(layer);
+        }
+        Manager.addAlbums(albums, layer);
+        Manager.addRect(rect, layer);
+    }
+    
+    public final void focus() {
+        focused = true;
+        Manager.addFocused(this);
+    }
+    
+    public final void defocus() {
+        focused = false;
+        Manager.removeFocused(this);
+    }
+    
+    public final int ticksCounted(){
+        return timer;
     }
 }

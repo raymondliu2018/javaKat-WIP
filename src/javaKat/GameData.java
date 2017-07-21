@@ -7,7 +7,7 @@ import javax.sound.sampled.Clip;
 
 public interface GameData {
     ArrayList<Entity> allEntities = new ArrayList<>();
-    CopyOnWriteArrayList<CopyOnWriteArrayList<Sprite>> sprites = new CopyOnWriteArrayList<>();
+    CopyOnWriteArrayList<CopyOnWriteArrayList<Album>> albums = new CopyOnWriteArrayList<>();
     ArrayList<Entity> focusedEntities = new ArrayList<>();
     ArrayList<Key> keys = new ArrayList<>();
     ArrayList<Button> buttons = new ArrayList<>();
@@ -16,6 +16,6 @@ public interface GameData {
     ArrayList<BufferedImage> images = new ArrayList<>();
     ArrayList<String> soundFiles = new ArrayList<>();
     ArrayList<Clip> sounds = new ArrayList<>();
-    CopyOnWriteArrayList<Text> stats = new CopyOnWriteArrayList<>();
+    CopyOnWriteArrayList<Tag> stats = new CopyOnWriteArrayList<>();
     ArrayList<Ender> enders = new ArrayList<>();
 }

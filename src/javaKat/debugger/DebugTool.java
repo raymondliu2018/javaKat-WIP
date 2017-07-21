@@ -1,5 +1,6 @@
 package javaKat.debugger; ;
 
+import javaKat.Album;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
@@ -20,8 +21,11 @@ public final class DebugTool extends TrinketBase implements DebugToolSettings, D
         entityDebugTrinketOffsetList = new ArrayList<>();
         entityDebugTrinketMap = new HashMap<>();
         registeredEntities = new ArrayList<>();
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        Album album = new Album(this);
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        
         instance = this;
     }
     
@@ -83,7 +87,6 @@ public final class DebugTool extends TrinketBase implements DebugToolSettings, D
         else {
             entityDebugTrinketOffsetList.add(750);
         }
-        Manager.queueNewEntity(entityDebugTrinket);
         entityTypes.add(input.getClass().getName());
         entityDebugTrinketMap.put(input.getClass().getName(),entityDebugTrinket);
     }

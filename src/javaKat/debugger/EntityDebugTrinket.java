@@ -1,11 +1,12 @@
 package javaKat.debugger; ;
 
+import javaKat.PositionMode;
+import javaKat.Tag;
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import javaKat.Entity;
-import javaKat.GameData;
 import javaKat.Manager;
-import javaKat.Text;
 import javaKat.Utility;
 
 class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebugTrinketSettings{
@@ -14,33 +15,37 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
     private ControlDebugTrinket controlDebugTrinket;
     private RectDebugTrinket rectDebugTrinket;
     private int instances;
+    private Album album;
     protected EntityDebugTrinket (Entity input, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        sprite.addImage(IMAGE,"main",true);
-        resizeByCorner();
+        album = new Album(this);
+        album.addPageWithPicture(IMAGE,"main");
+        album.setPage("main");   
+        album.setPositionMode(PositionMode.BY_RECT);
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
+        
         entityName = input.getClass().getName();
         discoveredEntities = new ArrayList<>();
         
         controlDebugTrinket = new ControlDebugTrinket(input,
                 rect.getCornerX() + CONTROL_DEBUG_TRINKET_OFFSET_X,
                 rect.getCornerY() + rect.getHeight() + CONTROL_DEBUG_TRINKET_OFFSET_Y);
-        Manager.queueNewEntity(controlDebugTrinket);
         
         rectDebugTrinket = new RectDebugTrinket(
                 rect.getCornerX() + RECT_DEBUG_TRINKET_OFFSET_X,
                 rect.getCornerY() + rect.getHeight() + RECT_DEBUG_TRINKET_OFFSET_Y);
-        Manager.queueNewEntity(rectDebugTrinket);
         
         //DOESN'T NEED TO BE ADDED
-        Text entityType = new Text();
+        Tag entityType = new Tag(this);
+        entityType.setPositionMode(PositionMode.BY_INPUT);
         entityType.setColor(STANDARD_COLOR);
         entityType.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_TYPE_FONT_SIZE));
         entityType.setMessage(truncateString(entityName.substring(entityName.lastIndexOf(".") + 1)));
         entityType.setCornerX(() -> {return rect.getCornerX() + ENTITY_TYPE_OFFSET_X;});
         entityType.setCenterY(() -> {return rect.getCenterY() + ENTITY_TYPE_OFFSET_Y;});
-        addStat(entityType);
         
-        Text entityNumber = new Text();
+        Tag entityNumber = new Tag(this);
+        entityNumber.setPositionMode(PositionMode.BY_INPUT);
         entityNumber.setColor(STANDARD_COLOR);
         entityNumber.setFont(new Font(DEBUGGER_FONT,Font.BOLD,ENTITY_COUNT_FONT_SIZE));
         entityNumber.setMessage(() -> {
@@ -55,7 +60,6 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         });
         entityNumber.setCornerX(() -> {return rect.getCornerX() + rect.getWidth() + ENTITY_COUNT_OFFSET_X;});
         entityNumber.setCenterY(() -> {return rect.getCenterY() + ENTITY_COUNT_OFFSET_Y;});
-        addStat(entityNumber);
         instances = 0;
     }
     
@@ -77,7 +81,7 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
         rectDebugTrinket.entityRemoved(input);
         
         if (!controlDebugTrinket.noControls()){
-        controlDebugTrinket.entityRemoved(input);
+            controlDebugTrinket.entityRemoved(input);
         }
         instances -= 1;
     }
@@ -85,8 +89,8 @@ class EntityDebugTrinket extends TrinketBase implements DebuggerTag, EntityDebug
     protected boolean noControls(){
         if (controlDebugTrinket.noControls()){
             Manager.removeEntity(controlDebugTrinket);
-            sprite.addImage(Utility.scaleImage(sprite.getImage(), 250, 25), "smaller", true);
-            resizeByCorner();
+            album.addPageWithPicture(Utility.scaleImage(album.getPicture(), 250, 25), "smaller");
+            album.setPage("smaller");
             return true;
         }
         else {

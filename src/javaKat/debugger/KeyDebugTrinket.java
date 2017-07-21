@@ -1,20 +1,25 @@
 package javaKat.debugger; ;
 
+import javaKat.PositionMode;
+import javaKat.Tag;
+import javaKat.Album;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javaKat.Key;
-import javaKat.Text;
 
 class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, DebuggerTag{
-    private HashMap<Integer,Text> individualKeyMap;
-    private ArrayList<Text> individualKeyList;
+    private HashMap<Integer,Tag> individualKeyMap;
+    private ArrayList<Tag> individualKeyList;
+    private Album album;
     protected KeyDebugTrinket(ArrayList<Key> keys, double xPosition, double yPosition) {
         super(xPosition, yPosition);
-        sprite.addImage(IMAGE, "main", true);
-        resizeByCorner();
+        album = new Album(this);
+        album.addPageWithPicture(IMAGE, "main");
+        album.setPage("main");
+        album.setPositionMode(PositionMode.BY_RECT);
+        this.resizeByCorner(album.getCurrentPageWidth(),album.getCurrentPageHeight());
         
-        int counter = 0;
         individualKeyMap = new HashMap<>();
         individualKeyList = new ArrayList<>();
         
@@ -26,11 +31,10 @@ class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, De
             });
             bindKeyToAction(key.getInput(), key.toString());
             
-            Text temp = new Text();
+            Tag temp = new Tag(this);
             formatText(temp);
             temp.setMessage("'" + Character.toString((char)(key.getInput())) + "'");
             individualKeyMap.put(key.getInput(),temp);
-            addStat(temp);  
         }
     }
     
@@ -38,7 +42,8 @@ class KeyDebugTrinket extends TrinketBase implements KeyDebugTrinketSettings, De
         
     }
     
-    private void formatText(Text input) {
+    private void formatText(Tag input) {
+        input.setPositionMode(PositionMode.BY_INPUT);
         individualKeyList.add(input);
         input.setColor(STANDARD_COLOR);
         input.setFont(new Font(DEBUGGER_FONT,Font.PLAIN,FONT_SIZE));

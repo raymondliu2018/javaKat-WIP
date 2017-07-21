@@ -9,16 +9,19 @@ final class Update extends Manipulator implements GameData
         for( Entity entity: GameData.allEntities ){
             entity.update();
         }
-        for( List <Sprite> list: GameData.sprites ) {
-            for ( Sprite sprite: list ) {
-                sprite.update();
+        for( List <Album> list: GameData.albums ) {
+            for ( Album album: list ) {
+                album.update();
             }
         }
-        for( Text text: GameData.stats ){
+        for( Tag text: GameData.stats ){
             text.update();
         }
         for( Ender ender: GameData.enders ) {
-            if (ender.checkEndGameCondition()) {Script.end();}
+            if (ender.checkEndGameCondition()) {
+                Script.end();
+                break;
+            }
         }
     }
 }

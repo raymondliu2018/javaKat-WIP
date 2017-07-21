@@ -5,14 +5,18 @@ import javax.sound.sampled.Clip;
 import javaKat.debugger.DebuggerTag;
 final class Background extends Entity implements DebuggerTag {
     protected static Background instance;
+    private static Album sprite;
     private Background() {
         super();
         rect.setLayer(0);
+        sprite = new Album(this);
     }
     
     public static Background getInstance() {
         if (instance == null) {
             instance = new Background();
+        }
+        if (!Manager.findThisEntity(instance)){
             Manager.queueNewEntity(instance);
         }
         return instance;
@@ -25,8 +29,9 @@ final class Background extends Entity implements DebuggerTag {
         else {
             System.out.println("Frame did not resize: Invalid image");
         }
-        sprite.clearImages();
-        sprite.addImage(input,"main",true);
+        sprite.eraseAllPages();
+        sprite.addPageWithPicture(input,"main");
+        sprite.setPage("main");
     }
     
     protected void set(Clip input) {
